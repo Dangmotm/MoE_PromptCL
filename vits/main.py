@@ -1,4 +1,10 @@
 import argparse
+import torch
+import numpy as np
+import random
+import utils
+
+from pathlib import Path
 
 def get_args():
     parser = argparse.ArgumentParser('DualPrompt training and evaluation configs')
@@ -17,6 +23,19 @@ def get_args():
     return args
 
 def main(args):
+    utils.init_distributed_mode(args)
+    
+    # Save model
+    if args.output_dir:
+        Path(args.output_dir).mkdir(parents = True, exist_ok = True)
+        
+    # fix the seed for reproducibility
+    seed = args.seed
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.backends.cudnn.benchmark = True
+
     if 'norgaprompt' in args.config:
         print('Using NoRGa-prompt')
         import trainers.norgaprompt_trainer as norgaprompt_trainer
