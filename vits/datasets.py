@@ -5,6 +5,7 @@ import random
 import torch
 from torch.utils.data.dataset import Subset
 
+
 def build_cifar_transform(is_train, args):
     resize_im = args.input_size > 32
 
@@ -132,6 +133,18 @@ def split_single_class_dataset(dataset_train, dataset_val, mask, args):
     
     return split_datasets
 
+
+class Lambda(transforms.Lambda):
+    def __init__(self, lambd, nb_classes):
+        super().__init__(lambd)
+        self.nb_classes = nb_classes
+    
+    def __call__(self, img):
+        return self.lambd(img, self.nb_classes)
+
+def target_transform(x, nb_classes):
+    return x + nb_classes
+
 def build_continual_dataloader(args):
     # init
     dataloader = list()
@@ -155,16 +168,93 @@ def build_continual_dataloader(args):
         splited_dataset, class_mask, target_task_map = split_single_dataset(dataset_train, dataset_val, args)
         splited_dataset_per_cls = split_single_class_dataset(dataset_train_mean, dataset_val_mean, class_mask, args)
     else:
-        pass # Continue
+        if args.dataset == '5-datasets':
+            dataset_list = ['SVHN', 'MNIST', 'CIFAR10', 'NotMNIST', 'FashionMNIST']
+        else:
+            dataset_list = args.dataset.split(',')
+
+        if args.shuffle:
+            random.shuffle(dataset_list)
+
+        args.nb_classes = 0
+        splited_dataset_per_cls = {}
 
     for i in range(args.num_tasks):
         if args.dataset.startswith('Split-'):
             dataset_train, dataset_val = splited_dataset[i]
         else:
             if 'cifar' in dataset_list[i].lower():
-                
+                transform_train = build_cifar_transform(True, args)
+                transform_val = build_cifar_transform(False, args)
+            
+            dataset_train, dataset_val = get_dataset(dataset_list[i], transform_train, transform_val, args)
+            dataset_train_mean, dataset_val_mean = get_dataset(dataset_list[i], transform_train, transform_val, args)
+
+            transform_target = Lambda(target_transform, args.nb_classes)
+            
+            if class_mask is not None and target_task_map is not None:
+                class_mask.append([i + args.nb_classes for i in range(len(dataset_val.classes))])
+
+                for j in range(len(dataset_val.classes)):
+                    target_task_map[j + args.nb_classes] = i
+
+                args.nb_classes += len(dataset_val.classes)
+
+            if not args.task_inc:
+                dataset_train.target_transform = transform_target
+                dataset_val.target_transform = transform_target
+                dataset_train_mean.target_transform = transform_target
+                dataset_val_mean.target_transform = transform_target
+            
+
+            splited_dataset_per_cls.update(split_single_class_dataset(dataset_train_mean, dataset_val_mean, [class_mask[i]], args))
 
 
+            sampler_train = torch.utils.data.RandomSampler(dataset_train)
+            sampler_val = torch.utils.data.RandomSampler(dataset_val)
+
+
+            data_loader_train = torch.utils.data.DataLoader(
+                dataset_train, sampler = sampler_train,
+                batch_size = args.batch_size,
+                num_workers = args.num_workers,
+                pin_memory = args.pin_mem
+            )
+
+            data_loader_val = torch.utils.data.DataLoader(
+                dataset_val, sampler = sampler_val,
+                batch_size = args.batch_size,
+                num_workers = args.num_workers,
+                pin_memory = args.pin_mem
+            )
+
+            dataloader.append({'train': data_loader_train, 'val': data_loader_val})
+    
+    for i in range(len(class_mask)):
+        for cls_id in class_mask[i]:
+            dataset_train_cls, dataset_val_cls = splited_dataset_per_cls[cls_id]
+
+            sampler_train = torch.utils.data.RandomSampler(dataset_train_cls)
+            sampler_val = torch.utils.data.RandomSampler(dataset_val_cls)
+
+
+            data_loader_train = torch.utils.data.DataLoader(
+                dataset_train_cls, sampler = sampler_train,
+                batch_size = args.batch_size,
+                num_workers = args.num_workers,
+                pin_memory = args.pin_mem
+            )
+
+            data_loader_val = torch.utils.data.DataLoader(
+                dataset_val_cls, sampler = sampler_val,
+                batch_size = args.batch_size,
+                num_workers = args.num_workers,
+                pin_memory = args.pin_mem
+            )
+
+            dataloader_per_cls[cls_id] = {'train': data_loader_train, 'val': data_loader_val}
+    
+    return dataloader, dataloader_per_cls, class_mask, target_task_map
 
 
 
