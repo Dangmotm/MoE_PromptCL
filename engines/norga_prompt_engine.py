@@ -5,8 +5,11 @@ from vits import utils
 from vits.utils import MetricLogger
 
 from timm.utils import accuracy
+from timm.optim import create_optimizer
+from timm.scheduler import create_scheduler
 
-
+import os
+'''
 @torch.no_grad() # with torch.no_grad():
 def evaluate(model: torch.nn.Module, original_model: torch.nn.Module, data_loader, device, i = -1,
              task_id = -1, class_mask = None, target_task_map = None, acc_matrix = None, args = None):
@@ -128,6 +131,109 @@ def evaluate_till_now(model: torch.nn.Module, original_model: torch.nn.Module, d
 
     return test_stats
 
-def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Module, criterion, data_loader: Iterable,
-                       data_loader_per_cls: Iterable, optimizer: torch.optim.Optimizer, lr_scheduler, device: torch.device,
-                       class_mask = None, target_mask_map = None, args = None):
+def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Module, original_model: torch.nn.Module,
+                       criterion, data_loader: Iterable, data_loader_per_cls: Iterable, optimizer: torch.optim.Optimizer, 
+                       lr_scheduler, device: torch.device, class_mask = None, target_mask_map = None, args = None):
+    
+    global cls_mean
+    global cls_cov
+    global old_head
+
+    cls_mean = dict()
+    cls_cov = dict()
+
+    # Create matrix to save end-of-task accuracies
+    acc_matrix = np.zeros((args.num_tasks, args.num_tasks))
+    pre_ca_acc_matrix = np.zeros((args.num_tasks, args.num_tasks))
+
+    print('-' * 20)
+    print('Learnable parameters:')
+
+    for name, p in model.named_parameters():
+        if p.requires_grad:
+            print(name)
+    
+    print('-' * 20)
+    print(f"Prompt shape: {model.e_prompt.prompt.shape}")
+
+    if args.prompt_key:
+        print(f"Prompt key shape: {model.e_prompt_prompt_key.shape}")
+
+    for task_id in range(args.num_tasks):
+        if task_id > 0:
+            model.e_prompt.act_scale.requires_grad(False)
+            old_head = model.get_head()
+        
+        print('-' * 20)
+        print('Learnable parameters')
+
+        for name, p in model.named_parameters():
+            if p.requires_grad:
+                print(name)
+        
+        print('-' * 20)
+
+        # Create new optimizer for each task to clear optimizer status
+        if task_id > 0 and args.reinit_optimizer:
+            if args.larger_prompt_lr:
+                # This is a simple yet effective trick that helps to learn task_specific prompt better
+                base_params = []
+                base_fc_params = []
+                for name, p in model_without_ddp.named_parameters():
+                    if 'prompt' in name and p.requires_grad == True:
+                        base_params.append(p)
+                    if 'prompt' not in name and p.requires_grad == True:
+                        base_fc_params.append(p)
+                
+                base_params = {
+                    'params': base_params,
+                    'lr': args.lr,
+                    'weight_decay': args.weight_decay
+                }
+
+                base_fc_params = {
+                    'params': base_fc_params,
+                    'lr': args.lr * 0.1,
+                    'weight_decay': args.weight_decay
+                }
+
+                network_params = [base_params, base_fc_params]
+                optimizer = create_optimizer(args, network_params)
+            else:
+                optimizer = create_optimizer(args, model)
+            
+            if args.sched != 'constant':
+                lr_scheduler, _ = create_scheduler(args, optimizer)
+            else:
+                lr_scheduler = None
+            
+            # Load original model checkpoint
+            if args.trained_original_model:
+                original_checkpoint_path = os.path.join(args.trained_original_model, 'checkpoint/task{}_checkpoint.pth'.format(task_id + 1))
+                if os.path.exists(original_checkpoint_path):
+                    print('Loading checkpoint from:', original_checkpoint_path)
+                    original_checkpoint = torch.load(original_checkpoint_path, map_location = device)
+                    original_model.load_state_dict(original_checkpoint['model'])
+                else:
+                    print('No checkpoint found at', original_checkpoint_path)
+                    return
+            
+            # if model already trained
+            checkpoint_path = os.path.join(args.output_dir, 'checkpoint/task{}_checkpoint.pth'.format(task_id + 1))
+
+            if os.path.exists(checkpoint_path) and (not args.reset):
+                print("Model already trained for task {}".format(task_id + 1))
+                print('Loading checkpoint from:', checkpoint_path)
+
+                # Load model checkpoint
+                checkpoint = torch.load(checkpoint_path, map_location = device)
+                model.load_state_dict(checkpoint['model'])
+                optimizer.load_state_dict(checkpoint['optimizer'])
+                if args.sched is not None and args.sched != 'constant':
+                    lr_scheduler.load_state_dict(checkpoint['lr_scheduler'])
+            
+                print('-' * 20)
+                print(f'Evaluate task {} after CA'.format(task_id + 1))
+'''
+                
+print("Evaluate task {} after CA".format(4 + 1))
