@@ -7,8 +7,8 @@ from torch.distributions.multivariate_normal import MultivariateNormal
 
 import numpy as np
 
-from vits import utils
-from vits.utils import MetricLogger
+import utils
+from utils import MetricLogger
 
 from timm.utils import accuracy
 from timm.optim import create_optimizer
@@ -17,7 +17,16 @@ from timm.scheduler import create_scheduler
 import os
 import math
 import sys
+
+
 from pathlib import Path
+from typing import Iterable
+
+import datetime
+import json
+
+
+
 @torch.no_grad() # with torch.no_grad():
 def evaluate(model: torch.nn.Module, original_model: torch.nn.Module, data_loader, device, i = -1,
              task_id = -1, class_mask = None, target_task_map = None, acc_matrix = None, args = None):
@@ -472,7 +481,7 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
 
     for task_id in range(args.num_tasks):
         if task_id > 0:
-            model.e_prompt.act_scale.requires_grad(False)
+            model.e_prompt.act_scale.requires_grad_(False)
             old_head = model.get_head()
         
         print('-' * 20)
@@ -576,10 +585,12 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
                         
                         with torch.no_grad():
                             if args.distributed:
-                                model.module.e_prompt.prompt.grad.zero_()
+                                if model.e_prompt.prompt.grad is not None:
+                                    model.e_prompt.prompt.grad.zero_()
                                 model.module.e_prompt.prompt[cur_idx] = model.module.e_prompt.prompt[prev_idx]
                             else:
-                                model.e_prompt.prompt.grad.zero_()
+                                if model.e_prompt.prompt.grad is not None:
+                                    model.e_prompt.prompt.grad.zero_()
                                 model.e_prompt.prompt[cur_idx] = model.e_prompt.prompt[prev_idx]
             
             # Transfer previous learned prompt param keys to the new prompt
@@ -608,7 +619,9 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
                                 optimizer.param_groups[0]['params'] = model.parameters()
             
             for epoch in range(args.epochs):
-                ttrain_stats = train_one_epoch(model = model, original_model = original_model, criterion = criterion,
+                print("len(data_loader) =", len(data_loader))
+                print("task_id =", task_id)
+                train_stats = train_one_epoch(model = model, original_model = original_model, criterion = criterion,
                                             data_loader = data_loader[task_id]['train'], optimizer = optimizer,
                                             device = device, epoch = epoch, max_norm = args.clip_grad,
                                             set_training_mode = True, task_id = task_id, class_mask = class_mask,
@@ -668,4 +681,12 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
                 if args.sched is not None and args.sched != 'constant':
                     state_dict['lr_scheduler'] = lr_scheduler.state_dict()
                 
-                utils.
+                utils.save_on_master(state_dict, checkpoint_path)
+
+            log_stats = {**{f'train_{k}': v for k, v in train_stats.items()},
+                        **{f'test_{k}': v for k, v in test_stats.items()},
+                     }
+            
+            if args.output_dir and utils.is_main_process():
+                with open(os.path.join(args.output_dir, '{}_stats.txt'.format(datetime.datetime.now().strftime('log_%Y_%m_%d_%H_%M'))), 'a') as f:
+                    f.write(json.dumps(log_stats) + '\n')

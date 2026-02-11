@@ -1,9 +1,21 @@
 import torch
-from vits.datasets import build_continual_dataloader
+from datasets import build_continual_dataloader
 from timm.models import create_model
 import os
 
 from engines.norga_prompt_engine import evaluate_till_now
+from engines.norga_prompt_engine import train_and_evaluate
+
+from timm.models import create_model
+from timm.scheduler import create_scheduler
+from timm.optim import create_optimizer
+
+import time
+import datetime
+
+import vits.norga_prompt_vision_transformer as norga_prompt_vision_transformer
+
+
 
 def train(args):
     device = torch.device(args.device)
@@ -13,7 +25,7 @@ def train(args):
 
     original_model = create_model(
         args.original_model,
-        pretrained = args.pretrained,
+        pretrained = False,
         num_classes = args.nb_classes,
         drop_rate = args.drop,
         drop_path_rate = args.drop_path,
@@ -25,7 +37,7 @@ def train(args):
 
     model = create_model(
         args.model,
-        pretrained = args.pretrained,
+        pretrained = False,
         num_classes = args.nb_classes,
         drop_rate = args.drop,
         drop_path_rate = args.drop_path,
@@ -103,4 +115,63 @@ def train(args):
             _ = evaluate_till_now(model, original_model, data_loader, device, task_id,
                                   class_mask, target_task_map, acc_matrix, args)
     
-    return
+        return
+    
+    model_without_ddp = model
+    if args.distributed:
+        model = torch.nn.parallel.DistributedDataParallel(model, device_ids = [args.gpu], find_unused_parameters = True)
+        model_without_ddp = model.module
+
+    n_parameters = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    print('Number of params:', n_parameters)
+
+    if args.unscale_lr:
+        global_batch_size = args.batch_size
+    else:
+        global_batch_size = args.batch_size * args.world_size
+    
+    args.lr = args.lr * global_batch_size / 256.0
+
+    if args.larger_prompt_lr:
+        # This is a simple yet effective trick that helps to learn task_specific prompt better
+        base_params = []
+        base_fc_params = []
+        for name, p in model_without_ddp.named_parameters():
+            if 'prompt' in name and p.requires_grad == True:
+                base_params.append(p)
+            if 'prompt' not in name and p.requires_grad == True:
+                base_fc_params.append(p)
+                
+        base_params = {
+            'params': base_params,
+            'lr': args.lr,
+            'weight_decay': args.weight_decay
+            }
+
+        base_fc_params = {
+            'params': base_fc_params,
+            'lr': args.lr * 0.1,
+            'weight_decay': args.weight_decay
+        }
+
+        network_params = [base_params, base_fc_params]
+        optimizer = create_optimizer(args, network_params)
+    else:
+        optimizer = create_optimizer(args, model)
+            
+    if args.sched != 'constant':
+        lr_scheduler, _ = create_scheduler(args, optimizer)
+    else:
+        lr_scheduler = None
+    
+    criterion = torch.nn.CrossEntropyLoss().to(device)
+
+    print(f"Start training for {args.epochs} epochs")
+    start_time = time.time()
+
+    train_and_evaluate(model, model_without_ddp, original_model, criterion, data_loader, data_loader_per_cls,
+                       optimizer, lr_scheduler, device, class_mask, target_task_map, args)
+    
+    total_time = time.time() - start_time
+    total_time_str = str(datetime.timedelta(seconds = int(total_time)))
+    print(f"Total training time: {total_time_str}")

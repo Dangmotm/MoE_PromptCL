@@ -35,3 +35,95 @@ def get_args_parser(subparsers):
     subparsers.add_argument('--patience-epochs', type = int, default = 10, metavar = 'N', help = 'patience epochs for Plateau LR scheduler')
     subparsers.add_argument('--decay-rate', '--dr', type = float, default = 0.1, metavar = 'RATE', help = 'LR decay rate')
     subparsers.add_argument('--unscale_lr', type = bool, default = True, help = 'scaling lr by batch size')
+
+    # Augmentation parameters
+    subparsers.add_argument('--color-jitter', type = float, default = 0.3, metavar = 'PCT', help = 'Color jitter factor')
+    subparsers.add_argument('--aa', type = str, default = None, metavar = 'NAME', help = 'Use AutoAugment policy. "v0" or "original".')
+    subparsers.add_argument('--smoothing', type = float, default = 0.1, help = 'Label smoothing')
+    subparsers.add_argument('--train-interpolation', type = str, default = 'bicubic', help = 'Training interpolation (random, bilinear, bicubic)')
+
+    # * Random Erase params
+    subparsers.add_argument('--reprob', type = float, default = 0.25, metavar = 'PCT', help = 'Random erase prob')
+    subparsers.add_argument('--remode', type = str, default = 'pixel', help = 'Random erase mode')
+    subparsers.add_argument('--recount', type = int, default = 1, help = 'Random erase count')
+
+    # Data parameters
+    subparsers.add_argument('--data-path', default = '/local_datasets/', type = str, help = 'Dataset path')
+    subparsers.add_argument('--dataset', default = 'Split-CIFAR100', type = str, help = 'Dataset name')
+    subparsers.add_argument('--shuffle', default = False, help = 'Shuffle the data order')
+    subparsers.add_argument('--output_dir', default = './output', help = 'Path where to save, empty for no saving')
+    subparsers.add_argument('--device', default = 'cuda', help = 'Device to use for training / testing')
+    subparsers.add_argument('--seed', default = 42, type = int)
+    subparsers.add_argument('--eval', action = 'store_true', help = 'Perform evaluation only')
+    subparsers.add_argument('--num_workers', default = 1, type = int)
+    subparsers.add_argument('--pin-mem', action = 'store_true', help = 'Pin CPU memory in DataLoader for more efficient (sometimes) transfer to GPU.')
+    subparsers.add_argument('--no-pin-mem', action = 'store_false', dest = 'pin_mem', help = '')
+    subparsers.set_defaults(pin_mem = True)
+
+    # distributed training parameters
+    subparsers.add_argument('--world_size', default = 1, type = int, help = 'Number of distributed processes')
+    subparsers.add_argument('--dist_url', default = 'env://', help = 'Url used to set up distributed training')
+
+    # Continual learning parameters
+    subparsers.add_argument('--num_tasks', default = 10, type = int, help = 'Number of sequential tasks')
+    subparsers.add_argument('--train_mask', default = True, type = bool, help = 'If using the class mask at training')
+    subparsers.add_argument('--task_inc', default = False, type = bool, help = 'If doing task incremental')
+
+    # G-Prompt parameters
+    subparsers.add_argument('--use_g_prompt', default = False, type = bool, help = 'If using G-Prompt')
+    subparsers.add_argument('--g_prompt_length', default = 5, type = int, help = 'Length of G-Prompt')
+    subparsers.add_argument('--g_prompt_layer_idx', default = [], type = int, nargs = "+", help = 'The layer index of the G-Prompt')
+    subparsers.add_argument('--use_prefix_tune_for_g_prompt', default = False, type = bool, help = 'If using the prefix tune for G-Prompt')
+
+    # E-Prompt parameters
+    subparsers.add_argument('--use_e_prompt', default = True, type = bool, help = 'If using the E-Prompt')
+    subparsers.add_argument('--e_prompt_layer_idx', default = [0, 1, 2, 3, 4], type = int, nargs = "+", help = 'The layer index of the E-Prompt')
+    subparsers.add_argument('--use_prefix_tune_for_e_prompt', default = True, type = bool, help = 'If using the prefix tune for E-Prompt')
+    subparsers.add_argument('--larger_prompt_lr', action = 'store_true', help = 'If using larger prompt lr')
+
+    # Use prompt pool in L2P to implement E-Prompt
+    subparsers.add_argument('--prompt_pool', default = True, type = bool)
+    subparsers.add_argument('--size', default = 10, type = int)
+    subparsers.add_argument('--length', default = 20, type = int)
+    subparsers.add_argument('--top_k', default = 1, type = int)
+    subparsers.add_argument('--initializer', default = 'uniform', type = str)
+    subparsers.add_argument('--prompt_key', default = False, type = bool)
+    subparsers.add_argument('--prompt_key_init', default = 'uniform', type = str)
+    subparsers.add_argument('--use_prompt_mask', default = True, type = bool)
+    subparsers.add_argument('--mask_first_epoch', default = False, type = bool)
+    subparsers.add_argument('--shared_prompt_pool', default = True, type = bool)
+    subparsers.add_argument('--shared_prompt_key', default = False, type = bool)
+    subparsers.add_argument('--batchwise_prompt', default = False, type = bool)
+    subparsers.add_argument('--embedding_key', default = 'cls', type = str)
+    subparsers.add_argument('--predefined_key', default = '', type = str)
+    subparsers.add_argument('--pull_constraint', default = True)
+    subparsers.add_argument('--pull_constraint_coeff', default = 1.0, type = float)
+    subparsers.add_argument('--same_key_value', default = False, type = bool)
+
+    # ViT parametersure
+    subparsers.add_argument('--global_pool', default = 'token', choices = ['token', 'avg'], type = str, help = 'Type of global pooling for final sequence')
+    subparsers.add_argument('--head_type', default = 'token', choices = ['token', 'gap', 'prompt', 'token+prompt'], type = str, help = 'Input type of classification head')
+    subparsers.add_argument('--freeze', default = ['blocks', 'patch_embed', 'cls_token', 'norm', 'pos_embed'], nargs = '*', type = list, help = 'Freeze part in backbone model')
+
+    # CA parameters
+    subparsers.add_argument('--crct_epochs', default = 80, type = int)
+    subparsers.add_argument('--train_inference_task_only', action = 'store_true')
+    subparsers.add_argument('--original_model_mlp_structure', default = [2], type = int, nargs = '*')
+    subparsers.add_argument('--ca_lr', default = 0.005, type = float)
+    subparsers.add_argument('--weight_decay', default = 5e-4, type = float)
+    subparsers.add_argument('--milestones', default = [10], type = int)
+    subparsers.add_argument('--trained_original_model', default = '', type = str)
+    subparsers.add_argument('--prompt_momentum', default = 0.01, type = float)
+    subparsers.add_argument('--reg', default = 0.01, type = float)
+    subparsers.add_argument('--not_train_ca', action = 'store_true')
+    subparsers.add_argument('--ca_epochs', default = 30, type = int)
+    subparsers.add_argument('--ca_storage_efficient_method', default = 'multi-centroid', choices = ['covariance', 'multi-centroid', 'variance'], type = str)
+    subparsers.add_argument('--n_centroids', default = 10, type=int)
+
+
+    # Misc parameters
+    subparsers.add_argument('--print_freq', type = int, default = 10, help = 'The frequency of printing')
+    subparsers.add_argument('--reset', action = 'store_true', help = 'Train from scratch')
+
+    # Non-linear gate activation
+    subparsers.add_argument('--gate_act', default = 'tanh', type = str, help = 'Gate activation function')

@@ -87,12 +87,12 @@ def split_single_dataset(dataset_train, dataset_val, args):
         train_split_indices = []
         test_split_indices = []
 
-        for k in range(len(dataset_train.target)):
-            if int(dataset_train.target[k]) in scope:
+        for k in range(len(dataset_train.targets)):
+            if int(dataset_train.targets[k]) in scope:
                 train_split_indices.append(k)
         
-        for k in range(len(dataset_val.target)):
-            if int(dataset_val.target[k]) in scope:
+        for k in range(len(dataset_val.targets)):
+            if int(dataset_val.targets[k]) in scope:
                 test_split_indices.append(k)
         
         subset_train, subset_val = Subset(dataset_train, train_split_indices), Subset(dataset_val, test_split_indices)
