@@ -238,21 +238,21 @@ def build_continual_dataloader(args):
             sampler_val = torch.utils.data.RandomSampler(dataset_val_cls)
 
 
-            data_loader_train = torch.utils.data.DataLoader(
+            data_loader_train_cls = torch.utils.data.DataLoader(
                 dataset_train_cls, sampler = sampler_train,
                 batch_size = args.batch_size,
                 num_workers = args.num_workers,
                 pin_memory = args.pin_mem
             )
 
-            data_loader_val = torch.utils.data.DataLoader(
+            data_loader_val_cls = torch.utils.data.DataLoader(
                 dataset_val_cls, sampler = sampler_val,
                 batch_size = args.batch_size,
                 num_workers = args.num_workers,
                 pin_memory = args.pin_mem
             )
 
-            dataloader_per_cls[cls_id] = {'train': data_loader_train, 'val': data_loader_val}
+            dataloader_per_cls[cls_id] = {'train': data_loader_train_cls, 'val': data_loader_val_cls}
     
     return dataloader, dataloader_per_cls, class_mask, target_task_map
 

@@ -1,6 +1,9 @@
 import torch
 from vits.datasets import build_continual_dataloader
 from timm.models import create_model
+import os
+
+from engines.norga_prompt_engine import evaluate_till_now
 
 def train(args):
     device = torch.device(args.device)
@@ -19,3 +22,85 @@ def train(args):
     )
 
     print(f"Creating model : {args.model}")
+
+    model = create_model(
+        args.model,
+        pretrained = args.pretrained,
+        num_classes = args.nb_classes,
+        drop_rate = args.drop,
+        drop_path_rate = args.drop_path,
+        drop_block_rate = None,
+
+        # Prompt-specific parameters
+        prompt_length = args.length,
+        embedding_key = args.embedding_key,
+        prompt_init = args.prompt_key_init,
+        prompt_pool = args.prompt_pool,
+        prompt_key = args.prompt_key,
+        pool_size = args.size,
+        top_k = args.top_k,
+        batchwise_prompt = args.batchwise_prompt,
+        prompt_key_init = args.prompt_key_init,
+        head_type = args.head_type,
+        use_prompt_mask = args.use_prompt_mask,
+
+        # G-Prompt (General Prompt)
+        use_g_prompt = args.use_g_prompt,
+        g_prompt_length = args.g_prompt_length,
+        g_prompt_layer_idx = args.g_prompt_layer_idx,
+        use_prefix_tune_for_g_prompt = args.use_prefix_tune_for_g_prompt,
+
+        # E-Prompt (Expert Prompt)
+        use_e_prompt = args.use_e_prompt,
+        e_prompt_layer_idx = args.e_prompt_layer_idx,
+        use_prefix_tune_for_e_prompt = args.use_prefix_tune_for_e_prompt,
+        
+        same_key_value = args.same_key_value,
+        gate_act = args.gate_act,
+    )
+
+    original_model.to(device)
+    model.to(device)
+
+    # All backbone paramters are frozen for original vit model
+    for n, p in original_model.named_parameters():
+        p.requires_grad = False
+    
+    if args.freeze:
+        # Freeze args.freeze[blocks, patch_embed, cls_token] parameters
+        for n, p in model.named_parameters():
+            if n.startswith(tuple(args.freeze)):
+                p.requires_grad = False
+    
+    print(args)
+
+    if args.eval:
+        acc_matrix = np.zeros((args.num_tasks, args.num_tasks))
+
+        for task_id in range(args.num_tasks):
+            # Load checkpoint of this task
+            checkpoint_path = os.path.join(args.output_dir, 'checkpoint/task{}_checkpoint_pth'.format(task_id + 1))
+
+            if os.path.exists(checkpoint_path):
+                print('Loading checkpoint from:', checkpoint_path)
+                checkpoint = torch.load(checkpoint_path, map_location = device)
+                model.load_state_dict(checkpoint['model'])
+            else:
+                print('No checkpoint found at:', checkpoint_path)
+                return
+            
+            # Load original model checkpoint
+            original_checkpoint_path = os.path.join(args.trained_original_model, 'checkpoint/task{}_checkpoint_pth'.format(task_id + 1))
+
+            if os.path.exists(original_checkpoint_path):
+                print('Loading checkpoint from:', original_checkpoint_path)
+                original_checkpoint = torch.load(original_checkpoint_path, map_location = device)
+                original_model.load_state_dict(original_checkpoint['model'])
+            else:
+                print('No checkpoint found at:', original_checkpoint_path)
+                return
+            
+            _ = evaluate_till_now(model, original_model, data_loader, device, task_id,
+                                  class_mask, target_task_map, acc_matrix, args)
+    
+    return

@@ -167,6 +167,12 @@ class MetricLogger(object):
         print('{} Total time: {} ({:.4f} s / it)'.format(header, total_time_str, total_time / len(iterable)))
 
 
+def task_inference_accuracy(prompt_idx, target, target_task_map):
+    target_to_task = torch.tensor([target_task_map[v.item()] for v in target]).to(prompt_idx.device)
+    batch_size = target.size(0)
+    prompt_idx = prompt_idx.t()
+    correct = prompt_idx.eq(target_to_task.reshape(1, -1).expand_as(prompt_idx))
+    return correct.reshape(-1).float().sum(0) * 100. / batch_size
 
 
 def init_distributed_mode(args):
