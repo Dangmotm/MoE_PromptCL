@@ -25,7 +25,7 @@ def train(args):
 
     original_model = create_model(
         args.original_model,
-        pretrained = False,
+        pretrained = args.pretrained,
         num_classes = args.nb_classes,
         drop_rate = args.drop,
         drop_path_rate = args.drop_path,
@@ -37,7 +37,7 @@ def train(args):
 
     model = create_model(
         args.model,
-        pretrained = False,
+        pretrained = args.pretrained,
         num_classes = args.nb_classes,
         drop_rate = args.drop,
         drop_path_rate = args.drop_path,

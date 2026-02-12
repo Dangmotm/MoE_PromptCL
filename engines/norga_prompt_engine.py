@@ -55,7 +55,7 @@ def evaluate(model: torch.nn.Module, original_model: torch.nn.Module, data_loade
                         mask = []
                         for id in range(task_id + 1):
                             mask.extend(class_mask[id])
-                        not_mask = np.setdiff1d(np.arange(args.nb_classed), mask)
+                        not_mask = np.setdiff1d(np.arange(args.nb_classes), mask)
                         not_mask = torch.tensor(not_mask, dtype = torch.int64).to(device)
                         pretrain_logits = pretrain_logits.index_fill(dim = 1, index = not_mask, value = float('-inf'))
                     
@@ -80,7 +80,7 @@ def evaluate(model: torch.nn.Module, original_model: torch.nn.Module, data_loade
             
             loss = criterion(logits, target)
 
-            acc1, acc5 = accuracy(logits, target)
+            acc1, acc5 = accuracy(logits, target, topk = (1, 5))
             task_inference_acc = utils.task_inference_accuracy(prompt_idx, target, target_task_map)
 
             metric_logger.meters['Loss'].update(loss.item())
@@ -92,11 +92,11 @@ def evaluate(model: torch.nn.Module, original_model: torch.nn.Module, data_loade
     # Gather the stats from all processes
     metric_logger.synchronize_between_processes()
     print(
-        '* Acc@task {task_acc.global_avg:.3f} Acc@1 {top1.global_avg:.3f} Acc@5 {top5.global_avg:.3f} loss {losses.global_avg:.3f} '
+        '* Acc@task {task_acc.global_avg:.3f} Acc@1 {top1.global_avg:.3f} Acc@5 {top5.global_avg:.3f} Loss {losses.global_avg:.3f} '
         .format(task_acc = metric_logger.meters['Acc@task'],
                 top1 = metric_logger.meters['Acc@1'],
                 top5 = metric_logger.meters['Acc@5'],
-                losses = metric_logger.meters['loss']                
+                losses = metric_logger.meters['Loss']                
                 )
     )
 
@@ -110,6 +110,7 @@ def evaluate_till_now(model: torch.nn.Module, original_model: torch.nn.Module, d
     stat_matrix = np.zeros((4, args.num_tasks)) # 4 for Acc@1, Acc@5, Loss, Acc@task
 
     for i in range(task_id + 1):
+        print("Task", i+1, "val batches:", len(data_loader[i]['val']))
         test_stats = evaluate(model = model, original_model = original_model, data_loader = data_loader[i]['val'], device = device,
                               i = i, task_id = task_id, class_mask = class_mask, target_task_map = target_task_map, args = args)
         
@@ -125,7 +126,7 @@ def evaluate_till_now(model: torch.nn.Module, original_model: torch.nn.Module, d
     diagonal = np.diag(acc_matrix)
 
 
-    result_str = "[Average acuuracy till task{}]\tAcc@task: {:.4f}\tAcc@1: {:.4f}\tAcc@5: {:.4f}\tLoss: {:.4f}".format(
+    result_str = "[Average accuracy till task{}]\tAcc@task: {:.4f}\tAcc@1: {:.4f}\tAcc@5: {:.4f}\tLoss: {:.4f}".format(
         task_id + 1,
         avg_stat[3],
         avg_stat[0],
@@ -136,7 +137,7 @@ def evaluate_till_now(model: torch.nn.Module, original_model: torch.nn.Module, d
     if task_id > 0:
         forgetting = np.mean((np.max(acc_matrix, axis = 1) - acc_matrix[:, task_id])[:task_id])
 
-        backward = np.mead((acc_matrix[:, task_id] - diagonal)[:task_id])
+        backward = np.mean((acc_matrix[:, task_id] - diagonal)[:task_id])
 
         # Compute CAA (Continual Average Accuracy)
         mean_acc = [np.sum(acc_matrix[:, i]) / (i + 1) for i in range(task_id + 1)]
@@ -145,7 +146,7 @@ def evaluate_till_now(model: torch.nn.Module, original_model: torch.nn.Module, d
         result_str += "\tForgetting: {:.4f}\tBackward: {:.4f}\tCAA: {:.4f}".format(forgetting, backward, caa)
     
     print(result_str)
-
+    
     return test_stats
 
 
@@ -208,6 +209,7 @@ def _compute_mean(model, data_loader, device, task_id, class_mask, args):
             cls_cov[cls_id] = torch.diag(torch.cov(features_per_cls.T) + (torch.eye(cls_mean[cls_id].shape[-1]) * 1e-4).to(device))
 
         if args.ca_storage_efficient_method == 'multi-centroid':
+            os.environ["OMP_NUM_THREADS"] = "2"
             from sklearn.cluster import KMeans
 
             n_clusters = args.n_centroids
@@ -372,7 +374,7 @@ def train_task_adaptive_prediction(model: torch.nn.Module, args, device, class_m
     current_head = model.get_head()
     run_epochs = args.crct_epochs
     crct_num = 0
-    param_list = [p for n, p in model.named_parameters() if p.requires_grad and 'prompt' not in p]
+    param_list = [p for n, p in model.named_parameters() if p.requires_grad and 'prompt' not in n]
 
     network_params = [{'params': param_list,
                        'lr': args.ca_lr,
@@ -453,7 +455,7 @@ def train_task_adaptive_prediction(model: torch.nn.Module, args, device, class_m
 
 def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Module, original_model: torch.nn.Module,
                        criterion, data_loader: Iterable, data_loader_per_cls: Iterable, optimizer: torch.optim.Optimizer, 
-                       lr_scheduler, device: torch.device, class_mask = None, target_mask_map = None, args = None):
+                       lr_scheduler, device: torch.device, class_mask = None, target_task_map = None, args = None):
     
     global cls_mean
     global cls_cov
@@ -527,166 +529,166 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
             else:
                 lr_scheduler = None
             
-            # Load original model checkpoint
-            if args.trained_original_model:
-                original_checkpoint_path = os.path.join(args.trained_original_model, 'checkpoint/task{}_checkpoint.pth'.format(task_id + 1))
-                if os.path.exists(original_checkpoint_path):
-                    print('Loading checkpoint from:', original_checkpoint_path)
-                    original_checkpoint = torch.load(original_checkpoint_path, map_location = device)
-                    original_model.load_state_dict(original_checkpoint['model'])
-                else:
-                    print('No checkpoint found at', original_checkpoint_path)
-                    return
-            
-            # if model already trained
-            checkpoint_path = os.path.join(args.output_dir, 'checkpoint/task{}_checkpoint.pth'.format(task_id + 1))
-
-            if os.path.exists(checkpoint_path) and (not args.reset):
-                print("Model already trained for task {}".format(task_id + 1))
-                print('Loading checkpoint from:', checkpoint_path)
-
-                # Load model checkpoint
-                checkpoint = torch.load(checkpoint_path, map_location = device)
-                model.load_state_dict(checkpoint['model'])
-                optimizer.load_state_dict(checkpoint['optimizer'])
-                if args.sched is not None and args.sched != 'constant':
-                    lr_scheduler.load_state_dict(checkpoint['lr_scheduler'])
-            
-                print('-' * 20)
-                print(f"Evaluate task {task_id + 1} after CA")
-
-                test_stats = evaluate_till_now(model, original_model, data_loader, device, task_id, class_mask, target_mask_map, acc_matrix, args)
-
-                print('-' * 20)
-
-                # Skip training for this task
-                continue
+        # Load original model checkpoint
+        if args.trained_original_model:
+            original_checkpoint_path = os.path.join(args.trained_original_model, 'checkpoint/task{}_checkpoint.pth'.format(task_id + 1))
+            if os.path.exists(original_checkpoint_path):
+                print('Loading checkpoint from:', original_checkpoint_path)
+                original_checkpoint = torch.load(original_checkpoint_path, map_location = device)
+                original_model.load_state_dict(original_checkpoint['model'])
             else:
-                print('No checkpoint found at:', checkpoint_path)
+                print('No checkpoint found at', original_checkpoint_path)
+                return
             
-            # Transfer previous learned prompt params to the new prompt
-            if args.prompt_pool and args.shared_prompt_pool:
-                if task_id > 0:
-                    prev_start = (task_id - 1) * args.top_k
-                    prev_end = task_id * args.top_k
+        # if model already trained
+        checkpoint_path = os.path.join(args.output_dir, 'checkpoint/task{}_checkpoint.pth'.format(task_id + 1))
 
-                    cur_start = prev_end
-                    cur_end = (task_id + 1) * args.top_k
+        if os.path.exists(checkpoint_path) and (not args.reset):
+            print("Model already trained for task {}".format(task_id + 1))
+            print('Loading checkpoint from:', checkpoint_path)
 
-                    if (prev_end > args.size) or (cur_end > args.size):
-                        pass
+            # Load model checkpoint
+            checkpoint = torch.load(checkpoint_path, map_location = device)
+            model.load_state_dict(checkpoint['model'])
+            optimizer.load_state_dict(checkpoint['optimizer'])
+            if args.sched is not None and args.sched != 'constant':
+                lr_scheduler.load_state_dict(checkpoint['lr_scheduler'])
+            
+            print('-' * 20)
+            print(f"Evaluate task {task_id + 1} after CA")
+
+            test_stats = evaluate_till_now(model, original_model, data_loader, device, task_id, class_mask, target_task_map, acc_matrix, args)
+
+            print('-' * 20)
+
+            # Skip training for this task
+            continue
+        else:
+            print('No checkpoint found at:', checkpoint_path)
+            
+        # Transfer previous learned prompt params to the new prompt
+        if args.prompt_pool and args.shared_prompt_pool:
+            if task_id > 0:
+                prev_start = (task_id - 1) * args.top_k
+                prev_end = task_id * args.top_k
+
+                cur_start = prev_end
+                cur_end = (task_id + 1) * args.top_k
+
+                if (prev_end > args.size) or (cur_end > args.size):
+                    pass
+                else:
+                    if args.use_prefix_tune_for_e_prompt:
+                        cur_idx = (slice(None), slice(None), slice(cur_start, cur_end))
+                        prev_idx = (slice(None), slice(None), slice(prev_start, prev_end))
                     else:
-                        if args.use_prefix_tune_for_e_prompt:
-                            cur_idx = (slice(None), slice(None), slice(cur_start, cur_end))
-                            prev_idx = (slice(None), slice(None), slice(prev_start, prev_end))
-                        else:
-                            cur_idx = (slice(None), slice(cur_start, cur_end))
-                            prev_idx = (slice(None), slice(prev_start, prev_end))
+                        cur_idx = (slice(None), slice(cur_start, cur_end))
+                        prev_idx = (slice(None), slice(prev_start, prev_end))
                         
-                        with torch.no_grad():
-                            if args.distributed:
-                                if model.e_prompt.prompt.grad is not None:
-                                    model.e_prompt.prompt.grad.zero_()
-                                model.module.e_prompt.prompt[cur_idx] = model.module.e_prompt.prompt[prev_idx]
-                            else:
-                                if model.e_prompt.prompt.grad is not None:
-                                    model.e_prompt.prompt.grad.zero_()
-                                model.e_prompt.prompt[cur_idx] = model.e_prompt.prompt[prev_idx]
-            
-            # Transfer previous learned prompt param keys to the new prompt
-            if args.prompt_pool and args.shared_prompt_key:
-                if task_id > 0:
-                    prev_start = (task_id - 1) * args.top_k
-                    prev_end = task_id * args.top_k
-
-                    cur_start = prev_end
-                    cur_end = (task_id + 1) * args.top_k
-
-                    if (prev_end > args.size) or (cur_end > args.size):
-                        pass
-                    else:
-                        cur_idx = slice(cur_start, cur_end)
-                        prev_idx = slice(prev_start, prev_end)
-                    
-                        with torch.no_grad():
-                            if args.distributed:
-                                model.module.e_prompt.prompt_key.grad.zero_()
-                                model.module.e_prompt.prompt_key[cur_idx] = model.module.e_prompt.prompt_key[prev_idx]
-                                optimizer.param_groups[0]['params'] = model.module.parameters()
-                            else:
-                                model.e_prompt.prompt_key.grad.zero_()
-                                model.e_prompt.prompt_key[cur_idx] = model.e_prompt.prompt_key[prev_idx]
-                                optimizer.param_groups[0]['params'] = model.parameters()
-            
-            for epoch in range(args.epochs):
-                print("len(data_loader) =", len(data_loader))
-                print("task_id =", task_id)
-                train_stats = train_one_epoch(model = model, original_model = original_model, criterion = criterion,
-                                            data_loader = data_loader[task_id]['train'], optimizer = optimizer,
-                                            device = device, epoch = epoch, max_norm = args.clip_grad,
-                                            set_training_mode = True, task_id = task_id, class_mask = class_mask,
-                                            target_task_map = target_task_map, args = args)
-                if lr_scheduler:
-                    lr_scheduler.step(epoch)
-            
-            if args.prompt_momentum > 0 and task_id > 0:
-                if args.use_prefix_tune_for_e_prompt:
                     with torch.no_grad():
                         if args.distributed:
-                            print(model.module.e_prompt.prompt[:, :, task_id].shape)
-                            print(model.module.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2, keepdim = True).shape)
+                            if model.e_prompt.prompt.grad is not None:
+                                model.e_prompt.prompt.grad.zero_()
+                            model.module.e_prompt.prompt[cur_idx] = model.module.e_prompt.prompt[prev_idx]
+                        else:
+                            if model.e_prompt.prompt.grad is not None:
+                                model.e_prompt.prompt.grad.zero_()
+                            model.e_prompt.prompt[cur_idx] = model.e_prompt.prompt[prev_idx]
+            
+        # Transfer previous learned prompt param keys to the new prompt
+        if args.prompt_pool and args.shared_prompt_key:
+            if task_id > 0:
+                prev_start = (task_id - 1) * args.top_k
+                prev_end = task_id * args.top_k
 
-                            model.module.e_prompt.prompt[:, :, task_id].copy_(
-                            (1 - args.prompt_momentum) * model.module.e_prompt.prompt[:, :, task_id].detach().clone()
-                            + args.prompt_momentum * model.module.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2)
-                            )
+                cur_start = prev_end
+                cur_end = (task_id + 1) * args.top_k
+
+                if (prev_end > args.size) or (cur_end > args.size):
+                    pass
+                else:
+                    cur_idx = slice(cur_start, cur_end)
+                    prev_idx = slice(prev_start, prev_end)
+                    
+                    with torch.no_grad():
+                        if args.distributed:
+                            model.module.e_prompt.prompt_key.grad.zero_()
+                            model.module.e_prompt.prompt_key[cur_idx] = model.module.e_prompt.prompt_key[prev_idx]
+                            optimizer.param_groups[0]['params'] = model.module.parameters()
+                        else:
+                            model.e_prompt.prompt_key.grad.zero_()
+                            model.e_prompt.prompt_key[cur_idx] = model.e_prompt.prompt_key[prev_idx]
+                            optimizer.param_groups[0]['params'] = model.parameters()
+            
+        for epoch in range(args.epochs):
+            #print("len(data_loader) =", len(data_loader))
+            #print("task_id =", task_id)
+            train_stats = train_one_epoch(model = model, original_model = original_model, criterion = criterion,
+                                        data_loader = data_loader[task_id]['train'], optimizer = optimizer,
+                                        device = device, epoch = epoch, max_norm = args.clip_grad,
+                                        set_training_mode = True, task_id = task_id, class_mask = class_mask,
+                                        target_task_map = target_task_map, args = args)
+            if lr_scheduler:
+                lr_scheduler.step(epoch)
+            
+        if args.prompt_momentum > 0 and task_id > 0:
+            if args.use_prefix_tune_for_e_prompt:
+                with torch.no_grad():
+                    if args.distributed:
+                        print(model.module.e_prompt.prompt[:, :, task_id].shape)
+                        print(model.module.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2, keepdim = True).shape)
+
+                        model.module.e_prompt.prompt[:, :, task_id].copy_(
+                        (1 - args.prompt_momentum) * model.module.e_prompt.prompt[:, :, task_id].detach().clone()
+                        + args.prompt_momentum * model.module.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2)
+                        )
 
                 
-            # Compute mean and variance
-            print('-' * 20)
-            print(f'Compute mean and variance for task {task_id + 1}')
-            _compute_mean(model = model, data_loader = data_loader_per_cls, device = device, task_id = task_id, class_mask = class_mask[task_id], args = args)
-            print('-' * 20)
+        # Compute mean and variance
+        print('-' * 20)
+        print(f'Compute mean and variance for task {task_id + 1}')
+        _compute_mean(model = model, data_loader = data_loader_per_cls, device = device, task_id = task_id, class_mask = class_mask[task_id], args = args)
+        print('-' * 20)
 
-            if task_id > 0 and not args.not_train_ca:
-                print('-' * 20)
-                print(f'Evaluate task {task_id + 1} before CA')
-                pre_ca_test_stats = evaluate_till_now(model = model, original_model = original_model, data_loader = data_loader, device = device, task_id = task_id,
+        if task_id > 0 and not args.not_train_ca:
+            print('-' * 20)
+            print(f'Evaluate task {task_id + 1} before CA')
+            pre_ca_test_stats = evaluate_till_now(model = model, original_model = original_model, data_loader = data_loader, device = device, task_id = task_id,
                                                       class_mask = class_mask, target_task_map = target_task_map, acc_matrix = pre_ca_acc_matrix, args = args)
-                print('-' * 20)
-
-                print('-' * 20)
-                print(f'Align classifier for task {task_id + 1}')
-                train_task_adaptive_prediction(model, args, device, class_mask, task_id)
-                print('-' * 20)
-            
-            print('-' * 20)
-            print(f'Evaluate task {task_id + 1} after CA')
-            
-            test_stats = evaluate_till_now(model = model, original_model = original_model, data_loader = data_loader, device = device, task_id = task_id,
-                                           class_mask = class_mask, target_task_map = target_mask_map, acc_matrix = acc_matrix, args = args)
             print('-' * 20)
 
-            if args.output_dir and utils.is_main_process():
-                Path(os.path.join(args.output_dir, 'checkpoint')).mkdir(parents = True, exist_ok = True)
+            print('-' * 20)
+            print(f'Align classifier for task {task_id + 1}')
+            train_task_adaptive_prediction(model, args, device, class_mask, task_id)
+            print('-' * 20)
+            
+        print('-' * 20)
+        print(f'Evaluate task {task_id + 1} after CA')
+            
+        test_stats = evaluate_till_now(model = model, original_model = original_model, data_loader = data_loader, device = device, task_id = task_id,
+                                       class_mask = class_mask, target_task_map = target_task_map, acc_matrix = acc_matrix, args = args)
+        print('-' * 20)
 
-                checkpoint_path = os.path.join(args.output_dir, 'checkpoint/task{}_checkpoint.pth'.format(task_id + 1))
+        if args.output_dir and utils.is_main_process():
+            Path(os.path.join(args.output_dir, 'checkpoint')).mkdir(parents = True, exist_ok = True)
 
-                state_dict = {
-                    'model': model_without_ddp.state_dict(),
-                    'optimizer': optimizer.state_dict(),
-                    'args': args
-                }
+            checkpoint_path = os.path.join(args.output_dir, 'checkpoint/task{}_checkpoint.pth'.format(task_id + 1))
 
-                if args.sched is not None and args.sched != 'constant':
-                    state_dict['lr_scheduler'] = lr_scheduler.state_dict()
+            state_dict = {
+                'model': model_without_ddp.state_dict(),
+                'optimizer': optimizer.state_dict(),
+                'args': args
+            }
+
+            if args.sched is not None and args.sched != 'constant':
+                state_dict['lr_scheduler'] = lr_scheduler.state_dict()
                 
-                utils.save_on_master(state_dict, checkpoint_path)
+            utils.save_on_master(state_dict, checkpoint_path)
 
-            log_stats = {**{f'train_{k}': v for k, v in train_stats.items()},
-                        **{f'test_{k}': v for k, v in test_stats.items()},
-                     }
+        log_stats = {**{f'train_{k}': v for k, v in train_stats.items()},
+                    **{f'test_{k}': v for k, v in test_stats.items()},
+                 }
             
-            if args.output_dir and utils.is_main_process():
-                with open(os.path.join(args.output_dir, '{}_stats.txt'.format(datetime.datetime.now().strftime('log_%Y_%m_%d_%H_%M'))), 'a') as f:
-                    f.write(json.dumps(log_stats) + '\n')
+        if args.output_dir and utils.is_main_process():
+            with open(os.path.join(args.output_dir, '{}_stats.txt'.format(datetime.datetime.now().strftime('log_%Y_%m_%d_%H_%M'))), 'a') as f:
+                f.write(json.dumps(log_stats) + '\n')

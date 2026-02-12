@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+# Model checkpoints
+*.pth
+*.pt
+
+# Training outputs
+output/
+pretrained/
+
+# VSCode
+.vscode/
+
+# Logs
+*.log

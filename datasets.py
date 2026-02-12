@@ -5,6 +5,7 @@ import random
 import torch
 from torch.utils.data.dataset import Subset
 
+import utils
 
 def build_cifar_transform(is_train, args):
     resize_im = args.input_size > 32
@@ -13,7 +14,7 @@ def build_cifar_transform(is_train, args):
         transform = transforms.Compose([
             transforms.RandomResizedCrop(224, interpolation = 3),
             transforms.RandomHorizontalFlip(),
-            transforms.ColorJitter(brightness = 63 / 225),
+            transforms.ColorJitter(brightness = 63 / 255),
             transforms.ToTensor(),
             transforms.Normalize(mean = (0.5071, 0.4867, 0.4408), std = (0.2675, 0.2565, 0.2761)),
         ])
@@ -161,7 +162,7 @@ def build_continual_dataloader(args):
 
     if args.dataset.startswith('Split-'):
         dataset_train, dataset_val = get_dataset(args.dataset.replace('Split-', ''), transform_train, transform_val, args)
-        dataset_train_mean, dataset_val_mean = get_dataset(args.dataset.replace('Split-', ''), transform_train, transform_val, args)
+        dataset_train_mean, dataset_val_mean = get_dataset(args.dataset.replace('Split-', ''), transform_val, transform_val, args)
 
         args.nb_classes = len(dataset_val.classes)
 
@@ -210,25 +211,34 @@ def build_continual_dataloader(args):
             splited_dataset_per_cls.update(split_single_class_dataset(dataset_train_mean, dataset_val_mean, [class_mask[i]], args))
 
 
+        if args.distributed and utils.get_world_size() > 1:
+            num_tasks = utils.get_world_size()
+            global_rank = utils.get_rank()
+
+            sampler_train = torch.utils.data.DistributedSampler(
+                dataset_train, num_replicas=num_tasks, rank=global_rank, shuffle=True)
+
+            sampler_val = torch.utils.data.SequentialSampler(dataset_val)
+        else:
             sampler_train = torch.utils.data.RandomSampler(dataset_train)
-            sampler_val = torch.utils.data.RandomSampler(dataset_val)
+            sampler_val = torch.utils.data.SequentialSampler(dataset_val)
 
 
-            data_loader_train = torch.utils.data.DataLoader(
-                dataset_train, sampler = sampler_train,
-                batch_size = args.batch_size,
-                num_workers = args.num_workers,
-                pin_memory = args.pin_mem
-            )
+        data_loader_train = torch.utils.data.DataLoader(
+            dataset_train, sampler = sampler_train,
+            batch_size = args.batch_size,
+            num_workers = args.num_workers,
+            pin_memory = args.pin_mem
+        )
 
-            data_loader_val = torch.utils.data.DataLoader(
-                dataset_val, sampler = sampler_val,
-                batch_size = args.batch_size,
-                num_workers = args.num_workers,
-                pin_memory = args.pin_mem
-            )
+        data_loader_val = torch.utils.data.DataLoader(
+            dataset_val, sampler = sampler_val,
+            batch_size = args.batch_size,
+            num_workers = args.num_workers,
+            pin_memory = args.pin_mem
+        )
 
-            dataloader.append({'train': data_loader_train, 'val': data_loader_val})
+        dataloader.append({'train': data_loader_train, 'val': data_loader_val})
     
     for i in range(len(class_mask)):
         for cls_id in class_mask[i]:

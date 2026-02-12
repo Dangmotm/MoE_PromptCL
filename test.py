@@ -1,2 +1,3 @@
-import timm
-print(timm.__version__)
+import utils
+
+print(utils.get_rank())
