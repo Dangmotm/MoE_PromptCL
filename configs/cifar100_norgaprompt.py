@@ -1,8 +1,8 @@
 import argparse
 
 def get_args_parser(subparsers):
-    subparsers.add_argument('--batch-size', default = 16, type = int, help = 'Batch size per device')
-    subparsers.add_argument('--epochs', default = 1, type = int, help = 'Number of epoch')
+    subparsers.add_argument('--batch-size', default = 24, type = int, help = 'Batch size per device')
+    subparsers.add_argument('--epochs', default = 5, type = int, help = 'Number of epoch')
 
     # Model parameters
     subparsers.add_argument('--original_model', default = 'vit_base_patch16_224', type = str, metavar = 'OMODEL', help = 'Name of original model to train')

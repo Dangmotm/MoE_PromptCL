@@ -3,7 +3,7 @@ do
 python main.py cifar100_norgaprompt \
 --original_model vit_base_patch16_224 \
 --model vit_base_patch16_224 \
---batch-size 128 \
+--batch-size 192 \
 --data-path ./local_datasets/ \
 --output_dir ./output/NoRGa_cifar100_sup21k_covariance_mlp_2_seed$seed \
 --sched constant \
@@ -19,7 +19,7 @@ do
 python main.py cifar100_norgaprompt \
 --model vit_base_patch16_224 \
 --original_model vit_base_patch16_224 \
---batch-size 128 \
+--batch-size  \
 --epochs 50 \
 --data-path ./local_datasets/ \
 --ca_lr 0.05 \

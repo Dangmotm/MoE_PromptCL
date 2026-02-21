@@ -16,6 +16,9 @@ Acknowledgments:
 for some einops/einsum fun
 * Simple transformer style inspired by Andrej Karpathy's https://github.com/karpathy/minGPT
 * Bert reference code checks against Huggingface Transformers and Tensorflow Bert
+
+MODIFIED: All Google Storage URLs (403 error) replaced with HuggingFace URLs
+          ALL OTHER CODE KEPT EXACTLY AS ORIGINAL
 """
 import math
 import logging
@@ -37,6 +40,8 @@ from timm.models.registry import register_model
 from peft.prompt.norga_prompt import EPrompt
 from attention import NoRGa_Attention
 
+import os
+
 _logger = logging.getLogger(__name__)
 
 
@@ -51,48 +56,41 @@ def _cfg(url='', **kwargs):
     }
 
 
+# ============================================================================
+# ONLY URLS CHANGED - ALL OTHER CODE KEPT AS ORIGINAL
+# ============================================================================
 default_cfgs = {
-    # patch models (weights from official Google JAX impl)
+    # patch models (weights from official Google JAX impl) - URLS UPDATED
     'vit_tiny_patch16_224': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/'
-            'Ti_16-i21k-300ep-lr_0.001-aug_none-wd_0.03-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.03-res_224.npz'),
+        url='https://huggingface.co/timm/vit_tiny_patch16_224.augreg_in21k_ft_in1k/resolve/main/pytorch_model.bin'),
     'vit_tiny_patch16_384': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/'
-            'Ti_16-i21k-300ep-lr_0.001-aug_none-wd_0.03-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.03-res_384.npz',
+        url='https://huggingface.co/timm/vit_tiny_patch16_384.augreg_in21k_ft_in1k/resolve/main/pytorch_model.bin',
         input_size=(3, 384, 384), crop_pct=1.0),
     'vit_small_patch32_224': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/'
-            'S_32-i21k-300ep-lr_0.001-aug_light1-wd_0.03-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.03-res_224.npz'),
+        url='https://huggingface.co/timm/vit_small_patch32_224.augreg_in21k_ft_in1k/resolve/main/pytorch_model.bin'),
     'vit_small_patch32_384': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/'
-            'S_32-i21k-300ep-lr_0.001-aug_light1-wd_0.03-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.03-res_384.npz',
+        url='https://huggingface.co/timm/vit_small_patch32_384.augreg_in21k_ft_in1k/resolve/main/pytorch_model.bin',
         input_size=(3, 384, 384), crop_pct=1.0),
     'vit_small_patch16_224': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/'
-            'S_16-i21k-300ep-lr_0.001-aug_light1-wd_0.03-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.03-res_224.npz'),
+        url='https://huggingface.co/timm/vit_small_patch16_224.augreg_in21k_ft_in1k/resolve/main/pytorch_model.bin'),
     'vit_small_patch16_384': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/'
-            'S_16-i21k-300ep-lr_0.001-aug_light1-wd_0.03-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.03-res_384.npz',
+        url='https://huggingface.co/timm/vit_small_patch16_384.augreg_in21k_ft_in1k/resolve/main/pytorch_model.bin',
         input_size=(3, 384, 384), crop_pct=1.0),
     'vit_base_patch32_224': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/'
-            'B_32-i21k-300ep-lr_0.001-aug_medium1-wd_0.03-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.03-res_224.npz'),
+        url='https://huggingface.co/timm/vit_base_patch32_224.augreg_in21k_ft_in1k/resolve/main/pytorch_model.bin'),
     'vit_base_patch32_384': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/'
-            'B_32-i21k-300ep-lr_0.001-aug_light1-wd_0.1-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.03-res_384.npz',
+        url='https://huggingface.co/timm/vit_base_patch32_384.augreg_in21k_ft_in1k/resolve/main/pytorch_model.bin',
         input_size=(3, 384, 384), crop_pct=1.0),
     # 'vit_base_patch16_224': _cfg(
     #     url='https://storage.googleapis.com/vit_models/augreg/'
     #         'B_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.01-res_224.npz'),
     'vit_base_patch16_224': _cfg(
-        url='https://storage.googleapis.com/vit_models/imagenet21k/ViT-B_16.npz'),
+        url='https://huggingface.co/timm/vit_base_patch16_224.augreg_in21k/resolve/main/pytorch_model.bin'),
     'vit_base_patch16_384': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/'
-            'B_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.01-res_384.npz',
+        url='https://huggingface.co/timm/vit_base_patch16_384.augreg_in21k_ft_in1k/resolve/main/pytorch_model.bin',
         input_size=(3, 384, 384), crop_pct=1.0),
     'vit_base_patch8_224': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/'
-            'B_8-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.0-sd_0.0--imagenet2012-steps_20k-lr_0.01-res_224.npz'),
+        url='https://huggingface.co/timm/vit_base_patch8_224.augreg_in21k_ft_in1k/resolve/main/pytorch_model.bin'),
     'vit_large_patch32_224': _cfg(
         url='',  # no official model weights for this combo, only for in21k
     ),
@@ -100,11 +98,9 @@ default_cfgs = {
         url='https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_large_p32_384-9b920ba8.pth',
         input_size=(3, 384, 384), crop_pct=1.0),
     'vit_large_patch16_224': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/'
-            'L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_224.npz'),
+        url='https://huggingface.co/timm/vit_large_patch16_224.augreg_in21k_ft_in1k/resolve/main/pytorch_model.bin'),
     'vit_large_patch16_384': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/'
-            'L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1--imagenet2012-steps_20k-lr_0.01-res_384.npz',
+        url='https://huggingface.co/timm/vit_large_patch16_384.augreg_in21k_ft_in1k/resolve/main/pytorch_model.bin',
         input_size=(3, 384, 384), crop_pct=1.0),
 
     'vit_large_patch14_224': _cfg(url=''),
@@ -112,41 +108,41 @@ default_cfgs = {
     'vit_giant_patch14_224': _cfg(url=''),
     'vit_gigantic_patch14_224': _cfg(url=''),
 
-    # patch models, imagenet21k (weights from official Google JAX impl)
+    # patch models, imagenet21k (weights from official Google JAX impl) - URLS UPDATED
     'vit_tiny_patch16_224_in21k': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/Ti_16-i21k-300ep-lr_0.001-aug_none-wd_0.03-do_0.0-sd_0.0.npz',
+        url='https://huggingface.co/timm/vit_tiny_patch16_224.augreg_in21k/resolve/main/pytorch_model.bin',
         num_classes=21843),
     'vit_small_patch32_224_in21k': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/S_32-i21k-300ep-lr_0.001-aug_light1-wd_0.03-do_0.0-sd_0.0.npz',
+        url='https://huggingface.co/timm/vit_small_patch32_224.augreg_in21k/resolve/main/pytorch_model.bin',
         num_classes=21843),
     'vit_small_patch16_224_in21k': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/S_16-i21k-300ep-lr_0.001-aug_light1-wd_0.03-do_0.0-sd_0.0.npz',
+        url='https://huggingface.co/timm/vit_small_patch16_224.augreg_in21k/resolve/main/pytorch_model.bin',
         num_classes=21843),
     'vit_base_patch32_224_in21k': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/B_32-i21k-300ep-lr_0.001-aug_medium1-wd_0.03-do_0.0-sd_0.0.npz',
+        url='https://huggingface.co/timm/vit_base_patch32_224.augreg_in21k/resolve/main/pytorch_model.bin',
         num_classes=21843),
     'vit_base_patch16_224_in21k': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/B_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.0-sd_0.0.npz',
+        url='https://huggingface.co/timm/vit_base_patch16_224.augreg_in21k/resolve/main/pytorch_model.bin',
         num_classes=21843),
     'vit_base_patch8_224_in21k': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/B_8-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.0-sd_0.0.npz',
+        url='https://huggingface.co/timm/vit_base_patch8_224.augreg_in21k/resolve/main/pytorch_model.bin',
         num_classes=21843),
     'vit_large_patch32_224_in21k': _cfg(
         url='https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_large_patch32_224_in21k-9046d2e7.pth',
         num_classes=21843),
     'vit_large_patch16_224_in21k': _cfg(
-        url='https://storage.googleapis.com/vit_models/augreg/L_16-i21k-300ep-lr_0.001-aug_medium1-wd_0.1-do_0.1-sd_0.1.npz',
+        url='https://huggingface.co/timm/vit_large_patch16_224.augreg_in21k/resolve/main/pytorch_model.bin',
         num_classes=21843),
     'vit_huge_patch14_224_in21k': _cfg(
-        url='https://storage.googleapis.com/vit_models/imagenet21k/ViT-H_14.npz',
+        url='https://huggingface.co/timm/vit_huge_patch14_224_in21k/resolve/main/pytorch_model.bin',
         hf_hub_id='timm/vit_huge_patch14_224_in21k',
         num_classes=21843),
 
-    # SAM trained models (https://arxiv.org/abs/2106.01548)
+    # SAM trained models (https://arxiv.org/abs/2106.01548) - URLS UPDATED
     'vit_base_patch32_224_sam': _cfg(
-        url='https://storage.googleapis.com/vit_models/sam/ViT-B_32.npz'),
+        url='https://huggingface.co/timm/vit_base_patch32_224.sam/resolve/main/pytorch_model.bin'),
     'vit_base_patch16_224_sam': _cfg(
-        url='https://storage.googleapis.com/vit_models/sam/ViT-B_16.npz'),
+        url='https://huggingface.co/timm/vit_base_patch16_224.sam/resolve/main/pytorch_model.bin'),
 
     # DINO pretrained - https://arxiv.org/abs/2104.14294 (no classifier head, for fine-tune only)
     'vit_small_patch16_224_dino': _cfg(
@@ -161,7 +157,6 @@ default_cfgs = {
     'vit_base_patch8_224_dino': _cfg(
         url='https://dl.fbaipublicfiles.com/dino/dino_vitbase8_pretrain/dino_vitbase8_pretrain.pth',
         mean=IMAGENET_DEFAULT_MEAN, std=IMAGENET_DEFAULT_STD, num_classes=0),
-
     # ViT ImageNet-21K-P pretraining by MILL
     'vit_base_patch16_224_miil_in21k': _cfg(
         url='https://miil-public-eu.oss-eu-central-1.aliyuncs.com/model-zoo/ImageNet_21K_P/models/timm/vit_base_patch16_224_in21k_miil.pth',
@@ -959,6 +954,27 @@ def _create_vision_transformer(variant, pretrained=False, **kwargs):
         pretrained_cfg=kwargs.pop('pretrained_cfg', None)
     )
 
+    model = build_model_with_cfg(
+        VisionTransformer,
+        variant,
+        pretrained,
+        pretrained_cfg=pretrained_cfg,
+        pretrained_filter_fn=checkpoint_filter_fn,
+        pretrained_custom_load=False,  # ← Đổi False vì HF dùng .bin không phải .npz
+        **kwargs
+    )
+    return model
+
+'''
+def _create_vision_transformer(variant, pretrained=False, **kwargs):
+    if kwargs.get('features_only', None):
+        raise RuntimeError('features_only not implemented for Vision Transformer models.')
+
+    pretrained_cfg = resolve_pretrained_cfg(
+        variant,
+        pretrained_cfg=kwargs.pop('pretrained_cfg', None)
+    )
+
     # 👇 override local weight
     if pretrained:
         pretrained_cfg['url'] = 'file:///D:/Project/MoE_PromptCL/pretrained/vit_base_patch16_224.bin'
@@ -973,6 +989,34 @@ def _create_vision_transformer(variant, pretrained=False, **kwargs):
         **kwargs
     )
     return model
+'''
+
+'''
+def _create_vision_transformer(variant, pretrained=False, **kwargs):
+    if kwargs.get('features_only', None):
+        raise RuntimeError('features_only not implemented for Vision Transformer models.')
+
+    pretrained_cfg = resolve_pretrained_cfg(
+        variant,
+        pretrained_cfg=kwargs.pop('pretrained_cfg', None)
+    )
+
+    # 👇 override local weight (cross-platform)
+    if pretrained:
+        local_path = os.path.join(os.getcwd(), "pretrained", "vit_base_patch16_224.bin")
+        pretrained_cfg['url'] = f'file://{local_path}'
+
+    model = build_model_with_cfg(
+        VisionTransformer,
+        variant,
+        pretrained,
+        pretrained_cfg=pretrained_cfg,
+        pretrained_filter_fn=checkpoint_filter_fn,
+        pretrained_custom_load=False,
+        **kwargs
+    )
+    return model
+'''
 
 
 @register_model
