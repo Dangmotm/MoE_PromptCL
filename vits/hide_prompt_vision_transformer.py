@@ -26,6 +26,7 @@ import copy
 from copy import deepcopy
 from functools import partial
 from collections import OrderedDict
+from typing import Optional
 
 import torch
 import torch.nn as nn
@@ -37,10 +38,8 @@ from timm.models.helpers import build_model_with_cfg, resolve_pretrained_cfg, na
 from timm.models.layers import PatchEmbed, Mlp, DropPath, trunc_normal_, lecun_normal_
 from timm.models.registry import register_model
 
-from peft.prompt.norga_prompt import EPrompt
-from attention import NoRGa_Attention
-
-import os
+from peft.prompt.hide_prompt import EPrompt
+from attention import PreT_Attention
 
 _logger = logging.getLogger(__name__)
 
@@ -235,8 +234,8 @@ class Block(nn.Module):
         self.ls2 = LayerScale(dim, init_values=init_values) if init_values else nn.Identity()
         self.drop_path2 = DropPath(drop_path) if drop_path > 0. else nn.Identity()
 
-    def forward(self, x, prompt=None, act_scale=None, gate_act=None):
-        x = x + self.drop_path1(self.ls1(self.attn(self.norm1(x), prompt, act_scale, gate_act)))
+    def forward(self, x, prompt=None):
+        x = x + self.drop_path1(self.ls1(self.attn(self.norm1(x), prompt)))
         x = x + self.drop_path2(self.ls2(self.mlp(self.norm2(x))))
         return x
 
@@ -382,7 +381,7 @@ class VisionTransformer(nn.Module):
             top_k=None, batchwise_prompt=False, prompt_key_init='uniform', head_type='token', use_prompt_mask=False,
             use_g_prompt=False, g_prompt_length=None, g_prompt_layer_idx=None, use_prefix_tune_for_g_prompt=False,
             use_e_prompt=False, e_prompt_layer_idx=None, use_prefix_tune_for_e_prompt=False, same_key_value=False,
-            mlp_structure=[], gate_act=None):
+            mlp_structure=[]):
         """
         Args:
             img_size (int, tuple): input image size
@@ -488,23 +487,6 @@ class VisionTransformer(nn.Module):
                                     prompt_key_init=prompt_key_init, num_layers=num_e_prompt,
                                     use_prefix_tune_for_e_prompt=use_prefix_tune_for_e_prompt,
                                     num_heads=num_heads, same_key_value=same_key_value)
-            
-            if gate_act is None:
-                self.gate_act = nn.Identity()
-            elif gate_act == 'sigmoid':
-                self.gate_act = nn.Sigmoid()
-            elif gate_act == 'relu':
-                self.gate_act = nn.ReLU()
-            elif gate_act == 'tanh':
-                self.gate_act = nn.Tanh()
-            elif gate_act == 'gelu':
-                self.gate_act = nn.GELU()
-            elif gate_act == 'softplus':
-                self.gate_act = nn.Softplus()
-            elif gate_act == 'elu':
-                self.gate_act = nn.ELU()
-            else:
-                raise ValueError('Not supported activation function for gate')
 
         if not (use_g_prompt or use_e_prompt):
             attn_layer = Attention
@@ -513,7 +495,7 @@ class VisionTransformer(nn.Module):
             attn_layer = Attention
         else:
             # Prefix tunning
-            attn_layer = NoRGa_Attention
+            attn_layer = PreT_Attention
 
         self.total_prompt_len = 0
         if self.prompt_pool:
@@ -541,11 +523,8 @@ class VisionTransformer(nn.Module):
         self.fc_norm = norm_layer(embed_dim) if use_fc_norm else nn.Identity()
         self.head = nn.Linear(self.embed_dim, num_classes) if num_classes > 0 else nn.Identity()
 
-        print(f'Number of classes: {num_classes}')
-
         if weight_init != 'skip':
             self.init_weights(weight_init)
-
 
     def init_weights(self, mode=''):
         assert mode in ('jax', 'jax_nlhb', 'moco', '')
@@ -617,7 +596,6 @@ class VisionTransformer(nn.Module):
 
                 res = self.e_prompt(x, prompt_mask=prompt_mask, prompt_idx=prompt_id, prompt_weight=prompt_weight, prompt_momentum=prompt_momentum)
                 e_prompt = res['batched_prompt']
-                e_act_scale = res['batched_act_scale']
 
                 for i, block in enumerate(self.blocks):
                     if i in self.g_prompt_layer_idx:
@@ -634,12 +612,7 @@ class VisionTransformer(nn.Module):
                         e_prompt_counter += 1
                         if self.use_prefix_tune_for_e_prompt:
                             # Prefix tunning, [B, 2, top_k * e_prompt_length, num_heads, embed_dim // num_heads]
-                            x = block(
-                                x, 
-                                prompt=e_prompt[e_prompt_counter],
-                                act_scale=e_act_scale[e_prompt_counter],
-                                gate_act=self.gate_act
-                            )
+                            x = block(x, prompt=e_prompt[e_prompt_counter])
                         else:
                             # Pommpt tunning, [B, top_k * e_prompt_length, embed_dim]
                             prompt = e_prompt[e_prompt_counter]
@@ -675,13 +648,11 @@ class VisionTransformer(nn.Module):
         else:
             raise ValueError(f'Invalid classifier={self.classifier}')
 
-        res['features'] = x
         res['pre_logits'] = x
+        res['features'] = x
 
         x = self.mlp(x)
         x = self.fc_norm(x)
-
-        res['pre_features'] = x
 
         res['logits'] = self.head(x)
 
@@ -692,61 +663,10 @@ class VisionTransformer(nn.Module):
             res = dict()
             x = self.mlp(x)
             x = self.fc_norm(x)
-            res['pre_features'] = x
             res['logits'] = self.head(x)
             return res
         res = self.forward_features(x, task_id=task_id, prompt_id=prompt_id, prompt_weight=prompt_weight, train=train, prompt_momentum=prompt_momentum)
         res = self.forward_head(res)
-        return res
-    
-
-    def get_query(self, x):
-        res = dict()
-        x = self.patch_embed(x)
-
-        if self.cls_token is not None:
-            x = torch.cat((self.cls_token.expand(x.shape[0], -1, -1), x), dim=1)
-
-        x = self.pos_drop(x + self.pos_embed)
-
-        if self.grad_checkpointing and not torch.jit.is_scripting():
-            x = checkpoint_seq(self.blocks, x)
-        else:
-            x = self.blocks(x)
-            x = self.norm(x)
-        
-        x = x[:, 0]
-
-        res['features'] = x
-
-        x = self.mlp(x)
-        x = self.fc_norm(x)
-
-        res['logits'] = self.head(x)
-
-        return res
-
-    
-    def get_head(self):
-        """
-        Get a copy of MLP and head.
-        """
-        head = copy.deepcopy(self.head)
-        mlp = copy.deepcopy(self.mlp)
-        fc_norm = copy.deepcopy(self.fc_norm)
-        head.requires_grad_(False)
-        mlp.requires_grad_(False)
-        fc_norm.requires_grad_(False)
-
-        return mlp, fc_norm, head
-    
-
-    def forward_new_head(self, x, mlp, fc_norm, head):
-        res = dict()
-        x = mlp(x)
-        x = fc_norm(x)
-        res['pre_features'] = x
-        res['logits'] = head(x)
         return res
 
 
@@ -949,22 +869,14 @@ def _create_vision_transformer(variant, pretrained=False, **kwargs):
     if kwargs.get('features_only', None):
         raise RuntimeError('features_only not implemented for Vision Transformer models.')
 
-    pretrained_cfg = resolve_pretrained_cfg(
-        variant,
-        pretrained_cfg=kwargs.pop('pretrained_cfg', None)
-    )
-
+    pretrained_cfg = resolve_pretrained_cfg(variant, pretrained_cfg=kwargs.pop('pretrained_cfg', None))
     model = build_model_with_cfg(
-        VisionTransformer,
-        variant,
-        pretrained,
+        VisionTransformer, variant, pretrained,
         pretrained_cfg=pretrained_cfg,
         pretrained_filter_fn=checkpoint_filter_fn,
-        pretrained_custom_load=False,  # ← Đổi False vì HF dùng .bin không phải .npz
-        **kwargs
-    )
+        pretrained_custom_load='npz' in pretrained_cfg['url'],
+        **kwargs)
     return model
-
 
 
 @register_model
