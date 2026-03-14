@@ -14,6 +14,11 @@ def get_args():
     if config == 'cifar100_norgaprompt':
         from configs.cifar100_norgaprompt import get_args_parser
         config_parser = subparser.add_parser('cifar100_norgaprompt', help = 'Split-CIFAR100 NoRGa-prompt configs')
+
+    elif config == 'cifar100_hideprompt_5e':
+        from configs.cifar100_hideprompt_5e import get_args_parser
+        config_parser = subparser.add_parser('cifar100_hideprompt_5e', help='Split-CIFAR100 HiDe-Prompt configs')
+
     else:
         raise NotImplementedError
     
@@ -36,7 +41,12 @@ def main(args):
     random.seed(seed)
     torch.backends.cudnn.benchmark = True
 
-    if 'norgaprompt' in args.config:
+    if 'hideprompt' in args.config and not args.train_inference_task_only:
+        print('Using HiDe-Prompt')
+        import trainers.hideprompt_trainer as hideprompt_trainer
+        hideprompt_trainer.train(args)
+
+    elif 'norgaprompt' in args.config:
         print('Using NoRGa-prompt')
         import trainers.norgaprompt_trainer as norgaprompt_trainer
         norgaprompt_trainer.train(args)
@@ -46,5 +56,6 @@ def main(args):
 if __name__ == "__main__":
     args = get_args()
     print(args)
+    
     main(args)
     

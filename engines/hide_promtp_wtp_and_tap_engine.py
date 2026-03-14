@@ -170,7 +170,7 @@ def orth_loss(features, targets, device, args):
         sim = torch.matmul(features, features.t()) / 0.8
         loss = F.cross_entropy(sim, torch.arange(sim.shape[0]).long().to(device))
         return args.reg * loss
-
+    
 
 @torch.no_grad()
 def _compute_mean(model, data_loader, device, task_id, class_mask, args):
@@ -298,80 +298,11 @@ def train_one_epoch(model: torch.nn.Module, original_model: torch.nn.Module, cri
 
 
 
-def sample_data(num_sampled_pcls, task_id, class_mask, device, args, include_current_task = True, target_mask = False):
-    sampled_data = []
-    sampled_label = []
-    sampled_target_mask = []
 
-    if include_current_task:
-        max_task = task_id + 1
-    else:
-        max_task = task_id
-    
-    if args.ca_storage_efficient_method in ['covariance', 'variance']:
-        for i in range(max_task):
-            for c_id in class_mask[i]:
-                mean = torch.tensor(cls_mean[c_id], dtype = torch.float64).to(device)
-                cov = cls_cov[c_id].to(device)
-
-                if args.ca_storage_efficient_method == 'variance':
-                    cov = torch.diag(cov)
-                
-                m = MultivariateNormal(mean.float(), cov.float())
-                sampled_data_single = m.sample(sample_shape = (num_sampled_pcls, ))
-                sampled_data.append(sampled_data_single)
-
-                sampled_label.extend([c_id] * num_sampled_pcls)
-
-                if target_mask:
-                    if i == task_id:
-                        sampled_target_mask.extend([1] * num_sampled_pcls)
-                    else:
-                        sampled_target_mask.extend([0] * num_sampled_pcls)
-    elif args.ca_storage_efficient_method == 'multi-centroid':
-        num_sampled_pcls = num_sampled_pcls // args.n_centroids
-
-        for i in range(max_task):
-            for c_id in class_mask[i]:
-                for cluster in range(len(cls_mean[c_id])):
-                    mean = cls_mean[c_id][cluster]
-                    var = cls_cov[c_id][cluster]
-
-                    if var.mean() == 0:
-                        continue
-                    var = torch.diag(var) + 1e-4 * torch.eye(mean.shape[0]).to(mean.device)
-
-                    m = MultivariateNormal(mean.float(), var.float())
-                    sampled_data_single = m.sample(sample_shape = (num_sampled_pcls, ))
-                    sampled_data.append(sampled_data_single)
-
-                    sampled_label.extend([c_id] * num_sampled_pcls)
-
-                    if target_mask:
-                        if i == task_id:
-                            sampled_target_mask.extend([1] * num_sampled_pcls)
-                        else:
-                            sampled_target_mask.extend([0] * num_sampled_pcls)
-    else:
-        raise NotImplementedError
-    
-    sampled_data = torch.cat(sampled_data, dim = 0).float().to(device)
-    sampled_label = torch.tensor(sampled_label).long().to(device)
-
-    if target_mask:
-        sampled_target_mask = torch.tensor(sampled_target_mask).long().to(device)
-        return sampled_data, sampled_label, sampled_target_mask
-    
-    return sampled_data, sampled_label
-
-
-                
-    
 
 
 def train_task_adaptive_prediction(model: torch.nn.Module, args, device, class_mask = None, task_id = -1):
     model.train()
-    current_head = model.get_head()
     run_epochs = args.crct_epochs
     crct_num = 0
     param_list = [p for n, p in model.named_parameters() if p.requires_grad and 'prompt' not in n]
@@ -393,29 +324,67 @@ def train_task_adaptive_prediction(model: torch.nn.Module, args, device, class_m
     
     # TODO: efficiency may be improved by encapsulating sampled data into Datasets class using distribulated sampler.
     for epoch in range(run_epochs):
+        sampled_data = []
+        sampled_label = []
+
         metric_logger = utils.MetricLogger(delimiter = " ")
         metric_logger.add_meter('Lr', utils.SmoothedValue(window_size = 1, fmt = '{value:.6f}'))
         metric_logger.add_meter('Loss', utils.SmoothedValue(window_size = 1, fmt = '{value:.4f}'))
 
         num_sampled_pcls = args.batch_size * 5
 
-        sample_input, sample_target, sample_target_mask = sample_data(num_sampled_pcls = num_sampled_pcls,
-                                                                      task_id = task_id,
-                                                                      class_mask = class_mask,
-                                                                      args = args,
-                                                                      device = device,
-                                                                      include_current_task = True,
-                                                                      target_mask = True)
-        
-        sf_indexes = torch.randperm(sample_input.size(0))
-        inputs = sample_input[sf_indexes]
-        targets = sample_target[sf_indexes]
-        target_mask = sample_target_mask[sf_indexes]
+        if args.ca_storage_efficient_method in ['covariance', 'variance']:
+            for i in range(task_id):
+                for c_id in class_mask[i]:
+                    mean = cls_mean[c_id].to(device)
+                    var = cls_cov[c_id].to(device)
+
+                    if args.ca_storage_efficient_method == 'variance':
+                        cov = torch.diag(cov)
+                    
+                    m = MultivariateNormal(mean.float(), cov.float())
+                    sampled_data_single = m.sample(sample_shape = (num_sampled_pcls, ))
+                    sampled_data.append(sampled_data_single)
+
+                    sampled_label.extend([c_id] * num_sampled_pcls)
+
+        elif args.ca_storage_efficient_method == 'multi-centroid':
+
+            for i in range(task_id + 1):
+                for c_id in class_mask[i]:
+                    for cluster in range(len(cls_mean[c_id])):
+                        mean = cls_mean[c_id].to(device)
+                        var = cls_cov[c_id].to(device)
+
+                        if var.mean() == 0:
+                            continue
+                        var = torch.diag(var) + 1e-4 * torch.eye(mean.shape[0]).to(mean.device)
+
+                        m = MultivariateNormal(mean.float(), var.float())
+                        sampled_data_single = m.sample(sample_shape = (num_sampled_pcls, ))
+                        sampled_data.append(sampled_data_single)
+
+                        sampled_label.extend([c_id] * num_sampled_pcls)
+
+        else:
+            raise NotImplementedError
+
+
+        sampled_data = torch.cat(sampled_data, dim = 0).float().to(device)
+        sampled_label = torch.tensor(sampled_label).long().to(device)
+        # print(sampled_data.shape)
+
+        inputs = sampled_data
+        targets = sampled_label
+
+        sf_indexes = torch.randperm(inputs.size(0))
+        inputs = inputs[sf_indexes]
+        targets = targets[sf_indexes]
+        # print(targets)
 
         for _iter in range(crct_num):
             inp = inputs[_iter * num_sampled_pcls:(_iter + 1) * num_sampled_pcls]
             tgt = targets[_iter * num_sampled_pcls:(_iter + 1) * num_sampled_pcls]
-            tgt_mask = target_mask[_iter * num_sampled_pcls:(_iter + 1) * num_sampled_pcls]
 
             outputs = model(inp, fc_only = True)
             logits = outputs['logits']
@@ -453,13 +422,14 @@ def train_task_adaptive_prediction(model: torch.nn.Module, args, device, class_m
 
         scheduler.step()
 
+
+
 def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Module, original_model: torch.nn.Module,
                        criterion, data_loader: Iterable, data_loader_per_cls: Iterable, optimizer: torch.optim.Optimizer, 
                        lr_scheduler, device: torch.device, class_mask = None, target_task_map = None, args = None):
     
     global cls_mean
     global cls_cov
-    global old_head
 
     cls_mean = dict()
     cls_cov = dict()
@@ -484,7 +454,6 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
     for task_id in range(args.num_tasks):
         if task_id > 0:
             model.e_prompt.act_scale.requires_grad_(False)
-            old_head = model.get_head()
         
         print('-' * 20)
         print('Learnable parameters')
@@ -531,7 +500,7 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
             
         # Load original model checkpoint
         if args.trained_original_model:
-            original_checkpoint_path = os.path.join(args.trained_original_model, 'checkpoint_norgaprompt/task{}_checkpoint.pth'.format(task_id + 1))
+            original_checkpoint_path = os.path.join(args.trained_original_model, 'checkpoint_hideprompt/task{}_checkpoint.pth'.format(task_id + 1))
             if os.path.exists(original_checkpoint_path):
                 print('Loading checkpoint from:', original_checkpoint_path)
                 original_checkpoint = torch.load(original_checkpoint_path, map_location = device)
@@ -541,7 +510,7 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
                 return
             
         # if model already trained
-        checkpoint_path = os.path.join(args.output_dir, 'checkpoint_norgaprompt/task{}_checkpoint.pth'.format(task_id + 1))
+        checkpoint_path = os.path.join(args.output_dir, 'checkpoint_hideprompt/task{}_checkpoint.pth'.format(task_id + 1))
 
         if os.path.exists(checkpoint_path) and (not args.reset):
             print("Model already trained for task {}".format(task_id + 1))
@@ -643,12 +612,12 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
                         + args.prompt_momentum * model.module.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2)
                         )
                     else:
-                        print(model.module.e_prompt.prompt[:, :, task_id].shape)
-                        print(model.module.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2, keepdim = True).shape)
+                        print(model.e_prompt.prompt[:, :, task_id].shape)
+                        print(model.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2, keepdim = True).shape)
 
                         model.module.e_prompt.prompt[:, :, task_id].copy_(
-                        (1 - args.prompt_momentum) * model.module.e_prompt.prompt[:, :, task_id].detach().clone()
-                        + args.prompt_momentum * model.module.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2)
+                        (1 - args.prompt_momentum) * model.e_prompt.prompt[:, :, task_id].detach().clone()
+                        + args.prompt_momentum * model.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2)
                         )
 
                 
@@ -680,7 +649,7 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
         if args.output_dir and utils.is_main_process():
             Path(os.path.join(args.output_dir, 'checkpoint')).mkdir(parents = True, exist_ok = True)
 
-            checkpoint_path = os.path.join(args.output_dir, 'checkpoint_norgaprompt/task{}_checkpoint.pth'.format(task_id + 1))
+            checkpoint_path = os.path.join(args.output_dir, 'checkpoint_hideprompt/task{}_checkpoint.pth'.format(task_id + 1))
 
             state_dict = {
                 'model': model_without_ddp.state_dict(),

@@ -3,8 +3,8 @@ from datasets import build_continual_dataloader
 from timm.models import create_model
 import os
 
-from engines.norga_prompt_engine import evaluate_till_now
-from engines.norga_prompt_engine import train_and_evaluate
+from engines.hide_promtp_wtp_and_tap_engine import evaluate_till_now
+from engines.hide_promtp_wtp_and_tap_engine import train_and_evaluate
 
 from timm.models import create_model
 from timm.scheduler import create_scheduler
@@ -68,7 +68,6 @@ def train(args):
         use_prefix_tune_for_e_prompt = args.use_prefix_tune_for_e_prompt,
         
         same_key_value = args.same_key_value,
-        gate_act = args.gate_act,
     )
 
     original_model.to(device)

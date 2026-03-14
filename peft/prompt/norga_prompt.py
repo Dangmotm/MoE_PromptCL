@@ -3,9 +3,9 @@ import torch.nn as nn
 
 
 class EPrompt(nn.Module):
-    def __init__(self, length=5, embed_dim=768, embedding_key='mean', prompt_init='uniform', prompt_pool=False, 
-                 prompt_key=False, pool_size=None, top_k=None, batchwise_prompt=False, prompt_key_init='uniform',
-                 num_layers=1, use_prefix_tune_for_e_prompt=False, num_heads=-1, same_key_value=False,):
+    def __init__(self, length = 5, embed_dim = 768, embedding_key = 'mean', prompt_init = 'uniform', prompt_pool = False, 
+                 prompt_key = False, pool_size = None, top_k = None, batchwise_prompt = False, prompt_key_init = 'uniform',
+                 num_layers = 1, use_prefix_tune_for_e_prompt = False, num_heads = -1, same_key_value = False,):
         super().__init__()
 
         self.length = length
