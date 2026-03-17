@@ -1,9 +1,9 @@
-for seed in 42 40 44
+for seed in 42
 do
 python main.py cifar100_norgaprompt \
 --original_model vit_base_patch16_224 \
 --model vit_base_patch16_224 \
---batch-size 192 \
+--batch-size 128 \
 --data-path ./local_datasets/ \
 --output_dir ./output/NoRGa_cifar100_sup21k_covariance_mlp_2_seed$seed \
 --sched constant \
@@ -14,12 +14,12 @@ python main.py cifar100_norgaprompt \
 --crct_epochs 30 --epochs 20 --shuffle True 
 done
 
-for seed in 42 40 44
+for seed in 42
 do
 python main.py cifar100_norgaprompt \
 --model vit_base_patch16_224 \
 --original_model vit_base_patch16_224 \
---batch-size  \
+--batch-size 128 \
 --epochs 50 \
 --data-path ./local_datasets/ \
 --ca_lr 0.05 \

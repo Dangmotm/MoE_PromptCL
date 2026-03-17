@@ -1,0 +1,607 @@
+Evaluate task 1 after CA
+Task 1 val batches: 42
+Test: [Task 1] [ 0/42] eta: 0:02:23 Loss: 0.0035 (0.0035) Acc@1: 100.0000 (100.0000) Acc@5: 100.0000 (100.0000) Acc@task: 100.0000 (100.0000) time: 3.4909 data: 2.6985 max mem: 1264
+Test: [Task 1] [10/42] eta: 0:00:34 Loss: 0.0122 (0.0714) Acc@1: 100.0000 (98.4848) Acc@5: 100.0000 (100.0000) Acc@task: 100.0000 (100.0000) time: 0.8403 data: 0.2454 max mem: 1292
+Test: [Task 1] [20/42] eta: 0:00:29 Loss: 0.0240 (0.0880) Acc@1: 100.0000 (97.8175) Acc@5: 100.0000 (100.0000) Acc@task: 100.0000 (100.0000) time: 0.5783 data: 0.0001 max mem: 1292
+Test: [Task 1] [30/42] eta: 0:00:27 Loss: 0.0021 (0.0702) Acc@1: 100.0000 (98.2527) Acc@5: 100.0000 (100.0000) Acc@task: 100.0000 (100.0000) time: 0.5835 data: 0.0004 max mem: 1292
+Test: [Task 1] [40/42] eta: 0:00:26 Loss: 0.0011 (0.0905) Acc@1: 100.0000 (98.1707) Acc@5: 100.0000 (100.0000) Acc@task: 100.0000 (100.0000) time: 0.5916 data: 0.0005 max mem: 1292
+Test: [Task 1] [41/42] eta: 0:00:26 Loss: 0.0011 (0.0885) Acc@1: 100.0000 (98.2000) Acc@5: 100.0000 (100.0000) Acc@task: 100.0000 (100.0000) time: 0.5907 data: 0.0004 max mem: 1292
+Test: [Task 1] Total time: 0:00:27 (0.6634 s / it)
+* Acc@task 100.000 Acc@1 98.200 Acc@5 100.000 Loss 0.088
+[Average accuracy till task1]   Acc@task: 100.0000      Acc@1: 98.2000  Acc@5: 100.0000 Loss: 0.0885
+--------------------
+--------------------
+Learnable parameters
+e_prompt.prompt
+head.weight
+head.bias
+--------------------
+Model already trained for task 2
+Loading checkpoint from: ./output\checkpoint_hideprompt/task2_checkpoint.pth
+--------------------
+Evaluate task 2 after CA
+Task 1 val batches: 42
+Test: [Task 1] [ 0/42] eta: 0:02:21 Loss: 0.0255 (0.0255) Acc@1: 100.0000 (100.0000) Acc@5: 100.0000 (100.0000) Acc@task: 37.5000 (37.5000) time: 3.4607 data: 2.5396 max mem: 1374
+Test: [Task 1] [10/42] eta: 0:00:37 Loss: 0.0547 (0.1747) Acc@1: 100.0000 (96.2121) Acc@5: 100.0000 (100.0000) Acc@task: 45.8333 (45.4545) time: 0.9119 data: 0.2310 max mem: 1374
+Test: [Task 1] [20/42] eta: 0:00:33 Loss: 0.0717 (0.1615) Acc@1: 95.8333 (95.8333) Acc@5: 100.0000 (100.0000) Acc@task: 50.0000 (51.3889) time: 0.6888 data: 0.0002 max mem: 1374
+Test: [Task 1] [30/42] eta: 0:00:32 Loss: 0.0855 (0.1532) Acc@1: 95.8333 (95.8333) Acc@5: 100.0000 (100.0000) Acc@task: 50.0000 (50.4032) time: 0.7256 data: 0.0002 max mem: 1374
+Test: [Task 1] [40/42] eta: 0:00:31 Loss: 0.0775 (0.1476) Acc@1: 95.8333 (95.9350) Acc@5: 100.0000 (100.0000) Acc@task: 50.0000 (50.3049) time: 0.7304 data: 0.0001 max mem: 1374
+Test: [Task 1] [41/42] eta: 0:00:31 Loss: 0.0775 (0.1497) Acc@1: 95.8333 (95.9000) Acc@5: 100.0000 (100.0000) Acc@task: 50.0000 (50.3000) time: 0.7186 data: 0.0001 max mem: 1374
+Test: [Task 1] Total time: 0:00:32 (0.7790 s / it)
+* Acc@task 50.300 Acc@1 95.900 Acc@5 100.000 Loss 0.150
+Task 2 val batches: 42
+Test: [Task 2] [ 0/42] eta: 0:02:29 Loss: 0.1598 (0.1598) Acc@1: 91.6667 (91.6667) Acc@5: 100.0000 (100.0000) Acc@task: 58.3333 (58.3333) time: 3.6581 data: 2.6676 max mem: 1374
+Test: [Task 2] [10/42] eta: 0:00:40 Loss: 0.1598 (0.2847) Acc@1: 91.6667 (93.9394) Acc@5: 100.0000 (99.6212) Acc@task: 58.3333 (57.1970) time: 0.9953 data: 0.2429 max mem: 1374
+Test: [Task 2] [20/42] eta: 0:00:35 Loss: 0.2098 (0.3619) Acc@1: 91.6667 (92.4603) Acc@5: 100.0000 (99.8016) Acc@task: 58.3333 (55.1587) time: 0.7297 data: 0.0002 max mem: 1374
+Test: [Task 2] [30/42] eta: 0:00:33 Loss: 0.3069 (0.3259) Acc@1: 91.6667 (92.7419) Acc@5: 100.0000 (99.5968) Acc@task: 54.1667 (56.4516) time: 0.7301 data: 0.0001 max mem: 1374
+Test: [Task 2] [40/42] eta: 0:00:32 Loss: 0.2795 (0.3483) Acc@1: 91.6667 (92.7846) Acc@5: 100.0000 (99.4919) Acc@task: 58.3333 (56.9106) time: 0.7300 data: 0.0002 max mem: 1374
+Test: [Task 2] [41/42] eta: 0:00:32 Loss: 0.2158 (0.3412) Acc@1: 91.6667 (92.9000) Acc@5: 100.0000 (99.5000) Acc@task: 54.1667 (56.8000) time: 0.7183 data: 0.0002 max mem: 1374
+Test: [Task 2] Total time: 0:00:33 (0.8039 s / it)
+* Acc@task 56.800 Acc@1 92.900 Acc@5 99.500 Loss 0.341
+[Average accuracy till task2]   Acc@task: 53.5500       Acc@1: 94.4000  Acc@5: 99.7500  Loss: 0.2454    Forgetting: 2.3000      Backward: -2.3000       CAA: 96.3000
+--------------------
+--------------------
+Learnable parameters
+e_prompt.prompt
+head.weight
+head.bias
+--------------------
+Model already trained for task 3
+Loading checkpoint from: ./output\checkpoint_hideprompt/task3_checkpoint.pth
+--------------------
+Evaluate task 3 after CA
+Task 1 val batches: 42
+Test: [Task 1] [ 0/42] eta: 0:02:32 Loss: 0.0258 (0.0258) Acc@1: 100.0000 (100.0000) Acc@5: 100.0000 (100.0000) Acc@task: 33.3333 (33.3333) time: 3.7313 data: 2.7453 max mem: 1388
+Test: [Task 1] [10/42] eta: 0:00:41 Loss: 0.1639 (0.3148) Acc@1: 91.6667 (93.1818) Acc@5: 100.0000 (99.2424) Acc@task: 33.3333 (34.4697) time: 1.0027 data: 0.2498 max mem: 1388
+Test: [Task 1] [20/42] eta: 0:00:35 Loss: 0.3333 (0.3541) Acc@1: 91.6667 (92.0635) Acc@5: 100.0000 (99.4048) Acc@task: 37.5000 (39.0873) time: 0.7299 data: 0.0002 max mem: 1388
+Test: [Task 1] [30/42] eta: 0:00:33 Loss: 0.2752 (0.3147) Acc@1: 95.8333 (92.8763) Acc@5: 100.0000 (99.4624) Acc@task: 41.6667 (38.7097) time: 0.7300 data: 0.0003 max mem: 1388
+Test: [Task 1] [40/42] eta: 0:00:32 Loss: 0.2100 (0.3176) Acc@1: 95.8333 (92.6829) Acc@5: 100.0000 (99.4919) Acc@task: 41.6667 (38.9228) time: 0.7301 data: 0.0003 max mem: 1388
+Test: [Task 1] [41/42] eta: 0:00:32 Loss: 0.2752 (0.3171) Acc@1: 91.6667 (92.5000) Acc@5: 100.0000 (99.5000) Acc@task: 41.6667 (38.8000) time: 0.7184 data: 0.0003 max mem: 1388
+Test: [Task 1] Total time: 0:00:33 (0.8051 s / it)
+* Acc@task 38.800 Acc@1 92.500 Acc@5 99.500 Loss 0.317
+Task 2 val batches: 42
+Test: [Task 2] [ 0/42] eta: 0:02:31 Loss: 0.3676 (0.3676) Acc@1: 91.6667 (91.6667) Acc@5: 100.0000 (100.0000) Acc@task: 50.0000 (50.0000) time: 3.6990 data: 2.7074 max mem: 1388
+Test: [Task 2] [10/42] eta: 0:00:40 Loss: 0.3556 (0.3885) Acc@1: 91.6667 (92.8030) Acc@5: 100.0000 (98.8636) Acc@task: 50.0000 (45.4545) time: 0.9993 data: 0.2462 max mem: 1388
+Test: [Task 2] [20/42] eta: 0:00:35 Loss: 0.3995 (0.4520) Acc@1: 91.6667 (91.2698) Acc@5: 100.0000 (99.4048) Acc@task: 41.6667 (42.8571) time: 0.7298 data: 0.0002 max mem: 1388
+Test: [Task 2] [30/42] eta: 0:00:33 Loss: 0.3955 (0.4145) Acc@1: 91.6667 (91.9355) Acc@5: 100.0000 (98.9247) Acc@task: 41.6667 (44.2204) time: 0.7304 data: 0.0004 max mem: 1388
+Test: [Task 2] [40/42] eta: 0:00:32 Loss: 0.3627 (0.4250) Acc@1: 91.6667 (92.1748) Acc@5: 100.0000 (98.8821) Acc@task: 45.8333 (44.3089) time: 0.7305 data: 0.0002 max mem: 1388
+Test: [Task 2] [41/42] eta: 0:00:32 Loss: 0.3627 (0.4159) Acc@1: 91.6667 (92.3000) Acc@5: 100.0000 (98.9000) Acc@task: 41.6667 (44.2000) time: 0.7187 data: 0.0002 max mem: 1388
+Test: [Task 2] Total time: 0:00:33 (0.8044 s / it)
+* Acc@task 44.200 Acc@1 92.300 Acc@5 98.900 Loss 0.416
+Task 3 val batches: 42
+Test: [Task 3] [ 0/42] eta: 0:02:32 Loss: 0.6888 (0.6888) Acc@1: 83.3333 (83.3333) Acc@5: 100.0000 (100.0000) Acc@task: 16.6667 (16.6667) time: 3.7204 data: 2.7353 max mem: 1388
+Test: [Task 3] [10/42] eta: 0:00:41 Loss: 1.1191 (0.9651) Acc@1: 83.3333 (83.7121) Acc@5: 100.0000 (98.4848) Acc@task: 12.5000 (12.5000) time: 1.0003 data: 0.2489 max mem: 1388
+Test: [Task 3] [20/42] eta: 0:00:35 Loss: 0.6834 (0.7824) Acc@1: 87.5000 (87.1032) Acc@5: 100.0000 (99.0079) Acc@task: 12.5000 (15.0794) time: 0.7294 data: 0.0002 max mem: 1388
+Test: [Task 3] [30/42] eta: 0:00:33 Loss: 0.3547 (0.6961) Acc@1: 91.6667 (88.0376) Acc@5: 100.0000 (98.7903) Acc@task: 12.5000 (14.5161) time: 0.7307 data: 0.0003 max mem: 1388
+Test: [Task 3] [40/42] eta: 0:00:32 Loss: 0.5174 (0.7345) Acc@1: 91.6667 (87.8049) Acc@5: 100.0000 (98.6789) Acc@task: 12.5000 (13.8211) time: 0.7306 data: 0.0004 max mem: 1388
+Test: [Task 3] [41/42] eta: 0:00:32 Loss: 0.4584 (0.7173) Acc@1: 91.6667 (88.0000) Acc@5: 100.0000 (98.7000) Acc@task: 12.5000 (13.9000) time: 0.7189 data: 0.0004 max mem: 1388
+Test: [Task 3] Total time: 0:00:33 (0.8051 s / it)
+* Acc@task 13.900 Acc@1 88.000 Acc@5 98.700 Loss 0.717
+[Average accuracy till task3]   Acc@task: 32.3000       Acc@1: 90.9333  Acc@5: 99.0333  Loss: 0.4834    Forgetting: 3.1500      Backward: -3.1500       CAA: 94.5111
+--------------------
+--------------------
+Learnable parameters
+e_prompt.prompt
+head.weight
+head.bias
+--------------------
+Model already trained for task 4
+Loading checkpoint from: ./output\checkpoint_hideprompt/task4_checkpoint.pth
+--------------------
+Evaluate task 4 after CA
+Task 1 val batches: 42
+Test: [Task 1] [ 0/42] eta: 0:02:35 Loss: 0.0630 (0.0630) Acc@1: 100.0000 (100.0000) Acc@5: 100.0000 (100.0000) Acc@task: 20.8333 (20.8333) time: 3.7884 data: 2.8635 max mem: 1388
+Test: [Task 1] [10/42] eta: 0:00:40 Loss: 0.5014 (0.5162) Acc@1: 91.6667 (88.2576) Acc@5: 100.0000 (98.8636) Acc@task: 29.1667 (25.0000) time: 0.9858 data: 0.2605 max mem: 1388
+Test: [Task 1] [20/42] eta: 0:00:35 Loss: 0.4556 (0.5293) Acc@1: 87.5000 (87.5000) Acc@5: 100.0000 (99.2063) Acc@task: 29.1667 (29.5635) time: 0.7180 data: 0.0002 max mem: 1388
+Test: [Task 1] [30/42] eta: 0:00:33 Loss: 0.4004 (0.4826) Acc@1: 87.5000 (88.0376) Acc@5: 100.0000 (99.3280) Acc@task: 33.3333 (29.5699) time: 0.7306 data: 0.0002 max mem: 1388
+Test: [Task 1] [40/42] eta: 0:00:32 Loss: 0.4003 (0.4804) Acc@1: 91.6667 (88.1098) Acc@5: 100.0000 (99.3902) Acc@task: 29.1667 (29.6748) time: 0.7306 data: 0.0003 max mem: 1388
+Test: [Task 1] [41/42] eta: 0:00:32 Loss: 0.4003 (0.4806) Acc@1: 91.6667 (88.0000) Acc@5: 100.0000 (99.4000) Acc@task: 29.1667 (29.4000) time: 0.7189 data: 0.0003 max mem: 1388
+Test: [Task 1] Total time: 0:00:33 (0.8017 s / it)
+* Acc@task 29.400 Acc@1 88.000 Acc@5 99.400 Loss 0.481
+Task 2 val batches: 42
+Test: [Task 2] [ 0/42] eta: 0:02:38 Loss: 0.4732 (0.4732) Acc@1: 87.5000 (87.5000) Acc@5: 100.0000 (100.0000) Acc@task: 33.3333 (33.3333) time: 3.8716 data: 2.8892 max mem: 1388
+Test: [Task 2] [10/42] eta: 0:00:39 Loss: 0.4732 (0.5004) Acc@1: 91.6667 (90.9091) Acc@5: 100.0000 (98.8636) Acc@task: 37.5000 (37.8788) time: 0.9709 data: 0.2628 max mem: 1388
+Test: [Task 2] [20/42] eta: 0:00:34 Loss: 0.4398 (0.5207) Acc@1: 91.6667 (90.4762) Acc@5: 100.0000 (99.0079) Acc@task: 33.3333 (34.5238) time: 0.6926 data: 0.0002 max mem: 1388
+Test: [Task 2] [30/42] eta: 0:00:33 Loss: 0.4296 (0.4799) Acc@1: 91.6667 (91.5323) Acc@5: 100.0000 (98.5215) Acc@task: 33.3333 (35.4839) time: 0.7174 data: 0.0002 max mem: 1388
+Test: [Task 2] [40/42] eta: 0:00:32 Loss: 0.3595 (0.4705) Acc@1: 91.6667 (91.8699) Acc@5: 100.0000 (98.5772) Acc@task: 33.3333 (35.1626) time: 0.7305 data: 0.0002 max mem: 1388
+Test: [Task 2] [41/42] eta: 0:00:32 Loss: 0.3481 (0.4661) Acc@1: 91.6667 (91.9000) Acc@5: 100.0000 (98.6000) Acc@task: 33.3333 (35.2000) time: 0.7188 data: 0.0002 max mem: 1388
+Test: [Task 2] Total time: 0:00:33 (0.7931 s / it)
+* Acc@task 35.200 Acc@1 91.900 Acc@5 98.600 Loss 0.466
+Task 3 val batches: 42
+Test: [Task 3] [ 0/42] eta: 0:02:51 Loss: 0.6735 (0.6735) Acc@1: 79.1667 (79.1667) Acc@5: 100.0000 (100.0000) Acc@task: 12.5000 (12.5000) time: 4.1870 data: 3.2843 max mem: 1388
+Test: [Task 3] [10/42] eta: 0:00:40 Loss: 0.8580 (0.9510) Acc@1: 87.5000 (84.4697) Acc@5: 100.0000 (98.1061) Acc@task: 8.3333 (7.9545) time: 0.9878 data: 0.2989 max mem: 1388
+Test: [Task 3] [20/42] eta: 0:00:35 Loss: 0.7475 (0.7594) Acc@1: 87.5000 (87.1032) Acc@5: 100.0000 (98.6111) Acc@task: 4.1667 (8.5317) time: 0.6995 data: 0.0004 max mem: 1388
+Test: [Task 3] [30/42] eta: 0:00:33 Loss: 0.3198 (0.6716) Acc@1: 87.5000 (87.7688) Acc@5: 100.0000 (98.5215) Acc@task: 8.3333 (8.3333) time: 0.7285 data: 0.0004 max mem: 1388
+Test: [Task 3] [40/42] eta: 0:00:32 Loss: 0.4705 (0.7169) Acc@1: 87.5000 (87.3984) Acc@5: 100.0000 (98.3740) Acc@task: 8.3333 (8.1301) time: 0.7281 data: 0.0002 max mem: 1388
+Test: [Task 3] [41/42] eta: 0:00:32 Loss: 0.3854 (0.7039) Acc@1: 87.5000 (87.5000) Acc@5: 100.0000 (98.4000) Acc@task: 8.3333 (8.2000) time: 0.7164 data: 0.0002 max mem: 1388
+Test: [Task 3] Total time: 0:00:33 (0.8009 s / it)
+* Acc@task 8.200 Acc@1 87.500 Acc@5 98.400 Loss 0.704
+Task 4 val batches: 42
+Test: [Task 4] [ 0/42] eta: 0:02:38 Loss: 1.1842 (1.1842) Acc@1: 83.3333 (83.3333) Acc@5: 95.8333 (95.8333) Acc@task: 16.6667 (16.6667) time: 3.8600 data: 2.8698 max mem: 1388
+Test: [Task 4] [10/42] eta: 0:00:39 Loss: 1.2654 (1.2450) Acc@1: 87.5000 (85.9849) Acc@5: 95.8333 (97.3485) Acc@task: 20.8333 (19.3182) time: 0.9600 data: 0.2610 max mem: 1388
+Test: [Task 4] [20/42] eta: 0:00:34 Loss: 1.0805 (1.2677) Acc@1: 87.5000 (85.1191) Acc@5: 95.8333 (97.2222) Acc@task: 20.8333 (19.4444) time: 0.6906 data: 0.0001 max mem: 1388
+Test: [Task 4] [30/42] eta: 0:00:32 Loss: 1.0805 (1.1923) Acc@1: 83.3333 (85.0806) Acc@5: 95.8333 (97.4462) Acc@task: 20.8333 (20.6989) time: 0.7164 data: 0.0001 max mem: 1388
+Test: [Task 4] [40/42] eta: 0:00:31 Loss: 1.2609 (1.2523) Acc@1: 83.3333 (84.9594) Acc@5: 95.8333 (97.0528) Acc@task: 20.8333 (21.7480) time: 0.7149 data: 0.0003 max mem: 1388
+Test: [Task 4] [41/42] eta: 0:00:31 Loss: 1.1824 (1.2227) Acc@1: 83.3333 (85.2000) Acc@5: 95.8333 (97.1000) Acc@task: 20.8333 (21.6000) time: 0.7020 data: 0.0003 max mem: 1388
+Test: [Task 4] Total time: 0:00:32 (0.7829 s / it)
+* Acc@task 21.600 Acc@1 85.200 Acc@5 97.100 Loss 1.223
+[Average accuracy till task4]   Acc@task: 23.6000       Acc@1: 88.1500  Acc@5: 98.3750  Loss: 0.7183    Forgetting: 3.9000      Backward: -3.9000       CAA: 92.9208
+--------------------
+--------------------
+Learnable parameters
+e_prompt.prompt
+head.weight
+head.bias
+--------------------
+Model already trained for task 5
+Loading checkpoint from: ./output\checkpoint_hideprompt/task5_checkpoint.pth
+--------------------
+Evaluate task 5 after CA
+Task 1 val batches: 42
+Test: [Task 1] [ 0/42] eta: 0:02:51 Loss: 0.2213 (0.2213) Acc@1: 95.8333 (95.8333) Acc@5: 100.0000 (100.0000) Acc@task: 16.6667 (16.6667) time: 4.1811 data: 3.1908 max mem: 1388
+Test: [Task 1] [10/42] eta: 0:00:40 Loss: 0.5895 (0.6250) Acc@1: 91.6667 (85.9849) Acc@5: 100.0000 (98.4848) Acc@task: 16.6667 (19.3182) time: 0.9780 data: 0.2903 max mem: 1388
+Test: [Task 1] [20/42] eta: 0:00:34 Loss: 0.6597 (0.6685) Acc@1: 83.3333 (86.1111) Acc@5: 100.0000 (98.2143) Acc@task: 25.0000 (23.2143) time: 0.6768 data: 0.0003 max mem: 1388
+Test: [Task 1] [30/42] eta: 0:00:32 Loss: 0.5667 (0.6646) Acc@1: 87.5000 (85.6183) Acc@5: 100.0000 (98.3871) Acc@task: 20.8333 (21.6398) time: 0.6974 data: 0.0004 max mem: 1388
+Test: [Task 1] [40/42] eta: 0:00:31 Loss: 0.5456 (0.6562) Acc@1: 87.5000 (85.4675) Acc@5: 100.0000 (98.6789) Acc@task: 16.6667 (21.2398) time: 0.7106 data: 0.0004 max mem: 1388
+Test: [Task 1] [41/42] eta: 0:00:31 Loss: 0.5385 (0.6534) Acc@1: 87.5000 (85.4000) Acc@5: 100.0000 (98.7000) Acc@task: 16.6667 (21.0000) time: 0.7003 data: 0.0003 max mem: 1388
+Test: [Task 1] Total time: 0:00:32 (0.7819 s / it)
+* Acc@task 21.000 Acc@1 85.400 Acc@5 98.700 Loss 0.653
+Task 2 val batches: 42
+Test: [Task 2] [ 0/42] eta: 0:02:35 Loss: 0.3972 (0.3972) Acc@1: 79.1667 (79.1667) Acc@5: 95.8333 (95.8333) Acc@task: 20.8333 (20.8333) time: 3.7981 data: 2.8817 max mem: 1388
+Test: [Task 2] [10/42] eta: 0:00:38 Loss: 0.3972 (0.5374) Acc@1: 91.6667 (89.3939) Acc@5: 100.0000 (98.1061) Acc@task: 33.3333 (28.0303) time: 0.9439 data: 0.2624 max mem: 1388
+Test: [Task 2] [20/42] eta: 0:00:33 Loss: 0.4792 (0.5931) Acc@1: 87.5000 (87.6984) Acc@5: 100.0000 (98.8095) Acc@task: 29.1667 (27.1825) time: 0.6713 data: 0.0004 max mem: 1388
+Test: [Task 2] [30/42] eta: 0:00:32 Loss: 0.5548 (0.5631) Acc@1: 87.5000 (88.9785) Acc@5: 100.0000 (98.3871) Acc@task: 25.0000 (27.4194) time: 0.6938 data: 0.0002 max mem: 1388
+Test: [Task 2] [40/42] eta: 0:00:31 Loss: 0.4543 (0.5397) Acc@1: 91.6667 (89.4309) Acc@5: 100.0000 (98.5772) Acc@task: 25.0000 (27.3374) time: 0.6985 data: 0.0002 max mem: 1388
+Test: [Task 2] [41/42] eta: 0:00:30 Loss: 0.4543 (0.5404) Acc@1: 91.6667 (89.5000) Acc@5: 100.0000 (98.6000) Acc@task: 25.0000 (27.4000) time: 0.6882 data: 0.0002 max mem: 1388
+Test: [Task 2] Total time: 0:00:32 (0.7639 s / it)
+* Acc@task 27.400 Acc@1 89.500 Acc@5 98.600 Loss 0.540
+Task 3 val batches: 42
+Test: [Task 3] [ 0/42] eta: 0:02:38 Loss: 0.8030 (0.8030) Acc@1: 83.3333 (83.3333) Acc@5: 95.8333 (95.8333) Acc@task: 8.3333 (8.3333) time: 3.8771 data: 2.8968 max mem: 1388
+Test: [Task 3] [10/42] eta: 0:00:38 Loss: 0.8841 (0.9702) Acc@1: 83.3333 (84.4697) Acc@5: 95.8333 (96.9697) Acc@task: 8.3333 (5.6818) time: 0.9506 data: 0.2637 max mem: 1388
+Test: [Task 3] [20/42] eta: 0:00:33 Loss: 0.7148 (0.7354) Acc@1: 87.5000 (86.9048) Acc@5: 100.0000 (98.0159) Acc@task: 4.1667 (6.5476) time: 0.6702 data: 0.0004 max mem: 1388
+Test: [Task 3] [30/42] eta: 0:00:31 Loss: 0.4939 (0.7178) Acc@1: 87.5000 (87.5000) Acc@5: 100.0000 (97.9839) Acc@task: 4.1667 (6.1828) time: 0.6857 data: 0.0004 max mem: 1388
+Test: [Task 3] [40/42] eta: 0:00:31 Loss: 0.6802 (0.7330) Acc@1: 87.5000 (87.3984) Acc@5: 100.0000 (98.0691) Acc@task: 4.1667 (6.1992) time: 0.7011 data: 0.0003 max mem: 1388
+Test: [Task 3] [41/42] eta: 0:00:31 Loss: 0.5058 (0.7202) Acc@1: 87.5000 (87.5000) Acc@5: 100.0000 (98.1000) Acc@task: 4.1667 (6.3000) time: 0.6918 data: 0.0003 max mem: 1388
+Test: [Task 3] Total time: 0:00:32 (0.7670 s / it)
+* Acc@task 6.300 Acc@1 87.500 Acc@5 98.100 Loss 0.720
+Task 4 val batches: 42
+Test: [Task 4] [ 0/42] eta: 0:02:38 Loss: 1.6129 (1.6129) Acc@1: 83.3333 (83.3333) Acc@5: 95.8333 (95.8333) Acc@task: 16.6667 (16.6667) time: 3.8732 data: 2.9268 max mem: 1388
+Test: [Task 4] [10/42] eta: 0:00:39 Loss: 1.1757 (1.2120) Acc@1: 87.5000 (85.9849) Acc@5: 95.8333 (96.9697) Acc@task: 12.5000 (14.7727) time: 0.9545 data: 0.2661 max mem: 1388
+Test: [Task 4] [20/42] eta: 0:00:34 Loss: 1.1262 (1.2177) Acc@1: 87.5000 (85.5159) Acc@5: 95.8333 (96.6270) Acc@task: 12.5000 (15.6746) time: 0.6781 data: 0.0002 max mem: 1388
+Test: [Task 4] [30/42] eta: 0:00:32 Loss: 0.9300 (1.1078) Acc@1: 91.6667 (86.6936) Acc@5: 95.8333 (96.7742) Acc@task: 16.6667 (16.3978) time: 0.7010 data: 0.0004 max mem: 1388
+Test: [Task 4] [40/42] eta: 0:00:31 Loss: 1.1288 (1.1476) Acc@1: 87.5000 (86.4837) Acc@5: 95.8333 (96.7480) Acc@task: 16.6667 (17.0732) time: 0.7083 data: 0.0003 max mem: 1388
+Test: [Task 4] [41/42] eta: 0:00:31 Loss: 0.9300 (1.1214) Acc@1: 87.5000 (86.7000) Acc@5: 95.8333 (96.8000) Acc@task: 16.6667 (16.9000) time: 0.6971 data: 0.0003 max mem: 1388
+Test: [Task 4] Total time: 0:00:32 (0.7736 s / it)
+* Acc@task 16.900 Acc@1 86.700 Acc@5 96.800 Loss 1.121
+Task 5 val batches: 42
+Test: [Task 5] [ 0/42] eta: 0:02:34 Loss: 0.6893 (0.6893) Acc@1: 95.8333 (95.8333) Acc@5: 100.0000 (100.0000) Acc@task: 25.0000 (25.0000) time: 3.7738 data: 2.8486 max mem: 1388
+Test: [Task 5] [10/42] eta: 0:00:38 Loss: 0.6893 (0.9756) Acc@1: 87.5000 (85.2273) Acc@5: 100.0000 (98.1061) Acc@task: 25.0000 (26.1364) time: 0.9469 data: 0.2592 max mem: 1388
+Test: [Task 5] [20/42] eta: 0:00:33 Loss: 1.0523 (1.1031) Acc@1: 83.3333 (83.9286) Acc@5: 100.0000 (97.6190) Acc@task: 25.0000 (26.9841) time: 0.6721 data: 0.0002 max mem: 1388
+Test: [Task 5] [30/42] eta: 0:00:32 Loss: 0.7244 (0.9682) Acc@1: 87.5000 (84.9462) Acc@5: 100.0000 (97.8495) Acc@task: 25.0000 (25.1344) time: 0.6960 data: 0.0001 max mem: 1388
+Test: [Task 5] [40/42] eta: 0:00:31 Loss: 0.6266 (0.9970) Acc@1: 83.3333 (84.1463) Acc@5: 100.0000 (97.8659) Acc@task: 20.8333 (24.2886) time: 0.7060 data: 0.0002 max mem: 1388
+Test: [Task 5] [41/42] eta: 0:00:31 Loss: 0.8576 (1.0322) Acc@1: 83.3333 (83.8000) Acc@5: 100.0000 (97.7000) Acc@task: 20.8333 (24.1000) time: 0.6954 data: 0.0002 max mem: 1388
+Test: [Task 5] Total time: 0:00:32 (0.7671 s / it)
+* Acc@task 24.100 Acc@1 83.800 Acc@5 97.700 Loss 1.032
+[Average accuracy till task5]   Acc@task: 19.1400       Acc@1: 86.5800  Acc@5: 97.9800  Loss: 0.8135    Forgetting: 4.1750      Backward: -3.8000       CAA: 91.6527
+--------------------
+--------------------
+Learnable parameters
+e_prompt.prompt
+head.weight
+head.bias
+--------------------
+Model already trained for task 6
+Loading checkpoint from: ./output\checkpoint_hideprompt/task6_checkpoint.pth
+--------------------
+Evaluate task 6 after CA
+Task 1 val batches: 42
+Test: [Task 1] [ 0/42] eta: 0:02:34 Loss: 0.6731 (0.6731) Acc@1: 91.6667 (91.6667) Acc@5: 100.0000 (100.0000) Acc@task: 16.6667 (16.6667) time: 3.7740 data: 2.8886 max mem: 1388
+Test: [Task 1] [10/42] eta: 0:00:38 Loss: 0.6731 (0.7719) Acc@1: 83.3333 (81.8182) Acc@5: 100.0000 (98.1061) Acc@task: 16.6667 (18.5606) time: 0.9399 data: 0.2631 max mem: 1388
+Test: [Task 1] [20/42] eta: 0:00:33 Loss: 0.7488 (0.8003) Acc@1: 83.3333 (82.7381) Acc@5: 100.0000 (97.8175) Acc@task: 20.8333 (22.4206) time: 0.6747 data: 0.0005 max mem: 1388
+Test: [Task 1] [30/42] eta: 0:00:31 Loss: 0.7029 (0.7997) Acc@1: 83.3333 (82.5269) Acc@5: 100.0000 (98.1183) Acc@task: 20.8333 (20.8333) time: 0.6878 data: 0.0002 max mem: 1388
+Test: [Task 1] [40/42] eta: 0:00:31 Loss: 0.6798 (0.7880) Acc@1: 83.3333 (82.5203) Acc@5: 100.0000 (98.4756) Acc@task: 16.6667 (20.4268) time: 0.6962 data: 0.0001 max mem: 1388
+Test: [Task 1] [41/42] eta: 0:00:30 Loss: 0.6602 (0.7820) Acc@1: 83.3333 (82.5000) Acc@5: 100.0000 (98.5000) Acc@task: 16.6667 (20.2000) time: 0.6868 data: 0.0001 max mem: 1388
+Test: [Task 1] Total time: 0:00:32 (0.7642 s / it)
+* Acc@task 20.200 Acc@1 82.500 Acc@5 98.500 Loss 0.782
+Task 2 val batches: 42
+Test: [Task 2] [ 0/42] eta: 0:02:37 Loss: 0.3658 (0.3658) Acc@1: 87.5000 (87.5000) Acc@5: 95.8333 (95.8333) Acc@task: 16.6667 (16.6667) time: 3.8307 data: 2.8508 max mem: 1388
+Test: [Task 2] [10/42] eta: 0:00:38 Loss: 0.4500 (0.5282) Acc@1: 87.5000 (88.6364) Acc@5: 100.0000 (98.1061) Acc@task: 25.0000 (25.3788) time: 0.9511 data: 0.2593 max mem: 1388
+Test: [Task 2] [20/42] eta: 0:00:34 Loss: 0.4552 (0.5900) Acc@1: 87.5000 (86.5079) Acc@5: 100.0000 (98.8095) Acc@task: 25.0000 (24.0079) time: 0.6813 data: 0.0002 max mem: 1388
+Test: [Task 2] [30/42] eta: 0:00:32 Loss: 0.6430 (0.5843) Acc@1: 87.5000 (87.3656) Acc@5: 100.0000 (98.3871) Acc@task: 25.0000 (23.7903) time: 0.7032 data: 0.0002 max mem: 1388
+Test: [Task 2] [40/42] eta: 0:00:31 Loss: 0.4816 (0.5601) Acc@1: 91.6667 (88.0081) Acc@5: 100.0000 (98.5772) Acc@task: 25.0000 (23.2724) time: 0.7037 data: 0.0000 max mem: 1388
+Test: [Task 2] [41/42] eta: 0:00:31 Loss: 0.4816 (0.5603) Acc@1: 91.6667 (88.1000) Acc@5: 100.0000 (98.6000) Acc@task: 25.0000 (23.4000) time: 0.6920 data: 0.0000 max mem: 1388
+Test: [Task 2] Total time: 0:00:32 (0.7718 s / it)
+* Acc@task 23.400 Acc@1 88.100 Acc@5 98.600 Loss 0.560
+Task 3 val batches: 42
+Test: [Task 3] [ 0/42] eta: 0:02:36 Loss: 1.2667 (1.2667) Acc@1: 83.3333 (83.3333) Acc@5: 95.8333 (95.8333) Acc@task: 8.3333 (8.3333) time: 3.8167 data: 2.8725 max mem: 1388
+Test: [Task 3] [10/42] eta: 0:00:39 Loss: 1.0654 (1.0467) Acc@1: 83.3333 (84.0909) Acc@5: 95.8333 (96.9697) Acc@task: 8.3333 (5.3030) time: 0.9541 data: 0.2611 max mem: 1388
+Test: [Task 3] [20/42] eta: 0:00:33 Loss: 0.6804 (0.8200) Acc@1: 87.5000 (86.7064) Acc@5: 100.0000 (97.8175) Acc@task: 4.1667 (6.3492) time: 0.6759 data: 0.0001 max mem: 1388
+Test: [Task 3] [30/42] eta: 0:00:32 Loss: 0.5195 (0.8067) Acc@1: 87.5000 (86.8280) Acc@5: 100.0000 (97.4462) Acc@task: 4.1667 (5.3763) time: 0.6965 data: 0.0002 max mem: 1388
+Test: [Task 3] [40/42] eta: 0:00:31 Loss: 0.7776 (0.8029) Acc@1: 83.3333 (86.8902) Acc@5: 95.8333 (97.3577) Acc@task: 4.1667 (5.4878) time: 0.7113 data: 0.0001 max mem: 1388
+Test: [Task 3] [41/42] eta: 0:00:31 Loss: 0.6236 (0.7890) Acc@1: 87.5000 (87.0000) Acc@5: 95.8333 (97.4000) Acc@task: 4.1667 (5.6000) time: 0.7009 data: 0.0001 max mem: 1388
+Test: [Task 3] Total time: 0:00:32 (0.7722 s / it)
+* Acc@task 5.600 Acc@1 87.000 Acc@5 97.400 Loss 0.789
+Task 4 val batches: 42
+Test: [Task 4] [ 0/42] eta: 0:02:34 Loss: 1.8242 (1.8242) Acc@1: 70.8333 (70.8333) Acc@5: 95.8333 (95.8333) Acc@task: 16.6667 (16.6667) time: 3.7748 data: 2.8323 max mem: 1388
+Test: [Task 4] [10/42] eta: 0:00:38 Loss: 1.2851 (1.2324) Acc@1: 83.3333 (82.5758) Acc@5: 95.8333 (97.3485) Acc@task: 12.5000 (14.0152) time: 0.9467 data: 0.2578 max mem: 1388
+Test: [Task 4] [20/42] eta: 0:00:33 Loss: 0.9735 (1.2391) Acc@1: 83.3333 (83.9286) Acc@5: 95.8333 (96.8254) Acc@task: 12.5000 (15.2778) time: 0.6791 data: 0.0002 max mem: 1388
+Test: [Task 4] [30/42] eta: 0:00:32 Loss: 0.9268 (1.1209) Acc@1: 87.5000 (85.8871) Acc@5: 95.8333 (96.6398) Acc@task: 16.6667 (15.7258) time: 0.7020 data: 0.0002 max mem: 1388
+Test: [Task 4] [40/42] eta: 0:00:31 Loss: 1.0180 (1.1489) Acc@1: 87.5000 (85.5691) Acc@5: 95.8333 (96.5447) Acc@task: 16.6667 (16.1585) time: 0.7085 data: 0.0003 max mem: 1388
+Test: [Task 4] [41/42] eta: 0:00:31 Loss: 0.8199 (1.1230) Acc@1: 87.5000 (85.8000) Acc@5: 95.8333 (96.6000) Acc@task: 16.6667 (16.0000) time: 0.6991 data: 0.0003 max mem: 1388
+Test: [Task 4] Total time: 0:00:32 (0.7725 s / it)
+* Acc@task 16.000 Acc@1 85.800 Acc@5 96.600 Loss 1.123
+Task 5 val batches: 42
+Test: [Task 5] [ 0/42] eta: 0:02:33 Loss: 1.0118 (1.0118) Acc@1: 87.5000 (87.5000) Acc@5: 100.0000 (100.0000) Acc@task: 20.8333 (20.8333) time: 3.7345 data: 2.8464 max mem: 1388
+Test: [Task 5] [10/42] eta: 0:00:38 Loss: 0.9909 (0.9933) Acc@1: 87.5000 (84.8485) Acc@5: 100.0000 (98.1061) Acc@task: 20.8333 (25.0000) time: 0.9410 data: 0.2588 max mem: 1388
+Test: [Task 5] [20/42] eta: 0:00:33 Loss: 0.9909 (1.1491) Acc@1: 83.3333 (83.3333) Acc@5: 100.0000 (97.6190) Acc@task: 25.0000 (25.7937) time: 0.6745 data: 0.0001 max mem: 1388
+Test: [Task 5] [30/42] eta: 0:00:32 Loss: 0.8449 (1.0455) Acc@1: 83.3333 (84.1398) Acc@5: 95.8333 (97.7151) Acc@task: 20.8333 (23.9247) time: 0.7011 data: 0.0002 max mem: 1388
+Test: [Task 5] [40/42] eta: 0:00:31 Loss: 0.8032 (1.0693) Acc@1: 83.3333 (83.4350) Acc@5: 95.8333 (97.4594) Acc@task: 20.8333 (23.0691) time: 0.7152 data: 0.0002 max mem: 1388
+Test: [Task 5] [41/42] eta: 0:00:31 Loss: 0.8335 (1.0923) Acc@1: 83.3333 (83.3000) Acc@5: 95.8333 (97.3000) Acc@task: 20.8333 (22.9000) time: 0.7056 data: 0.0002 max mem: 1388
+Test: [Task 5] Total time: 0:00:32 (0.7717 s / it)
+* Acc@task 22.900 Acc@1 83.300 Acc@5 97.300 Loss 1.092
+Task 6 val batches: 42
+Test: [Task 6] [ 0/42] eta: 0:02:37 Loss: 0.7734 (0.7734) Acc@1: 87.5000 (87.5000) Acc@5: 95.8333 (95.8333) Acc@task: 0.0000 (0.0000) time: 3.8356 data: 2.8494 max mem: 1388
+Test: [Task 6] [10/42] eta: 0:00:38 Loss: 0.9483 (1.0292) Acc@1: 83.3333 (82.9545) Acc@5: 100.0000 (97.3485) Acc@task: 4.1667 (4.5455) time: 0.9440 data: 0.2593 max mem: 1388
+Test: [Task 6] [20/42] eta: 0:00:33 Loss: 1.4025 (1.2135) Acc@1: 79.1667 (81.5476) Acc@5: 100.0000 (97.6190) Acc@task: 4.1667 (4.3651) time: 0.6765 data: 0.0001 max mem: 1388
+Test: [Task 6] [30/42] eta: 0:00:32 Loss: 1.4720 (1.2284) Acc@1: 79.1667 (80.3763) Acc@5: 100.0000 (97.5806) Acc@task: 4.1667 (4.5699) time: 0.6934 data: 0.0002 max mem: 1388
+Test: [Task 6] [40/42] eta: 0:00:31 Loss: 1.2430 (1.2280) Acc@1: 79.1667 (80.0813) Acc@5: 100.0000 (97.7642) Acc@task: 4.1667 (4.5732) time: 0.7015 data: 0.0002 max mem: 1388
+Test: [Task 6] [41/42] eta: 0:00:31 Loss: 1.2125 (1.2134) Acc@1: 79.1667 (80.1000) Acc@5: 100.0000 (97.8000) Acc@task: 4.1667 (4.5000) time: 0.6910 data: 0.0002 max mem: 1388
+Test: [Task 6] Total time: 0:00:32 (0.7686 s / it)
+* Acc@task 4.500 Acc@1 80.100 Acc@5 97.800 Loss 1.213
+[Average accuracy till task6]   Acc@task: 15.4333       Acc@1: 84.4667  Acc@5: 97.7000  Loss: 0.9267    Forgetting: 4.5800      Backward: -4.2800       CAA: 90.4550
+--------------------
+--------------------
+Learnable parameters
+e_prompt.prompt
+head.weight
+head.bias
+--------------------
+Model already trained for task 7
+Loading checkpoint from: ./output\checkpoint_hideprompt/task7_checkpoint.pth
+--------------------
+Evaluate task 7 after CA
+Task 1 val batches: 42
+Test: [Task 1] [ 0/42] eta: 0:02:36 Loss: 0.7997 (0.7997) Acc@1: 79.1667 (79.1667) Acc@5: 100.0000 (100.0000) Acc@task: 12.5000 (12.5000) time: 3.8160 data: 2.8633 max mem: 1388
+Test: [Task 1] [10/42] eta: 0:00:38 Loss: 0.7997 (0.8712) Acc@1: 79.1667 (81.0606) Acc@5: 95.8333 (97.3485) Acc@task: 16.6667 (17.8030) time: 0.9410 data: 0.2606 max mem: 1388
+Test: [Task 1] [20/42] eta: 0:00:33 Loss: 0.8890 (0.9080) Acc@1: 79.1667 (81.3492) Acc@5: 95.8333 (97.2222) Acc@task: 20.8333 (20.8333) time: 0.6756 data: 0.0002 max mem: 1388
+Test: [Task 1] [30/42] eta: 0:00:32 Loss: 0.7827 (0.8898) Acc@1: 83.3333 (81.5860) Acc@5: 95.8333 (97.4462) Acc@task: 20.8333 (19.3548) time: 0.7014 data: 0.0003 max mem: 1388
+Test: [Task 1] [40/42] eta: 0:00:31 Loss: 0.7385 (0.8685) Acc@1: 83.3333 (81.8089) Acc@5: 100.0000 (97.8659) Acc@task: 16.6667 (19.0041) time: 0.7085 data: 0.0003 max mem: 1388
+Test: [Task 1] [41/42] eta: 0:00:31 Loss: 0.7385 (0.8636) Acc@1: 83.3333 (81.7000) Acc@5: 100.0000 (97.9000) Acc@task: 16.6667 (18.8000) time: 0.6963 data: 0.0003 max mem: 1388
+Test: [Task 1] Total time: 0:00:32 (0.7713 s / it)
+* Acc@task 18.800 Acc@1 81.700 Acc@5 97.900 Loss 0.864
+Task 2 val batches: 42
+Test: [Task 2] [ 0/42] eta: 0:02:36 Loss: 0.3864 (0.3864) Acc@1: 87.5000 (87.5000) Acc@5: 95.8333 (95.8333) Acc@task: 16.6667 (16.6667) time: 3.8101 data: 2.8526 max mem: 1388
+Test: [Task 2] [10/42] eta: 0:00:38 Loss: 0.5156 (0.5930) Acc@1: 87.5000 (86.3636) Acc@5: 100.0000 (98.4848) Acc@task: 25.0000 (24.6212) time: 0.9510 data: 0.2596 max mem: 1388
+Test: [Task 2] [20/42] eta: 0:00:34 Loss: 0.6725 (0.6571) Acc@1: 79.1667 (84.5238) Acc@5: 100.0000 (99.0079) Acc@task: 25.0000 (23.0159) time: 0.6832 data: 0.0002 max mem: 1388
+Test: [Task 2] [30/42] eta: 0:00:32 Loss: 0.6511 (0.6483) Acc@1: 83.3333 (85.6183) Acc@5: 100.0000 (98.5215) Acc@task: 25.0000 (22.8495) time: 0.7072 data: 0.0001 max mem: 1388
+Test: [Task 2] [40/42] eta: 0:00:31 Loss: 0.4565 (0.6253) Acc@1: 87.5000 (86.1789) Acc@5: 100.0000 (98.4756) Acc@task: 20.8333 (22.3577) time: 0.7043 data: 0.0002 max mem: 1388
+Test: [Task 2] [41/42] eta: 0:00:31 Loss: 0.4565 (0.6228) Acc@1: 91.6667 (86.3000) Acc@5: 100.0000 (98.5000) Acc@task: 20.8333 (22.5000) time: 0.6943 data: 0.0002 max mem: 1388
+Test: [Task 2] Total time: 0:00:32 (0.7726 s / it)
+* Acc@task 22.500 Acc@1 86.300 Acc@5 98.500 Loss 0.623
+Task 3 val batches: 42
+Test: [Task 3] [ 0/42] eta: 0:02:33 Loss: 1.3505 (1.3505) Acc@1: 79.1667 (79.1667) Acc@5: 95.8333 (95.8333) Acc@task: 8.3333 (8.3333) time: 3.7557 data: 2.8418 max mem: 1388
+Test: [Task 3] [10/42] eta: 0:00:38 Loss: 1.2688 (1.0572) Acc@1: 83.3333 (82.5758) Acc@5: 95.8333 (96.5909) Acc@task: 4.1667 (4.9242) time: 0.9406 data: 0.2586 max mem: 1388
+Test: [Task 3] [20/42] eta: 0:00:33 Loss: 0.6867 (0.8520) Acc@1: 87.5000 (85.7143) Acc@5: 100.0000 (97.6190) Acc@task: 4.1667 (5.5556) time: 0.6743 data: 0.0003 max mem: 1388
+Test: [Task 3] [30/42] eta: 0:00:32 Loss: 0.6844 (0.8609) Acc@1: 87.5000 (85.8871) Acc@5: 100.0000 (97.4462) Acc@task: 0.0000 (4.5699) time: 0.6961 data: 0.0002 max mem: 1388
+Test: [Task 3] [40/42] eta: 0:00:31 Loss: 0.7970 (0.8625) Acc@1: 83.3333 (85.8740) Acc@5: 95.8333 (97.3577) Acc@task: 4.1667 (4.6748) time: 0.7028 data: 0.0003 max mem: 1388
+Test: [Task 3] [41/42] eta: 0:00:31 Loss: 0.6946 (0.8528) Acc@1: 83.3333 (85.9000) Acc@5: 95.8333 (97.4000) Acc@task: 4.1667 (4.8000) time: 0.6905 data: 0.0003 max mem: 1388
+Test: [Task 3] Total time: 0:00:32 (0.7661 s / it)
+* Acc@task 4.800 Acc@1 85.900 Acc@5 97.400 Loss 0.853
+Task 4 val batches: 42
+Test: [Task 4] [ 0/42] eta: 0:02:41 Loss: 1.7910 (1.7910) Acc@1: 75.0000 (75.0000) Acc@5: 91.6667 (91.6667) Acc@task: 12.5000 (12.5000) time: 3.9462 data: 2.9657 max mem: 1388
+Test: [Task 4] [10/42] eta: 0:00:39 Loss: 1.3084 (1.2639) Acc@1: 83.3333 (83.7121) Acc@5: 95.8333 (95.8333) Acc@task: 8.3333 (12.5000) time: 0.9604 data: 0.2698 max mem: 1388
+Test: [Task 4] [20/42] eta: 0:00:34 Loss: 1.1440 (1.2942) Acc@1: 83.3333 (84.5238) Acc@5: 95.8333 (96.0317) Acc@task: 8.3333 (13.4921) time: 0.6801 data: 0.0002 max mem: 1388
+Test: [Task 4] [30/42] eta: 0:00:32 Loss: 0.9674 (1.1698) Acc@1: 87.5000 (86.2903) Acc@5: 95.8333 (96.1022) Acc@task: 12.5000 (14.1129) time: 0.6991 data: 0.0001 max mem: 1388
+Test: [Task 4] [40/42] eta: 0:00:31 Loss: 0.9674 (1.1979) Acc@1: 87.5000 (85.2642) Acc@5: 95.8333 (96.1382) Acc@task: 12.5000 (14.3293) time: 0.6998 data: 0.0001 max mem: 1388
+Test: [Task 4] [41/42] eta: 0:00:31 Loss: 0.8414 (1.1737) Acc@1: 87.5000 (85.3000) Acc@5: 95.8333 (96.2000) Acc@task: 12.5000 (14.2000) time: 0.6889 data: 0.0001 max mem: 1388
+Test: [Task 4] Total time: 0:00:32 (0.7723 s / it)
+* Acc@task 14.200 Acc@1 85.300 Acc@5 96.200 Loss 1.174
+Task 5 val batches: 42
+Test: [Task 5] [ 0/42] eta: 0:02:38 Loss: 1.0725 (1.0725) Acc@1: 91.6667 (91.6667) Acc@5: 100.0000 (100.0000) Acc@task: 20.8333 (20.8333) time: 3.8650 data: 2.8768 max mem: 1388
+Test: [Task 5] [10/42] eta: 0:00:38 Loss: 1.0725 (0.9371) Acc@1: 83.3333 (85.9849) Acc@5: 100.0000 (97.7273) Acc@task: 20.8333 (22.7273) time: 0.9483 data: 0.2616 max mem: 1388
+Test: [Task 5] [20/42] eta: 0:00:34 Loss: 1.0889 (1.1337) Acc@1: 83.3333 (83.5317) Acc@5: 95.8333 (97.2222) Acc@task: 20.8333 (24.2064) time: 0.6781 data: 0.0003 max mem: 1388
+Test: [Task 5] [30/42] eta: 0:00:32 Loss: 0.8839 (1.0324) Acc@1: 83.3333 (84.5430) Acc@5: 95.8333 (97.3118) Acc@task: 20.8333 (22.5806) time: 0.6978 data: 0.0004 max mem: 1388
+Test: [Task 5] [40/42] eta: 0:00:31 Loss: 0.8613 (1.0846) Acc@1: 83.3333 (83.7398) Acc@5: 95.8333 (97.2561) Acc@task: 16.6667 (21.7480) time: 0.6994 data: 0.0004 max mem: 1388
+Test: [Task 5] [41/42] eta: 0:00:31 Loss: 0.9015 (1.1091) Acc@1: 83.3333 (83.6000) Acc@5: 95.8333 (97.1000) Acc@task: 16.6667 (21.6000) time: 0.6905 data: 0.0004 max mem: 1388
+Test: [Task 5] Total time: 0:00:32 (0.7693 s / it)
+* Acc@task 21.600 Acc@1 83.600 Acc@5 97.100 Loss 1.109
+Task 6 val batches: 42
+Test: [Task 6] [ 0/42] eta: 0:02:35 Loss: 1.0821 (1.0821) Acc@1: 83.3333 (83.3333) Acc@5: 95.8333 (95.8333) Acc@task: 0.0000 (0.0000) time: 3.7900 data: 2.8400 max mem: 1388
+Test: [Task 6] [10/42] eta: 0:00:38 Loss: 1.0821 (1.1950) Acc@1: 83.3333 (79.5455) Acc@5: 95.8333 (97.7273) Acc@task: 4.1667 (4.5455) time: 0.9430 data: 0.2583 max mem: 1388
+Test: [Task 6] [20/42] eta: 0:00:33 Loss: 1.6824 (1.4297) Acc@1: 75.0000 (79.1667) Acc@5: 95.8333 (97.6190) Acc@task: 4.1667 (4.3651) time: 0.6760 data: 0.0001 max mem: 1388
+Test: [Task 6] [30/42] eta: 0:00:32 Loss: 1.6824 (1.4282) Acc@1: 75.0000 (77.8226) Acc@5: 95.8333 (97.3118) Acc@task: 4.1667 (4.5699) time: 0.6922 data: 0.0001 max mem: 1388
+Test: [Task 6] [40/42] eta: 0:00:31 Loss: 1.4603 (1.4578) Acc@1: 75.0000 (77.6423) Acc@5: 95.8333 (97.3577) Acc@task: 4.1667 (4.4715) time: 0.7018 data: 0.0002 max mem: 1388
+Test: [Task 6] [41/42] eta: 0:00:31 Loss: 1.3566 (1.4450) Acc@1: 75.0000 (77.6000) Acc@5: 95.8333 (97.3000) Acc@task: 4.1667 (4.4000) time: 0.6922 data: 0.0002 max mem: 1388
+Test: [Task 6] Total time: 0:00:32 (0.7680 s / it)
+* Acc@task 4.400 Acc@1 77.600 Acc@5 97.300 Loss 1.445
+Task 7 val batches: 42
+Test: [Task 7] [ 0/42] eta: 0:02:38 Loss: 0.2399 (0.2399) Acc@1: 95.8333 (95.8333) Acc@5: 100.0000 (100.0000) Acc@task: 8.3333 (8.3333) time: 3.8649 data: 2.8772 max mem: 1388
+Test: [Task 7] [10/42] eta: 0:00:39 Loss: 0.6036 (0.7005) Acc@1: 87.5000 (86.7424) Acc@5: 100.0000 (97.7273) Acc@task: 8.3333 (10.9848) time: 0.9547 data: 0.2618 max mem: 1388
+Test: [Task 7] [20/42] eta: 0:00:33 Loss: 0.7336 (0.8698) Acc@1: 87.5000 (84.5238) Acc@5: 100.0000 (98.4127) Acc@task: 8.3333 (9.3254) time: 0.6750 data: 0.0003 max mem: 1388
+Test: [Task 7] [30/42] eta: 0:00:32 Loss: 0.8713 (0.9320) Acc@1: 83.3333 (85.0806) Acc@5: 100.0000 (97.3118) Acc@task: 8.3333 (9.0054) time: 0.6934 data: 0.0002 max mem: 1388
+Test: [Task 7] [40/42] eta: 0:00:31 Loss: 1.0677 (0.9618) Acc@1: 83.3333 (84.6545) Acc@5: 95.8333 (97.4594) Acc@task: 4.1667 (8.0285) time: 0.6974 data: 0.0002 max mem: 1388
+Test: [Task 7] [41/42] eta: 0:00:31 Loss: 1.0480 (0.9502) Acc@1: 83.3333 (84.7000) Acc@5: 95.8333 (97.5000) Acc@task: 4.1667 (8.1000) time: 0.6858 data: 0.0002 max mem: 1388
+Test: [Task 7] Total time: 0:00:32 (0.7662 s / it)
+* Acc@task 8.100 Acc@1 84.700 Acc@5 97.500 Loss 0.950
+[Average accuracy till task7]   Acc@task: 13.4857       Acc@1: 83.5857  Acc@5: 97.4143  Loss: 1.0025    Forgetting: 4.8833      Backward: -4.6333       CAA: 89.4737
+--------------------
+--------------------
+Learnable parameters
+e_prompt.prompt
+head.weight
+head.bias
+--------------------
+Model already trained for task 8
+Loading checkpoint from: ./output\checkpoint_hideprompt/task8_checkpoint.pth
+--------------------
+Evaluate task 8 after CA
+Task 1 val batches: 42
+Test: [Task 1] [ 0/42] eta: 0:02:34 Loss: 0.8878 (0.8878) Acc@1: 83.3333 (83.3333) Acc@5: 95.8333 (95.8333) Acc@task: 12.5000 (12.5000) time: 3.7646 data: 2.8457 max mem: 1388
+Test: [Task 1] [10/42] eta: 0:00:38 Loss: 1.1370 (0.9610) Acc@1: 79.1667 (82.1970) Acc@5: 95.8333 (95.4545) Acc@task: 16.6667 (16.2879) time: 0.9454 data: 0.2589 max mem: 1388
+Test: [Task 1] [20/42] eta: 0:00:33 Loss: 1.0987 (1.0069) Acc@1: 79.1667 (81.3492) Acc@5: 95.8333 (95.8333) Acc@task: 16.6667 (20.0397) time: 0.6768 data: 0.0003 max mem: 1388
+Test: [Task 1] [30/42] eta: 0:00:32 Loss: 0.8515 (0.9830) Acc@1: 79.1667 (80.9140) Acc@5: 95.8333 (96.3710) Acc@task: 16.6667 (18.5484) time: 0.6945 data: 0.0004 max mem: 1388
+Test: [Task 1] [40/42] eta: 0:00:31 Loss: 0.8379 (0.9502) Acc@1: 79.1667 (80.4878) Acc@5: 100.0000 (97.0528) Acc@task: 16.6667 (18.0894) time: 0.7046 data: 0.0003 max mem: 1388
+Test: [Task 1] [41/42] eta: 0:00:31 Loss: 0.8379 (0.9419) Acc@1: 79.1667 (80.4000) Acc@5: 100.0000 (97.1000) Acc@task: 16.6667 (17.9000) time: 0.6945 data: 0.0003 max mem: 1388
+Test: [Task 1] Total time: 0:00:32 (0.7686 s / it)
+* Acc@task 17.900 Acc@1 80.400 Acc@5 97.100 Loss 0.942
+Task 2 val batches: 42
+Test: [Task 2] [ 0/42] eta: 0:02:36 Loss: 0.4753 (0.4753) Acc@1: 87.5000 (87.5000) Acc@5: 95.8333 (95.8333) Acc@task: 16.6667 (16.6667) time: 3.8136 data: 2.8273 max mem: 1388
+Test: [Task 2] [10/42] eta: 0:00:38 Loss: 0.4893 (0.6327) Acc@1: 87.5000 (85.9849) Acc@5: 100.0000 (97.7273) Acc@task: 25.0000 (23.1061) time: 0.9477 data: 0.2572 max mem: 1388
+Test: [Task 2] [20/42] eta: 0:00:33 Loss: 0.6820 (0.7206) Acc@1: 83.3333 (83.7302) Acc@5: 100.0000 (97.8175) Acc@task: 25.0000 (21.4286) time: 0.6765 data: 0.0002 max mem: 1388
+Test: [Task 2] [30/42] eta: 0:00:32 Loss: 0.7429 (0.7057) Acc@1: 83.3333 (84.8118) Acc@5: 100.0000 (97.5806) Acc@task: 20.8333 (21.2366) time: 0.6945 data: 0.0001 max mem: 1388
+Test: [Task 2] [40/42] eta: 0:00:31 Loss: 0.5319 (0.6737) Acc@1: 87.5000 (84.9594) Acc@5: 100.0000 (97.7642) Acc@task: 20.8333 (20.5285) time: 0.6973 data: 0.0001 max mem: 1388
+Test: [Task 2] [41/42] eta: 0:00:31 Loss: 0.5319 (0.6706) Acc@1: 87.5000 (85.1000) Acc@5: 100.0000 (97.8000) Acc@task: 20.8333 (20.7000) time: 0.6864 data: 0.0001 max mem: 1388
+Test: [Task 2] Total time: 0:00:32 (0.7661 s / it)
+* Acc@task 20.700 Acc@1 85.100 Acc@5 97.800 Loss 0.671
+Task 3 val batches: 42
+Test: [Task 3] [ 0/42] eta: 0:02:38 Loss: 1.2330 (1.2330) Acc@1: 83.3333 (83.3333) Acc@5: 95.8333 (95.8333) Acc@task: 8.3333 (8.3333) time: 3.8577 data: 2.8764 max mem: 1388
+Test: [Task 3] [10/42] eta: 0:00:38 Loss: 1.1247 (1.0516) Acc@1: 83.3333 (83.7121) Acc@5: 95.8333 (96.2121) Acc@task: 4.1667 (4.5455) time: 0.9492 data: 0.2617 max mem: 1388
+Test: [Task 3] [20/42] eta: 0:00:33 Loss: 0.6316 (0.8230) Acc@1: 83.3333 (86.3095) Acc@5: 100.0000 (97.6190) Acc@task: 4.1667 (4.9603) time: 0.6751 data: 0.0002 max mem: 1388
+Test: [Task 3] [30/42] eta: 0:00:32 Loss: 0.6761 (0.8560) Acc@1: 87.5000 (85.6183) Acc@5: 100.0000 (97.3118) Acc@task: 0.0000 (4.1667) time: 0.6931 data: 0.0002 max mem: 1388
+Test: [Task 3] [40/42] eta: 0:00:31 Loss: 0.8030 (0.8804) Acc@1: 79.1667 (85.2642) Acc@5: 95.8333 (97.2561) Acc@task: 4.1667 (4.2683) time: 0.6953 data: 0.0001 max mem: 1388
+Test: [Task 3] [41/42] eta: 0:00:30 Loss: 0.7950 (0.8784) Acc@1: 83.3333 (85.3000) Acc@5: 95.8333 (97.3000) Acc@task: 4.1667 (4.4000) time: 0.6851 data: 0.0001 max mem: 1388
+Test: [Task 3] Total time: 0:00:32 (0.7657 s / it)
+* Acc@task 4.400 Acc@1 85.300 Acc@5 97.300 Loss 0.878
+Task 4 val batches: 42
+Test: [Task 4] [ 0/42] eta: 0:02:36 Loss: 1.7300 (1.7300) Acc@1: 75.0000 (75.0000) Acc@5: 91.6667 (91.6667) Acc@task: 12.5000 (12.5000) time: 3.8283 data: 2.8371 max mem: 1388
+Test: [Task 4] [10/42] eta: 0:00:38 Loss: 1.2213 (1.2516) Acc@1: 83.3333 (82.9545) Acc@5: 95.8333 (96.2121) Acc@task: 8.3333 (10.9848) time: 0.9505 data: 0.2582 max mem: 1388
+Test: [Task 4] [20/42] eta: 0:00:33 Loss: 1.1921 (1.2894) Acc@1: 83.3333 (84.5238) Acc@5: 95.8333 (96.4286) Acc@task: 8.3333 (12.3016) time: 0.6771 data: 0.0003 max mem: 1388
+Test: [Task 4] [30/42] eta: 0:00:32 Loss: 0.9700 (1.1692) Acc@1: 87.5000 (86.2903) Acc@5: 95.8333 (96.3710) Acc@task: 8.3333 (12.7688) time: 0.6929 data: 0.0002 max mem: 1388
+Test: [Task 4] [40/42] eta: 0:00:31 Loss: 0.9700 (1.1834) Acc@1: 87.5000 (85.6707) Acc@5: 95.8333 (96.3415) Acc@task: 12.5000 (13.1098) time: 0.7017 data: 0.0003 max mem: 1388
+Test: [Task 4] [41/42] eta: 0:00:31 Loss: 0.9405 (1.1605) Acc@1: 87.5000 (85.7000) Acc@5: 95.8333 (96.4000) Acc@task: 12.5000 (13.0000) time: 0.6913 data: 0.0003 max mem: 1388
+Test: [Task 4] Total time: 0:00:32 (0.7695 s / it)
+* Acc@task 13.000 Acc@1 85.700 Acc@5 96.400 Loss 1.161
+Task 5 val batches: 42
+Test: [Task 5] [ 0/42] eta: 0:02:34 Loss: 1.0749 (1.0749) Acc@1: 91.6667 (91.6667) Acc@5: 100.0000 (100.0000) Acc@task: 20.8333 (20.8333) time: 3.7697 data: 2.8256 max mem: 1388
+Test: [Task 5] [10/42] eta: 0:00:38 Loss: 0.9776 (0.9947) Acc@1: 83.3333 (84.8485) Acc@5: 100.0000 (97.7273) Acc@task: 20.8333 (21.9697) time: 0.9417 data: 0.2570 max mem: 1388
+Test: [Task 5] [20/42] eta: 0:00:33 Loss: 0.9394 (1.1292) Acc@1: 83.3333 (83.5317) Acc@5: 95.8333 (97.2222) Acc@task: 20.8333 (23.0159) time: 0.6800 data: 0.0001 max mem: 1388
+Test: [Task 5] [30/42] eta: 0:00:32 Loss: 0.9222 (1.0347) Acc@1: 83.3333 (84.4086) Acc@5: 95.8333 (97.1774) Acc@task: 16.6667 (21.3710) time: 0.6968 data: 0.0002 max mem: 1388
+Test: [Task 5] [40/42] eta: 0:00:31 Loss: 0.8821 (1.0781) Acc@1: 83.3333 (83.4350) Acc@5: 95.8333 (97.1545) Acc@task: 16.6667 (20.5285) time: 0.7018 data: 0.0002 max mem: 1388
+Test: [Task 5] [41/42] eta: 0:00:31 Loss: 0.9474 (1.1078) Acc@1: 83.3333 (83.1000) Acc@5: 95.8333 (97.0000) Acc@task: 16.6667 (20.4000) time: 0.6891 data: 0.0002 max mem: 1388
+Test: [Task 5] Total time: 0:00:32 (0.7686 s / it)
+* Acc@task 20.400 Acc@1 83.100 Acc@5 97.000 Loss 1.108
+Task 6 val batches: 42
+Test: [Task 6] [ 0/42] eta: 0:02:36 Loss: 1.1436 (1.1436) Acc@1: 83.3333 (83.3333) Acc@5: 95.8333 (95.8333) Acc@task: 0.0000 (0.0000) time: 3.8230 data: 2.8333 max mem: 1388
+Test: [Task 6] [10/42] eta: 0:00:38 Loss: 1.1436 (1.2779) Acc@1: 83.3333 (81.0606) Acc@5: 100.0000 (98.1061) Acc@task: 4.1667 (3.7879) time: 0.9497 data: 0.2578 max mem: 1388
+Test: [Task 6] [20/42] eta: 0:00:33 Loss: 1.5853 (1.4735) Acc@1: 83.3333 (80.1587) Acc@5: 100.0000 (97.6190) Acc@task: 4.1667 (3.7698) time: 0.6729 data: 0.0003 max mem: 1388
+Test: [Task 6] [30/42] eta: 0:00:32 Loss: 1.4401 (1.4551) Acc@1: 75.0000 (78.6290) Acc@5: 95.8333 (97.0430) Acc@task: 4.1667 (4.0323) time: 0.6932 data: 0.0004 max mem: 1388
+Test: [Task 6] [40/42] eta: 0:00:31 Loss: 1.2823 (1.3969) Acc@1: 75.0000 (78.8618) Acc@5: 95.8333 (97.2561) Acc@task: 4.1667 (3.9634) time: 0.7034 data: 0.0003 max mem: 1388
+Test: [Task 6] [41/42] eta: 0:00:31 Loss: 1.2776 (1.3876) Acc@1: 79.1667 (78.9000) Acc@5: 95.8333 (97.2000) Acc@task: 4.1667 (3.9000) time: 0.6940 data: 0.0003 max mem: 1388
+Test: [Task 6] Total time: 0:00:32 (0.7676 s / it)
+* Acc@task 3.900 Acc@1 78.900 Acc@5 97.200 Loss 1.388
+Task 7 val batches: 42
+Test: [Task 7] [ 0/42] eta: 0:02:36 Loss: 0.3081 (0.3081) Acc@1: 95.8333 (95.8333) Acc@5: 100.0000 (100.0000) Acc@task: 4.1667 (4.1667) time: 3.8129 data: 2.8300 max mem: 1388
+Test: [Task 7] [10/42] eta: 0:00:39 Loss: 0.8248 (0.7908) Acc@1: 87.5000 (86.3636) Acc@5: 95.8333 (96.2121) Acc@task: 8.3333 (9.4697) time: 0.9524 data: 0.2577 max mem: 1388
+Test: [Task 7] [20/42] eta: 0:00:33 Loss: 0.8248 (0.9285) Acc@1: 83.3333 (84.1270) Acc@5: 100.0000 (97.4206) Acc@task: 8.3333 (8.1349) time: 0.6753 data: 0.0002 max mem: 1388
+Test: [Task 7] [30/42] eta: 0:00:32 Loss: 0.9425 (1.0111) Acc@1: 83.3333 (84.2742) Acc@5: 100.0000 (96.6398) Acc@task: 4.1667 (7.7957) time: 0.6860 data: 0.0002 max mem: 1388
+Test: [Task 7] [40/42] eta: 0:00:31 Loss: 1.1607 (1.0291) Acc@1: 83.3333 (83.7398) Acc@5: 95.8333 (96.7480) Acc@task: 4.1667 (7.1138) time: 0.6986 data: 0.0003 max mem: 1388
+Test: [Task 7] [41/42] eta: 0:00:31 Loss: 0.9850 (1.0200) Acc@1: 83.3333 (83.6000) Acc@5: 95.8333 (96.8000) Acc@task: 4.1667 (7.2000) time: 0.6883 data: 0.0003 max mem: 1388
+Test: [Task 7] Total time: 0:00:32 (0.7658 s / it)
+* Acc@task 7.200 Acc@1 83.600 Acc@5 96.800 Loss 1.020
+Task 8 val batches: 42
+Test: [Task 8] [ 0/42] eta: 0:02:37 Loss: 0.5333 (0.5333) Acc@1: 91.6667 (91.6667) Acc@5: 100.0000 (100.0000) Acc@task: 12.5000 (12.5000) time: 3.8408 data: 2.8664 max mem: 1388
+Test: [Task 8] [10/42] eta: 0:00:38 Loss: 0.8345 (1.1467) Acc@1: 83.3333 (82.5758) Acc@5: 95.8333 (96.2121) Acc@task: 8.3333 (13.2576) time: 0.9464 data: 0.2606 max mem: 1388
+Test: [Task 8] [20/42] eta: 0:00:34 Loss: 0.8524 (1.1555) Acc@1: 83.3333 (82.1429) Acc@5: 100.0000 (97.4206) Acc@task: 16.6667 (14.8810) time: 0.6789 data: 0.0001 max mem: 1388
+Test: [Task 8] [30/42] eta: 0:00:32 Loss: 0.8524 (1.1461) Acc@1: 83.3333 (82.2581) Acc@5: 100.0000 (96.9086) Acc@task: 16.6667 (13.8441) time: 0.7030 data: 0.0001 max mem: 1388
+Test: [Task 8] [40/42] eta: 0:00:31 Loss: 1.0624 (1.1165) Acc@1: 83.3333 (82.5203) Acc@5: 95.8333 (97.0528) Acc@task: 12.5000 (14.0244) time: 0.7015 data: 0.0002 max mem: 1388
+Test: [Task 8] [41/42] eta: 0:00:31 Loss: 1.0782 (1.1283) Acc@1: 79.1667 (82.4000) Acc@5: 95.8333 (97.1000) Acc@task: 12.5000 (13.8000) time: 0.6893 data: 0.0002 max mem: 1388
+Test: [Task 8] Total time: 0:00:32 (0.7695 s / it)
+* Acc@task 13.800 Acc@1 82.400 Acc@5 97.100 Loss 1.128
+[Average accuracy till task8]   Acc@task: 12.6625       Acc@1: 83.0625  Acc@5: 97.0875  Loss: 1.0369    Forgetting: 4.6143      Backward: -4.4000       CAA: 88.6723
+--------------------
+--------------------
+Learnable parameters
+e_prompt.prompt
+head.weight
+head.bias
+--------------------
+Model already trained for task 9
+Loading checkpoint from: ./output\checkpoint_hideprompt/task9_checkpoint.pth
+--------------------
+Evaluate task 9 after CA
+Task 1 val batches: 42
+Test: [Task 1] [ 0/42] eta: 0:02:41 Loss: 1.4595 (1.4595) Acc@1: 79.1667 (79.1667) Acc@5: 95.8333 (95.8333) Acc@task: 12.5000 (12.5000) time: 3.9455 data: 2.9930 max mem: 1389
+Test: [Task 1] [10/42] eta: 0:00:39 Loss: 1.3637 (1.2032) Acc@1: 75.0000 (76.8939) Acc@5: 95.8333 (94.6970) Acc@task: 12.5000 (13.2576) time: 0.9544 data: 0.2723 max mem: 1389
+Test: [Task 1] [20/42] eta: 0:00:34 Loss: 1.2087 (1.2533) Acc@1: 75.0000 (76.9841) Acc@5: 95.8333 (95.0397) Acc@task: 16.6667 (14.8810) time: 0.6776 data: 0.0003 max mem: 1389
+Test: [Task 1] [30/42] eta: 0:00:32 Loss: 1.1323 (1.2398) Acc@1: 79.1667 (76.4785) Acc@5: 95.8333 (95.5645) Acc@task: 12.5000 (13.9785) time: 0.7004 data: 0.0003 max mem: 1389
+Test: [Task 1] [40/42] eta: 0:00:31 Loss: 1.0653 (1.2216) Acc@1: 79.1667 (75.7114) Acc@5: 95.8333 (96.1382) Acc@task: 12.5000 (13.3130) time: 0.7055 data: 0.0003 max mem: 1389
+Test: [Task 1] [41/42] eta: 0:00:31 Loss: 1.0365 (1.2123) Acc@1: 75.0000 (75.7000) Acc@5: 95.8333 (96.2000) Acc@task: 12.5000 (13.2000) time: 0.6928 data: 0.0003 max mem: 1389
+Test: [Task 1] Total time: 0:00:32 (0.7733 s / it)
+* Acc@task 13.200 Acc@1 75.700 Acc@5 96.200 Loss 1.212
+Task 2 val batches: 42
+Test: [Task 2] [ 0/42] eta: 0:02:36 Loss: 0.4910 (0.4910) Acc@1: 87.5000 (87.5000) Acc@5: 95.8333 (95.8333) Acc@task: 16.6667 (16.6667) time: 3.8133 data: 2.8280 max mem: 1389
+Test: [Task 2] [10/42] eta: 0:00:38 Loss: 0.5679 (0.6983) Acc@1: 83.3333 (85.2273) Acc@5: 95.8333 (96.5909) Acc@task: 20.8333 (20.8333) time: 0.9470 data: 0.2571 max mem: 1389
+Test: [Task 2] [20/42] eta: 0:00:34 Loss: 0.7795 (0.7966) Acc@1: 79.1667 (82.1429) Acc@5: 95.8333 (96.6270) Acc@task: 16.6667 (18.2540) time: 0.6809 data: 0.0001 max mem: 1389
+Test: [Task 2] [30/42] eta: 0:00:32 Loss: 0.8742 (0.7806) Acc@1: 83.3333 (83.1989) Acc@5: 95.8333 (96.7742) Acc@task: 16.6667 (18.0108) time: 0.7056 data: 0.0002 max mem: 1389
+Test: [Task 2] [40/42] eta: 0:00:31 Loss: 0.5875 (0.7535) Acc@1: 83.3333 (83.6382) Acc@5: 95.8333 (97.0528) Acc@task: 16.6667 (17.0732) time: 0.7099 data: 0.0002 max mem: 1389
+Test: [Task 2] [41/42] eta: 0:00:31 Loss: 0.5875 (0.7537) Acc@1: 87.5000 (83.7000) Acc@5: 100.0000 (97.1000) Acc@task: 16.6667 (17.1000) time: 0.6987 data: 0.0002 max mem: 1389
+Test: [Task 2] Total time: 0:00:32 (0.7742 s / it)
+* Acc@task 17.100 Acc@1 83.700 Acc@5 97.100 Loss 0.754
+Task 3 val batches: 42
+Test: [Task 3] [ 0/42] eta: 0:02:33 Loss: 0.6063 (0.6063) Acc@1: 91.6667 (91.6667) Acc@5: 95.8333 (95.8333) Acc@task: 8.3333 (8.3333) time: 3.7436 data: 2.8512 max mem: 1389
+Test: [Task 3] [10/42] eta: 0:00:38 Loss: 0.7456 (0.9244) Acc@1: 87.5000 (85.2273) Acc@5: 95.8333 (97.3485) Acc@task: 0.0000 (3.4091) time: 0.9429 data: 0.2593 max mem: 1389
+Test: [Task 3] [20/42] eta: 0:00:33 Loss: 0.6766 (0.7435) Acc@1: 87.5000 (86.3095) Acc@5: 100.0000 (98.0159) Acc@task: 0.0000 (4.3651) time: 0.6744 data: 0.0001 max mem: 1389
+Test: [Task 3] [30/42] eta: 0:00:31 Loss: 0.6766 (0.7953) Acc@1: 87.5000 (85.7527) Acc@5: 100.0000 (97.7151) Acc@task: 0.0000 (3.4946) time: 0.6900 data: 0.0001 max mem: 1389
+Test: [Task 3] [40/42] eta: 0:00:31 Loss: 0.7902 (0.8107) Acc@1: 83.3333 (85.6707) Acc@5: 95.8333 (97.4594) Acc@task: 0.0000 (3.6585) time: 0.6924 data: 0.0001 max mem: 1389
+Test: [Task 3] [41/42] eta: 0:00:30 Loss: 0.7636 (0.8095) Acc@1: 83.3333 (85.7000) Acc@5: 95.8333 (97.5000) Acc@task: 4.1667 (3.7000) time: 0.6812 data: 0.0001 max mem: 1389
+Test: [Task 3] Total time: 0:00:31 (0.7618 s / it)
+* Acc@task 3.700 Acc@1 85.700 Acc@5 97.500 Loss 0.810
+Task 4 val batches: 42
+Test: [Task 4] [ 0/42] eta: 0:02:38 Loss: 1.8107 (1.8107) Acc@1: 75.0000 (75.0000) Acc@5: 91.6667 (91.6667) Acc@task: 12.5000 (12.5000) time: 3.8537 data: 2.8621 max mem: 1389
+Test: [Task 4] [10/42] eta: 0:00:39 Loss: 1.1404 (1.1381) Acc@1: 83.3333 (84.0909) Acc@5: 95.8333 (95.8333) Acc@task: 8.3333 (9.8485) time: 0.9573 data: 0.2605 max mem: 1389
+Test: [Task 4] [20/42] eta: 0:00:34 Loss: 1.0834 (1.1621) Acc@1: 83.3333 (85.9127) Acc@5: 95.8333 (96.4286) Acc@task: 8.3333 (11.1111) time: 0.6816 data: 0.0002 max mem: 1389
+Test: [Task 4] [30/42] eta: 0:00:32 Loss: 0.9926 (1.0524) Acc@1: 87.5000 (87.0968) Acc@5: 95.8333 (96.5054) Acc@task: 8.3333 (11.1559) time: 0.7031 data: 0.0001 max mem: 1389
+Test: [Task 4] [40/42] eta: 0:00:31 Loss: 0.9860 (1.0776) Acc@1: 87.5000 (86.4837) Acc@5: 95.8333 (96.2398) Acc@task: 8.3333 (11.7886) time: 0.7103 data: 0.0002 max mem: 1389
+Test: [Task 4] [41/42] eta: 0:00:31 Loss: 0.8263 (1.0636) Acc@1: 87.5000 (86.4000) Acc@5: 95.8333 (96.3000) Acc@task: 8.3333 (11.7000) time: 0.6981 data: 0.0002 max mem: 1389
+Test: [Task 4] Total time: 0:00:32 (0.7756 s / it)
+* Acc@task 11.700 Acc@1 86.400 Acc@5 96.300 Loss 1.064
+Task 5 val batches: 42
+Test: [Task 5] [ 0/42] eta: 0:02:33 Loss: 1.1538 (1.1538) Acc@1: 91.6667 (91.6667) Acc@5: 91.6667 (91.6667) Acc@task: 8.3333 (8.3333) time: 3.7451 data: 2.8461 max mem: 1389
+Test: [Task 5] [10/42] eta: 0:00:38 Loss: 0.5931 (0.8435) Acc@1: 91.6667 (85.6061) Acc@5: 100.0000 (96.9697) Acc@task: 16.6667 (17.8030) time: 0.9473 data: 0.2589 max mem: 1389
+Test: [Task 5] [20/42] eta: 0:00:34 Loss: 0.7553 (0.9343) Acc@1: 83.3333 (85.1190) Acc@5: 100.0000 (96.6270) Acc@task: 16.6667 (18.4524) time: 0.6873 data: 0.0001 max mem: 1389
+Test: [Task 5] [30/42] eta: 0:00:32 Loss: 0.6625 (0.8125) Acc@1: 87.5000 (86.0215) Acc@5: 95.8333 (97.0430) Acc@task: 12.5000 (16.6667) time: 0.7180 data: 0.0003 max mem: 1389
+Test: [Task 5] [40/42] eta: 0:00:32 Loss: 0.5897 (0.8823) Acc@1: 87.5000 (85.0610) Acc@5: 95.8333 (96.9512) Acc@task: 12.5000 (16.3618) time: 0.7342 data: 0.0004 max mem: 1389
+Test: [Task 5] [41/42] eta: 0:00:31 Loss: 0.6361 (0.9124) Acc@1: 83.3333 (84.8000) Acc@5: 95.8333 (96.9000) Acc@task: 12.5000 (16.3000) time: 0.7243 data: 0.0004 max mem: 1389
+Test: [Task 5] Total time: 0:00:33 (0.7940 s / it)
+* Acc@task 16.300 Acc@1 84.800 Acc@5 96.900 Loss 0.912
+Task 6 val batches: 42
+Test: [Task 6] [ 0/42] eta: 0:03:24 Loss: 1.2465 (1.2465) Acc@1: 83.3333 (83.3333) Acc@5: 95.8333 (95.8333) Acc@task: 0.0000 (0.0000) time: 4.9863 data: 4.0267 max mem: 1389
+Test: [Task 6] [10/42] eta: 0:00:44 Loss: 1.0483 (0.9815) Acc@1: 83.3333 (83.7121) Acc@5: 100.0000 (98.1061) Acc@task: 0.0000 (2.6515) time: 1.0832 data: 0.3665 max mem: 1389
+Test: [Task 6] [20/42] eta: 0:00:37 Loss: 1.1384 (1.2390) Acc@1: 83.3333 (81.9444) Acc@5: 95.8333 (97.4206) Acc@task: 4.1667 (2.7778) time: 0.7116 data: 0.0003 max mem: 1389
+Test: [Task 6] [30/42] eta: 0:00:35 Loss: 1.3659 (1.1896) Acc@1: 83.3333 (81.3172) Acc@5: 95.8333 (97.4462) Acc@task: 4.1667 (2.8226) time: 0.7340 data: 0.0005 max mem: 1389
+Test: [Task 6] [40/42] eta: 0:00:33 Loss: 1.0191 (1.1731) Acc@1: 79.1667 (81.0976) Acc@5: 95.8333 (97.5610) Acc@task: 4.1667 (3.0488) time: 0.7220 data: 0.0006 max mem: 1389
+Test: [Task 6] [41/42] eta: 0:00:33 Loss: 0.9404 (1.1676) Acc@1: 83.3333 (81.2000) Acc@5: 95.8333 (97.5000) Acc@task: 4.1667 (3.0000) time: 0.7095 data: 0.0005 max mem: 1389
+Test: [Task 6] Total time: 0:00:34 (0.8229 s / it)
+* Acc@task 3.000 Acc@1 81.200 Acc@5 97.500 Loss 1.168
+Task 7 val batches: 42
+Test: [Task 7] [ 0/42] eta: 0:02:35 Loss: 0.2993 (0.2993) Acc@1: 95.8333 (95.8333) Acc@5: 100.0000 (100.0000) Acc@task: 4.1667 (4.1667) time: 3.8037 data: 2.8700 max mem: 1389
+Test: [Task 7] [10/42] eta: 0:00:38 Loss: 0.7382 (0.8350) Acc@1: 87.5000 (85.9849) Acc@5: 95.8333 (95.0758) Acc@task: 8.3333 (8.7121) time: 0.9320 data: 0.2611 max mem: 1389
+Test: [Task 7] [20/42] eta: 0:00:33 Loss: 0.8369 (0.9701) Acc@1: 83.3333 (83.5317) Acc@5: 95.8333 (96.2302) Acc@task: 4.1667 (6.7460) time: 0.6660 data: 0.0004 max mem: 1389
+Test: [Task 7] [30/42] eta: 0:00:31 Loss: 0.9912 (1.0312) Acc@1: 83.3333 (83.7366) Acc@5: 95.8333 (95.8333) Acc@task: 4.1667 (6.4516) time: 0.6922 data: 0.0004 max mem: 1389
+Test: [Task 7] [40/42] eta: 0:00:31 Loss: 1.0418 (1.0195) Acc@1: 83.3333 (83.5366) Acc@5: 95.8333 (96.2398) Acc@task: 4.1667 (6.0976) time: 0.7013 data: 0.0003 max mem: 1389
+Test: [Task 7] [41/42] eta: 0:00:30 Loss: 0.9912 (1.0118) Acc@1: 83.3333 (83.4000) Acc@5: 95.8333 (96.3000) Acc@task: 4.1667 (6.2000) time: 0.6891 data: 0.0003 max mem: 1389
+Test: [Task 7] Total time: 0:00:32 (0.7628 s / it)
+* Acc@task 6.200 Acc@1 83.400 Acc@5 96.300 Loss 1.012
+Task 8 val batches: 42
+Test: [Task 8] [ 0/42] eta: 0:02:33 Loss: 0.5037 (0.5037) Acc@1: 95.8333 (95.8333) Acc@5: 100.0000 (100.0000) Acc@task: 12.5000 (12.5000) time: 3.7400 data: 2.7724 max mem: 1389
+Test: [Task 8] [10/42] eta: 0:00:38 Loss: 0.7889 (1.1409) Acc@1: 83.3333 (83.7121) Acc@5: 100.0000 (96.2121) Acc@task: 8.3333 (11.3636) time: 0.9322 data: 0.2522 max mem: 1389
+Test: [Task 8] [20/42] eta: 0:00:33 Loss: 0.9063 (1.1530) Acc@1: 83.3333 (83.7302) Acc@5: 100.0000 (97.6190) Acc@task: 12.5000 (12.6984) time: 0.6628 data: 0.0004 max mem: 1389
+Test: [Task 8] [30/42] eta: 0:00:31 Loss: 0.9063 (1.1091) Acc@1: 87.5000 (84.0054) Acc@5: 100.0000 (97.4462) Acc@task: 12.5000 (11.9624) time: 0.6883 data: 0.0005 max mem: 1389
+Test: [Task 8] [40/42] eta: 0:00:30 Loss: 0.9345 (1.0741) Acc@1: 83.3333 (83.6382) Acc@5: 95.8333 (97.3577) Acc@task: 8.3333 (12.0935) time: 0.6930 data: 0.0002 max mem: 1389
+Test: [Task 8] [41/42] eta: 0:00:30 Loss: 1.0634 (1.0799) Acc@1: 83.3333 (83.5000) Acc@5: 95.8333 (97.4000) Acc@task: 8.3333 (11.9000) time: 0.6820 data: 0.0002 max mem: 1389
+Test: [Task 8] Total time: 0:00:31 (0.7560 s / it)
+* Acc@task 11.900 Acc@1 83.500 Acc@5 97.400 Loss 1.080
+Task 9 val batches: 42
+Test: [Task 9] [ 0/42] eta: 0:02:34 Loss: 0.0237 (0.0237) Acc@1: 100.0000 (100.0000) Acc@5: 100.0000 (100.0000) Acc@task: 25.0000 (25.0000) time: 3.7795 data: 2.8145 max mem: 1389
+Test: [Task 9] [10/42] eta: 0:00:38 Loss: 0.4994 (0.5980) Acc@1: 91.6667 (87.5000) Acc@5: 100.0000 (97.3485) Acc@task: 16.6667 (17.4242) time: 0.9359 data: 0.2560 max mem: 1389
+Test: [Task 9] [20/42] eta: 0:00:33 Loss: 0.4994 (0.6160) Acc@1: 87.5000 (86.9048) Acc@5: 100.0000 (97.8175) Acc@task: 12.5000 (16.0714) time: 0.6642 data: 0.0002 max mem: 1389
+Test: [Task 9] [30/42] eta: 0:00:31 Loss: 0.6009 (0.7363) Acc@1: 87.5000 (86.5591) Acc@5: 95.8333 (97.3118) Acc@task: 12.5000 (15.4570) time: 0.6834 data: 0.0003 max mem: 1389
+Test: [Task 9] [40/42] eta: 0:00:30 Loss: 0.5068 (0.6662) Acc@1: 87.5000 (86.9919) Acc@5: 100.0000 (97.6626) Acc@task: 12.5000 (15.3455) time: 0.6920 data: 0.0004 max mem: 1389
+Test: [Task 9] [41/42] eta: 0:00:30 Loss: 0.5068 (0.6596) Acc@1: 87.5000 (87.1000) Acc@5: 100.0000 (97.7000) Acc@task: 12.5000 (15.4000) time: 0.6796 data: 0.0003 max mem: 1389
+Test: [Task 9] Total time: 0:00:31 (0.7565 s / it)
+* Acc@task 15.400 Acc@1 87.100 Acc@5 97.700 Loss 0.660
+[Average accuracy till task9]   Acc@task: 10.9444       Acc@1: 83.5000  Acc@5: 96.9889  Loss: 0.9634    Forgetting: 4.4500      Backward: -3.8625       CAA: 88.0976
+--------------------
+--------------------
+Learnable parameters
+e_prompt.prompt
+head.weight
+head.bias
+--------------------
+Model already trained for task 10
+Loading checkpoint from: ./output\checkpoint_hideprompt/task10_checkpoint.pth
+--------------------
+Evaluate task 10 after CA
+Task 1 val batches: 42
+Test: [Task 1] [ 0/42] eta: 0:02:33 Loss: 2.1746 (2.1746) Acc@1: 70.8333 (70.8333) Acc@5: 95.8333 (95.8333) Acc@task: 8.3333 (8.3333) time: 3.7355 data: 2.7463 max mem: 1389
+Test: [Task 1] [10/42] eta: 0:00:37 Loss: 1.4120 (1.3164) Acc@1: 70.8333 (74.6212) Acc@5: 95.8333 (94.6970) Acc@task: 12.5000 (12.5000) time: 0.9238 data: 0.2500 max mem: 1389
+Test: [Task 1] [20/42] eta: 0:00:33 Loss: 1.3602 (1.3858) Acc@1: 70.8333 (74.8016) Acc@5: 95.8333 (94.6429) Acc@task: 16.6667 (13.2937) time: 0.6609 data: 0.0005 max mem: 1389
+Test: [Task 1] [30/42] eta: 0:00:31 Loss: 1.2102 (1.3513) Acc@1: 79.1667 (75.2688) Acc@5: 95.8333 (95.2957) Acc@task: 12.5000 (12.7688) time: 0.6787 data: 0.0005 max mem: 1389
+Test: [Task 1] [40/42] eta: 0:00:30 Loss: 1.0703 (1.3222) Acc@1: 79.1667 (75.0000) Acc@5: 95.8333 (95.8333) Acc@task: 12.5000 (12.0935) time: 0.6831 data: 0.0002 max mem: 1389
+Test: [Task 1] [41/42] eta: 0:00:30 Loss: 1.0395 (1.3114) Acc@1: 79.1667 (75.0000) Acc@5: 95.8333 (95.9000) Acc@task: 12.5000 (11.9000) time: 0.6729 data: 0.0002 max mem: 1389
+Test: [Task 1] Total time: 0:00:31 (0.7503 s / it)
+* Acc@task 11.900 Acc@1 75.000 Acc@5 95.900 Loss 1.311
+Task 2 val batches: 42
+Test: [Task 2] [ 0/42] eta: 0:02:36 Loss: 0.4545 (0.4545) Acc@1: 87.5000 (87.5000) Acc@5: 95.8333 (95.8333) Acc@task: 16.6667 (16.6667) time: 3.8261 data: 2.8406 max mem: 1389
+Test: [Task 2] [10/42] eta: 0:00:38 Loss: 0.7562 (0.7110) Acc@1: 83.3333 (84.0909) Acc@5: 95.8333 (96.9697) Acc@task: 20.8333 (19.6970) time: 0.9349 data: 0.2584 max mem: 1389
+Test: [Task 2] [20/42] eta: 0:00:33 Loss: 0.8038 (0.8333) Acc@1: 79.1667 (80.3571) Acc@5: 95.8333 (96.6270) Acc@task: 12.5000 (16.6667) time: 0.6621 data: 0.0003 max mem: 1389
+Test: [Task 2] [30/42] eta: 0:00:31 Loss: 0.8887 (0.8292) Acc@1: 79.1667 (81.8548) Acc@5: 95.8333 (96.7742) Acc@task: 12.5000 (16.5323) time: 0.6855 data: 0.0004 max mem: 1389
+Test: [Task 2] [40/42] eta: 0:00:30 Loss: 0.6463 (0.7952) Acc@1: 87.5000 (82.7236) Acc@5: 95.8333 (97.0528) Acc@task: 12.5000 (15.6504) time: 0.6925 data: 0.0004 max mem: 1389
+Test: [Task 2] [41/42] eta: 0:00:30 Loss: 0.6463 (0.7965) Acc@1: 87.5000 (82.8000) Acc@5: 100.0000 (97.1000) Acc@task: 16.6667 (15.7000) time: 0.6796 data: 0.0004 max mem: 1389
+Test: [Task 2] Total time: 0:00:31 (0.7572 s / it)
+* Acc@task 15.700 Acc@1 82.800 Acc@5 97.100 Loss 0.796
+Task 3 val batches: 42
+Test: [Task 3] [ 0/42] eta: 0:02:37 Loss: 0.6315 (0.6315) Acc@1: 91.6667 (91.6667) Acc@5: 95.8333 (95.8333) Acc@task: 8.3333 (8.3333) time: 3.8440 data: 2.8694 max mem: 1389
+Test: [Task 3] [10/42] eta: 0:00:38 Loss: 0.7575 (0.8961) Acc@1: 87.5000 (85.6061) Acc@5: 95.8333 (96.9697) Acc@task: 0.0000 (3.0303) time: 0.9402 data: 0.2615 max mem: 1389
+Test: [Task 3] [20/42] eta: 0:00:33 Loss: 0.6016 (0.7219) Acc@1: 87.5000 (86.7064) Acc@5: 100.0000 (97.6190) Acc@task: 0.0000 (4.1667) time: 0.6644 data: 0.0006 max mem: 1389
+Test: [Task 3] [30/42] eta: 0:00:31 Loss: 0.6603 (0.7993) Acc@1: 87.5000 (86.2903) Acc@5: 100.0000 (97.4462) Acc@task: 0.0000 (3.3602) time: 0.6845 data: 0.0005 max mem: 1389
+Test: [Task 3] [40/42] eta: 0:00:30 Loss: 0.7740 (0.8090) Acc@1: 83.3333 (86.0772) Acc@5: 95.8333 (97.3577) Acc@task: 0.0000 (3.5569) time: 0.6898 data: 0.0004 max mem: 1389
+Test: [Task 3] [41/42] eta: 0:00:30 Loss: 0.7740 (0.8078) Acc@1: 83.3333 (86.1000) Acc@5: 100.0000 (97.4000) Acc@task: 4.1667 (3.6000) time: 0.6800 data: 0.0004 max mem: 1389
+Test: [Task 3] Total time: 0:00:31 (0.7573 s / it)
+* Acc@task 3.600 Acc@1 86.100 Acc@5 97.400 Loss 0.808
+Task 4 val batches: 42
+Test: [Task 4] [ 0/42] eta: 0:02:36 Loss: 1.6825 (1.6825) Acc@1: 70.8333 (70.8333) Acc@5: 91.6667 (91.6667) Acc@task: 12.5000 (12.5000) time: 3.8282 data: 2.8693 max mem: 1389
+Test: [Task 4] [10/42] eta: 0:00:38 Loss: 1.0948 (1.0933) Acc@1: 83.3333 (84.0909) Acc@5: 95.8333 (96.2121) Acc@task: 8.3333 (8.7121) time: 0.9404 data: 0.2611 max mem: 1389
+Test: [Task 4] [20/42] eta: 0:00:33 Loss: 1.0160 (1.0782) Acc@1: 83.3333 (85.3175) Acc@5: 95.8333 (96.4286) Acc@task: 8.3333 (10.1190) time: 0.6577 data: 0.0003 max mem: 1389
+Test: [Task 4] [30/42] eta: 0:00:31 Loss: 0.9278 (0.9879) Acc@1: 87.5000 (86.2903) Acc@5: 95.8333 (96.7742) Acc@task: 8.3333 (10.4839) time: 0.6843 data: 0.0003 max mem: 1389
+Test: [Task 4] [40/42] eta: 0:00:30 Loss: 0.9290 (1.0110) Acc@1: 87.5000 (85.5691) Acc@5: 95.8333 (96.8496) Acc@task: 8.3333 (11.0772) time: 0.6976 data: 0.0004 max mem: 1389
+Test: [Task 4] [41/42] eta: 0:00:30 Loss: 0.9290 (1.0170) Acc@1: 87.5000 (85.4000) Acc@5: 100.0000 (96.9000) Acc@task: 8.3333 (11.0000) time: 0.6857 data: 0.0004 max mem: 1389
+Test: [Task 4] Total time: 0:00:32 (0.7731 s / it)
+* Acc@task 11.000 Acc@1 85.400 Acc@5 96.900 Loss 1.017
+Task 5 val batches: 42
+Test: [Task 5] [ 0/42] eta: 0:03:04 Loss: 1.1994 (1.1994) Acc@1: 91.6667 (91.6667) Acc@5: 95.8333 (95.8333) Acc@task: 8.3333 (8.3333) time: 4.4964 data: 3.5033 max mem: 1389
+Test: [Task 5] [10/42] eta: 0:00:40 Loss: 0.6293 (0.8738) Acc@1: 87.5000 (85.9849) Acc@5: 100.0000 (97.7273) Acc@task: 16.6667 (16.6667) time: 0.9872 data: 0.3189 max mem: 1389
+Test: [Task 5] [20/42] eta: 0:00:34 Loss: 0.8132 (0.9698) Acc@1: 83.3333 (85.1191) Acc@5: 100.0000 (97.4206) Acc@task: 16.6667 (17.6587) time: 0.6513 data: 0.0004 max mem: 1389
+Test: [Task 5] [30/42] eta: 0:00:32 Loss: 0.7660 (0.8397) Acc@1: 87.5000 (86.1559) Acc@5: 95.8333 (97.4462) Acc@task: 12.5000 (15.8602) time: 0.6768 data: 0.0004 max mem: 1389
+Test: [Task 5] [40/42] eta: 0:00:31 Loss: 0.6249 (0.8986) Acc@1: 87.5000 (85.0610) Acc@5: 95.8333 (97.2561) Acc@task: 12.5000 (15.6504) time: 0.6876 data: 0.0002 max mem: 1389
+Test: [Task 5] [41/42] eta: 0:00:30 Loss: 0.6534 (0.9289) Acc@1: 87.5000 (84.8000) Acc@5: 95.8333 (97.2000) Acc@task: 12.5000 (15.6000) time: 0.6779 data: 0.0002 max mem: 1389
+Test: [Task 5] Total time: 0:00:32 (0.7655 s / it)
+* Acc@task 15.600 Acc@1 84.800 Acc@5 97.200 Loss 0.929
+Task 6 val batches: 42
+Test: [Task 6] [ 0/42] eta: 0:02:35 Loss: 1.2965 (1.2965) Acc@1: 83.3333 (83.3333) Acc@5: 95.8333 (95.8333) Acc@task: 0.0000 (0.0000) time: 3.7891 data: 2.8518 max mem: 1389
+Test: [Task 6] [10/42] eta: 0:00:38 Loss: 1.0198 (1.0105) Acc@1: 83.3333 (84.4697) Acc@5: 100.0000 (98.1061) Acc@task: 0.0000 (2.2727) time: 0.9315 data: 0.2597 max mem: 1389
+Test: [Task 6] [20/42] eta: 0:00:33 Loss: 1.1605 (1.2257) Acc@1: 83.3333 (83.1349) Acc@5: 95.8333 (97.6190) Acc@task: 4.1667 (2.5794) time: 0.6603 data: 0.0004 max mem: 1389
+Test: [Task 6] [30/42] eta: 0:00:31 Loss: 1.3339 (1.1974) Acc@1: 83.3333 (81.7204) Acc@5: 95.8333 (97.7151) Acc@task: 4.1667 (2.5538) time: 0.6803 data: 0.0003 max mem: 1389
+Test: [Task 6] [40/42] eta: 0:00:30 Loss: 1.1961 (1.1845) Acc@1: 79.1667 (81.6057) Acc@5: 95.8333 (97.7642) Acc@task: 0.0000 (2.7439) time: 0.6856 data: 0.0002 max mem: 1389
+Test: [Task 6] [41/42] eta: 0:00:30 Loss: 0.9364 (1.1786) Acc@1: 79.1667 (81.7000) Acc@5: 95.8333 (97.7000) Acc@task: 0.0000 (2.7000) time: 0.6748 data: 0.0002 max mem: 1389
+Test: [Task 6] Total time: 0:00:31 (0.7523 s / it)
+* Acc@task 2.700 Acc@1 81.700 Acc@5 97.700 Loss 1.179
+Task 7 val batches: 42
+Test: [Task 7] [ 0/42] eta: 0:02:41 Loss: 0.3153 (0.3153) Acc@1: 91.6667 (91.6667) Acc@5: 100.0000 (100.0000) Acc@task: 0.0000 (0.0000) time: 3.9392 data: 2.9544 max mem: 1389
+Test: [Task 7] [10/42] eta: 0:00:38 Loss: 0.7547 (0.9316) Acc@1: 91.6667 (84.8485) Acc@5: 95.8333 (95.8333) Acc@task: 8.3333 (7.5758) time: 0.9422 data: 0.2689 max mem: 1389
+Test: [Task 7] [20/42] eta: 0:00:33 Loss: 0.8242 (1.0733) Acc@1: 83.3333 (82.5397) Acc@5: 95.8333 (96.4286) Acc@task: 4.1667 (5.5556) time: 0.6556 data: 0.0003 max mem: 1389
+Test: [Task 7] [30/42] eta: 0:00:31 Loss: 1.0640 (1.1286) Acc@1: 79.1667 (82.7957) Acc@5: 95.8333 (95.5645) Acc@task: 4.1667 (5.6452) time: 0.6801 data: 0.0002 max mem: 1389
+Test: [Task 7] [40/42] eta: 0:00:30 Loss: 1.0516 (1.0971) Acc@1: 79.1667 (82.3171) Acc@5: 95.8333 (95.9350) Acc@task: 4.1667 (5.4878) time: 0.6867 data: 0.0002 max mem: 1389
+Test: [Task 7] [41/42] eta: 0:00:30 Loss: 0.9447 (1.0883) Acc@1: 79.1667 (82.2000) Acc@5: 95.8333 (96.0000) Acc@task: 4.1667 (5.5000) time: 0.6736 data: 0.0002 max mem: 1389
+Test: [Task 7] Total time: 0:00:31 (0.7546 s / it)
+* Acc@task 5.500 Acc@1 82.200 Acc@5 96.000 Loss 1.088
+Task 8 val batches: 42
+Test: [Task 8] [ 0/42] eta: 0:02:37 Loss: 0.5120 (0.5120) Acc@1: 91.6667 (91.6667) Acc@5: 100.0000 (100.0000) Acc@task: 12.5000 (12.5000) time: 3.8351 data: 2.8508 max mem: 1389
+Test: [Task 8] [10/42] eta: 0:00:38 Loss: 0.7312 (1.2028) Acc@1: 83.3333 (81.8182) Acc@5: 100.0000 (96.5909) Acc@task: 8.3333 (11.3636) time: 0.9368 data: 0.2595 max mem: 1389
+Test: [Task 8] [20/42] eta: 0:00:33 Loss: 0.8548 (1.2230) Acc@1: 83.3333 (82.7381) Acc@5: 100.0000 (97.6190) Acc@task: 12.5000 (12.1032) time: 0.6611 data: 0.0003 max mem: 1389
+Test: [Task 8] [30/42] eta: 0:00:31 Loss: 0.9882 (1.1606) Acc@1: 83.3333 (83.0645) Acc@5: 100.0000 (97.0430) Acc@task: 12.5000 (11.2903) time: 0.6865 data: 0.0002 max mem: 1389
+Test: [Task 8] [40/42] eta: 0:00:30 Loss: 1.0197 (1.1230) Acc@1: 83.3333 (83.0285) Acc@5: 95.8333 (96.9512) Acc@task: 8.3333 (11.3821) time: 0.6940 data: 0.0002 max mem: 1389
+Test: [Task 8] [41/42] eta: 0:00:30 Loss: 1.0665 (1.1217) Acc@1: 83.3333 (82.9000) Acc@5: 95.8333 (97.0000) Acc@task: 8.3333 (11.2000) time: 0.6830 data: 0.0002 max mem: 1389
+Test: [Task 8] Total time: 0:00:31 (0.7594 s / it)
+* Acc@task 11.200 Acc@1 82.900 Acc@5 97.000 Loss 1.122
+Task 9 val batches: 42
+Test: [Task 9] [ 0/42] eta: 0:02:50 Loss: 0.0184 (0.0184) Acc@1: 100.0000 (100.0000) Acc@5: 100.0000 (100.0000) Acc@task: 20.8333 (20.8333) time: 4.1475 data: 3.1657 max mem: 1389
+Test: [Task 9] [10/42] eta: 0:00:39 Loss: 0.5426 (0.6828) Acc@1: 87.5000 (88.2576) Acc@5: 100.0000 (96.9697) Acc@task: 16.6667 (16.2879) time: 0.9628 data: 0.2879 max mem: 1389
+Test: [Task 9] [20/42] eta: 0:00:33 Loss: 0.5790 (0.7136) Acc@1: 87.5000 (86.9048) Acc@5: 100.0000 (97.6190) Acc@task: 12.5000 (14.8810) time: 0.6554 data: 0.0003 max mem: 1389
+Test: [Task 9] [30/42] eta: 0:00:31 Loss: 0.6406 (0.8427) Acc@1: 87.5000 (86.1559) Acc@5: 95.8333 (97.1774) Acc@task: 12.5000 (13.8441) time: 0.6783 data: 0.0003 max mem: 1389
+Test: [Task 9] [40/42] eta: 0:00:31 Loss: 0.6293 (0.7727) Acc@1: 83.3333 (86.1789) Acc@5: 100.0000 (97.5610) Acc@task: 12.5000 (13.7195) time: 0.6942 data: 0.0002 max mem: 1389
+Test: [Task 9] [41/42] eta: 0:00:30 Loss: 0.6293 (0.7646) Acc@1: 83.3333 (86.2000) Acc@5: 100.0000 (97.6000) Acc@task: 12.5000 (13.8000) time: 0.6845 data: 0.0002 max mem: 1389
+Test: [Task 9] Total time: 0:00:32 (0.7623 s / it)
+* Acc@task 13.800 Acc@1 86.200 Acc@5 97.600 Loss 0.765
+Task 10 val batches: 42
+Test: [Task 10] [ 0/42] eta: 0:02:39 Loss: 0.2899 (0.2899) Acc@1: 95.8333 (95.8333) Acc@5: 100.0000 (100.0000) Acc@task: 8.3333 (8.3333) time: 3.8822 data: 2.8930 max mem: 1389
+Test: [Task 10] [10/42] eta: 0:00:38 Loss: 0.9481 (1.0432) Acc@1: 79.1667 (80.6818) Acc@5: 100.0000 (98.1061) Acc@task: 8.3333 (9.8485) time: 0.9468 data: 0.2631 max mem: 1389
+Test: [Task 10] [20/42] eta: 0:00:33 Loss: 1.0128 (1.1559) Acc@1: 79.1667 (81.3492) Acc@5: 100.0000 (97.6190) Acc@task: 8.3333 (9.9206) time: 0.6676 data: 0.0002 max mem: 1389
+Test: [Task 10] [30/42] eta: 0:00:31 Loss: 0.8577 (1.1266) Acc@1: 83.3333 (81.8548) Acc@5: 95.8333 (97.5806) Acc@task: 8.3333 (9.2742) time: 0.6830 data: 0.0002 max mem: 1389
+Test: [Task 10] [40/42] eta: 0:00:30 Loss: 0.7835 (1.0274) Acc@1: 87.5000 (82.6220) Acc@5: 100.0000 (97.7642) Acc@task: 8.3333 (9.3496) time: 0.6839 data: 0.0001 max mem: 1389
+Test: [Task 10] [41/42] eta: 0:00:30 Loss: 0.7347 (1.0162) Acc@1: 87.5000 (82.7000) Acc@5: 100.0000 (97.7000) Acc@task: 8.3333 (9.2000) time: 0.6734 data: 0.0001 max mem: 1389
+Test: [Task 10] Total time: 0:00:31 (0.7575 s / it)
+* Acc@task 9.200 Acc@1 82.700 Acc@5 97.700 Loss 1.016
+[Average accuracy till task10]  Acc@task: 10.0200       Acc@1: 82.9800  Acc@5: 97.0500  Loss: 1.0031    Forgetting: 4.5000      Backward: -3.9222       CAA: 87.5858
+--------------------
+Total training time: 0:29:43

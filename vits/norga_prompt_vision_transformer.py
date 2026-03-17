@@ -1419,7 +1419,10 @@ def vit_base_patch16_224_dino(pretrained=False, **kwargs):
     model = _create_vision_transformer('vit_base_patch16_224_in21k', pretrained=False, **model_kwargs)
     #del model.head
     state_dict = model.state_dict()
-    ckpt = torch.load('./checkpoints/dino_vitbase16_pretrain.pth', map_location='cpu')
+    ckpt = torch.hub.load_state_dict_from_url(
+    "https://dl.fbaipublicfiles.com/dino/dino_vitbase16_pretrain/dino_vitbase16_pretrain.pth",
+    map_location="cpu"
+    )
     not_in_k = [k for k in ckpt.keys() if k not in state_dict.keys()]
     for k in not_in_k:
         del ckpt[k]

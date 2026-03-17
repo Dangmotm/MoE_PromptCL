@@ -5,8 +5,8 @@ def get_args_parser(subparsers):
     subparsers.add_argument('--epochs', default = 5, type = int, help = 'Number of epoch')
 
     # Model parameters
-    subparsers.add_argument('--original_model', default = 'vit_base_patch16_224', type = str, metavar = 'OMODEL', help = 'Name of original model to train')
-    subparsers.add_argument('--model', default = 'vit_base_patch16_224', type = str, metavar = 'MODEL', help = 'Name of model to train')
+    subparsers.add_argument('--original_model', default = 'vit_base_patch16_224_dino', type = str, metavar = 'OMODEL', help = 'Name of original model to train')
+    subparsers.add_argument('--model', default = 'vit_base_patch16_224_dino', type = str, metavar = 'MODEL', help = 'Name of model to train')
     subparsers.add_argument('--input-size', default = 224, type = int, help = 'images input size')
     subparsers.add_argument('--pretrained', default = True, help = 'Load pretrained model or not')
     subparsers.add_argument('--drop', type = float, default = 0.0, metavar = 'Percentage', help = 'Dropout rate')
@@ -48,7 +48,7 @@ def get_args_parser(subparsers):
     subparsers.add_argument('--recount', type = int, default = 1, help = 'Random erase count')
 
     # Data parameters
-    subparsers.add_argument('--data-path', default = '/local_datasets/', type = str, help = 'Dataset path')
+    subparsers.add_argument('--data-path', default = './local_datasets/', type = str, help = 'Dataset path')
     subparsers.add_argument('--dataset', default = 'Split-CIFAR100', type = str, help = 'Dataset name')
     subparsers.add_argument('--shuffle', default = False, help = 'Shuffle the data order')
     subparsers.add_argument('--output_dir', default = './output', help = 'Path where to save, empty for no saving')

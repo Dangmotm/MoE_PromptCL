@@ -161,7 +161,7 @@ def orth_loss(features, targets, device, args):
             else:
                 sample_mean.append(v)
         
-        sample_mean = torch.stack(sample_mean, dim = 0).to(device, non_blocking = True)
+        sample_mean = torch.stack(sample_mean, dim = 0).float().to(device, non_blocking = True)
         M = torch.cat([sample_mean, features], dim = 0)
         sim = torch.matmul(M, M.t()) / 0.8
         loss = F.cross_entropy(sim, torch.arange(sim.shape[0]).long().to(device))
@@ -209,7 +209,7 @@ def _compute_mean(model, data_loader, device, task_id, class_mask, args):
             cls_cov[cls_id] = torch.diag(torch.cov(features_per_cls.T) + (torch.eye(cls_mean[cls_id].shape[-1]) * 1e-4).to(device))
 
         if args.ca_storage_efficient_method == 'multi-centroid':
-            os.environ["OMP_NUM_THREADS"] = "2"
+            os.environ["OMP_NUM_THREADS"] = "1"
             from sklearn.cluster import KMeans
 
             n_clusters = args.n_centroids
@@ -482,9 +482,6 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
         print(f"Prompt key shape: {model.e_prompt_prompt_key.shape}")
 
     for task_id in range(args.num_tasks):
-        if task_id > 0:
-            model.e_prompt.act_scale.requires_grad_(False)
-            old_head = model.get_head()
         
         print('-' * 20)
         print('Learnable parameters')
@@ -531,7 +528,7 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
             
         # Load original model checkpoint
         if args.trained_original_model:
-            original_checkpoint_path = os.path.join(args.trained_original_model, 'checkpoint_norgaprompt/task{}_checkpoint.pth'.format(task_id + 1))
+            original_checkpoint_path = os.path.join(args.trained_original_model, 'checkpoint/task{}_checkpoint.pth'.format(task_id + 1))
             if os.path.exists(original_checkpoint_path):
                 print('Loading checkpoint from:', original_checkpoint_path)
                 original_checkpoint = torch.load(original_checkpoint_path, map_location = device)
@@ -541,7 +538,7 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
                 return
             
         # if model already trained
-        checkpoint_path = os.path.join(args.output_dir, 'checkpoint_norgaprompt/task{}_checkpoint.pth'.format(task_id + 1))
+        checkpoint_path = os.path.join(args.output_dir, 'checkpoint/task{}_checkpoint.pth'.format(task_id + 1))
 
         if os.path.exists(checkpoint_path) and (not args.reset):
             print("Model already trained for task {}".format(task_id + 1))
@@ -587,8 +584,8 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
                         
                     with torch.no_grad():
                         if args.distributed:
-                            if model.e_prompt.prompt.grad is not None:
-                                model.e_prompt.prompt.grad.zero_()
+                            if model.module.e_prompt.prompt.grad is not None:
+                                model.module.e_prompt.prompt.grad.zero_()
                             model.module.e_prompt.prompt[cur_idx] = model.module.e_prompt.prompt[prev_idx]
                         else:
                             if model.e_prompt.prompt.grad is not None:
@@ -643,12 +640,12 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
                         + args.prompt_momentum * model.module.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2)
                         )
                     else:
-                        print(model.module.e_prompt.prompt[:, :, task_id].shape)
-                        print(model.module.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2, keepdim = True).shape)
+                        print(model.e_prompt.prompt[:, :, task_id].shape)
+                        print(model.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2, keepdim = True).shape)
 
-                        model.module.e_prompt.prompt[:, :, task_id].copy_(
-                        (1 - args.prompt_momentum) * model.module.e_prompt.prompt[:, :, task_id].detach().clone()
-                        + args.prompt_momentum * model.module.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2)
+                        model.e_prompt.prompt[:, :, task_id].copy_(
+                        (1 - args.prompt_momentum) * model.e_prompt.prompt[:, :, task_id].detach().clone()
+                        + args.prompt_momentum * model.e_prompt.prompt[:, :, 0:task_id].detach().clone().mean(dim = 2)
                         )
 
                 
@@ -680,7 +677,7 @@ def train_and_evaluate(model: torch.nn.Module, model_without_ddp: torch.nn.Modul
         if args.output_dir and utils.is_main_process():
             Path(os.path.join(args.output_dir, 'checkpoint')).mkdir(parents = True, exist_ok = True)
 
-            checkpoint_path = os.path.join(args.output_dir, 'checkpoint_norgaprompt/task{}_checkpoint.pth'.format(task_id + 1))
+            checkpoint_path = os.path.join(args.output_dir, 'checkpoint/task{}_checkpoint.pth'.format(task_id + 1))
 
             state_dict = {
                 'model': model_without_ddp.state_dict(),

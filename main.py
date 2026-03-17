@@ -19,6 +19,22 @@ def get_args():
         from configs.cifar100_hideprompt_5e import get_args_parser
         config_parser = subparser.add_parser('cifar100_hideprompt_5e', help='Split-CIFAR100 HiDe-Prompt configs')
 
+    elif config == 'cub_hideprompt_5e':
+        from configs.cub_hideprompt_5e import get_args_parser
+        config_parser = subparser.add_parser('cub_hideprompt_5e', help='Split-CUB HiDe-Prompt configs')
+        
+    elif config == "cub_norgaprompt":
+        from configs.cub_norgaprompt import get_args_parser
+        config_parser = subparser.add_parser('cub_norgaprompt', help='Split-CUB NoRGa-Prompt configs')
+    
+    elif config == 'imr_hideprompt_5e':
+        from configs.imr_hideprompt_5e import get_args_parser
+        config_parser = subparser.add_parser('imr_hideprompt_5e', help='Split-ImageNet-R HiDe-Prompt configs')
+        
+    elif config == 'imr_norgaprompt':
+        from configs.imr_norgaprompt import get_args_parser
+        config_parser = subparser.add_parser('imr_norgaprompt', help='Split-ImageNet-R NoRGa-prompt configs')
+
     else:
         raise NotImplementedError
     
@@ -50,6 +66,7 @@ def main(args):
         print('Using NoRGa-prompt')
         import trainers.norgaprompt_trainer as norgaprompt_trainer
         norgaprompt_trainer.train(args)
+        
     else: 
         raise NotImplementedError
 
